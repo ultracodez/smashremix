@@ -6257,7 +6257,7 @@ scope SinglePlayerModes: {
     dw icon_offsets.GOEMON                   // Goemon
     dw icon_offsets.PEPPY                    // Peppy Hare
     dw icon_offsets.SLIPPY                   // Slippy Toad
-	dw icon_offsets.MARIO                      // Spider-Man
+	dw icon_offsets.SPM                      // Spider-Man
 
     // ADD NEW CHARACTERS HERE
 

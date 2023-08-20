@@ -10,12 +10,12 @@ scope Spiderman {
     // Modify Action Parameters             // Action               // Animation                // Moveset Data             // Flags
 
     // Modify Menu Action Parameters             // Action          // Animation                // Moveset Data             // Flags
-    Character.edit_menu_action_parameters(SPM,   0x0,               File.SPM_IDLE,              -1,                         -1)          // CSS Idle
-    Character.edit_menu_action_parameters(SPM,   0x1,               File.SPM_VICTORY_1,         VICTORY_1,                  -1)          // Victory1
-    Character.edit_menu_action_parameters(SPM,   0x2,               File.SPM_VICTORY_2,         -1,                         -1)          // Victory2
-    Character.edit_menu_action_parameters(SPM,   0x3,               File.SPM_VICTORY_3,         VICTORY_3,                  -1)          // Victory3
-    Character.edit_menu_action_parameters(SPM,   0x4,               File.SPM_VICTORY_1,         VICTORY_1,                  -1)          // CSS Select
-    Character.edit_menu_action_parameters(SPM,   0xD,               File.SPM_1P_POSE,           -1,                         -1)          // Classic Mode Pose
+    Character.edit_menu_action_parameters(SPM,   0x0,               File.SPM_IDLE,              -1,                         -1)
+    Character.edit_menu_action_parameters(SPM,   0x1,               File.SPM_VICTORY_1,         VICTORY_1,                  -1)
+    Character.edit_menu_action_parameters(SPM,   0x2,               File.SPM_VICTORY_2,         -1,                         -1)
+    Character.edit_menu_action_parameters(SPM,   0x3,               File.SPM_VICTORY_3,         VICTORY_3,                  -1)
+    Character.edit_menu_action_parameters(SPM,   0x4,               File.SPM_VICTORY_1,         VICTORY_1,                  -1)
+    Character.edit_menu_action_parameters(SPM,   0xD,               File.SPM_1P_POSE,           -1,                         -1)
 
     // Set crowd chant FGM.
     //Character.table_patch_start(crowd_chant_fgm, Character.id.SPM, 0x2)
