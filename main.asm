@@ -229,6 +229,8 @@ include "src/Peppy/Peppy.asm"
 // SLIPPY
 include "src/Slippy/SlippySpecial.asm"
 include "src/Slippy/Slippy.asm"
+// SPM
+include "src/Spiderman/Spiderman.asm"
 
 // KIRBY
 include "src/Kirby/Kirby.asm"
