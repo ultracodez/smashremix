@@ -337,7 +337,7 @@ scope CharacterSelect {
     add_alt_req_list(Character.id.GOEMON, req/GOEMON_MODEL)
     add_alt_req_list(Character.id.PEPPY, req/PEPPY_MODEL)
     add_alt_req_list(Character.id.SLIPPY, req/SLIPPY_MODEL)
-	// add_alt_req_list(Character.id.SPM, req/SPM_MODEL)
+	add_alt_req_list(Character.id.SPM, req/SPM_MODEL)
 
     // POLYGONS
     add_alt_req_list(Character.id.NWARIO, req/NWARIO_MODEL)
@@ -4960,7 +4960,8 @@ scope CharacterSelect {
     add_to_css(Character.id.GOEMON, FGM.announcer.names.GOEMON,         1.50,         0x00010001, GOEMON,       name_texture.GOEMON,         portrait_offsets.GOEMON,         -1)
     add_to_css(Character.id.PEPPY,  FGM.announcer.names.PEPPY,          1.50,         0x00010004, STARFOX,      name_texture.PEPPY,          portrait_offsets.PEPPY,          15)
     add_to_css(Character.id.SLIPPY, FGM.announcer.names.SLIPPY,         1.50,         0x00010004, STARFOX,      name_texture.SLIPPY,         portrait_offsets.SLIPPY,         18)
-	add_to_css(Character.id.SPM,    FGM.announcer.names.GANONDORF,      1.50,         0x00010001, MARIO_BROS,   name_texture.MARIO,          portrait_offsets.MARIO,            -1)
+	add_to_css(Character.id.SPM,    FGM.announcer.names.MARIO,          1.50,         0x00010001, MARIO_BROS,   name_texture.MARIO,          portrait_offsets.MARIO,            -1)
+
     // ADD NEW CHARACTERS HERE
 
     // REMIX POLYGONS
