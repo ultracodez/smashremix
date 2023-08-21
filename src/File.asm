@@ -2523,4 +2523,6 @@ scope File {
     constant SPM_CONTINUEFALL(0x1224)
     constant SPM_CONTINUEUP(0x1225)
     constant SPM_1P_POSE(0x1226)
+    constant SPM_VICTORY_IMAGE_BOTTOM(0x1227)
+    constant SPM_VICTORY_IMAGE_TOP(0x1228)
 }

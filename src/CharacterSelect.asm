@@ -2584,22 +2584,22 @@ scope CharacterSelect {
     // add space for new characters
     fill (name_texture_table + (Character.NUM_CHARACTERS * 0x4)) - pc()
 
-    constant START_X(14)
-    constant START_Y(29)
+    constant START_X(40)
+    constant START_Y(26)
     constant START_VISUAL(10)
-    constant NUM_ROWS(3)
+    constant NUM_ROWS(4)
     constant NUM_COLUMNS(10)
     constant NUM_PORTRAITS(NUM_ROWS * NUM_COLUMNS)
     constant PORTRAIT_WIDTH_FILE(32)
     constant PORTRAIT_HEIGHT_FILE(32)
-    constant PORTRAIT_SCALE(0x3F70)     // float 0.9375
-    constant PORTRAIT_WIDTH(27)         // screen pixels
-    constant PORTRAIT_HEIGHT(27)        // screen pixels
+    constant PORTRAIT_SCALE(0x3F40)     // float 0.9375
+    constant PORTRAIT_WIDTH(22)         // screen pixels
+    constant PORTRAIT_HEIGHT(22)        // screen pixels
 
 
     // @ Description
     // CHARACTER SELECT SCREEN LAYOUT
-    constant NUM_SLOTS(30)
+    constant NUM_SLOTS(40)
     scope layout {
         // row 1
         define slot_1(MARINA)
@@ -2624,7 +2624,7 @@ scope CharacterSelect {
         define slot_18(JIGGLYPUFF)
         define slot_19(FALCO)
         define slot_20(SHEIK)
-
+        
         // row 3
         define slot_21(GOEMON)
         define slot_22(DSAMUS)
@@ -2636,6 +2636,18 @@ scope CharacterSelect {
         define slot_28(MTWO)
         define slot_29(MARTH)
         define slot_30(SPM)
+
+        //row 4
+        define slot_31(DEDEDE)
+        define slot_32(DEDEDE)
+        define slot_33(DEDEDE)
+        define slot_34(DEDEDE)
+        define slot_35(DEDEDE)
+        define slot_36(DEDEDE)
+        define slot_37(DEDEDE)
+        define slot_38(DEDEDE)
+        define slot_39(DEDEDE)
+        define slot_40(DEDEDE)
     }
 
     // @ Description
@@ -4960,7 +4972,7 @@ scope CharacterSelect {
     add_to_css(Character.id.GOEMON, FGM.announcer.names.GOEMON,         1.50,         0x00010001, GOEMON,       name_texture.GOEMON,         portrait_offsets.GOEMON,         -1)
     add_to_css(Character.id.PEPPY,  FGM.announcer.names.PEPPY,          1.50,         0x00010004, STARFOX,      name_texture.PEPPY,          portrait_offsets.PEPPY,          15)
     add_to_css(Character.id.SLIPPY, FGM.announcer.names.SLIPPY,         1.50,         0x00010004, STARFOX,      name_texture.SLIPPY,         portrait_offsets.SLIPPY,         18)
-	add_to_css(Character.id.SPM,    FGM.announcer.names.MARIO,          1.50,         0x00010001, MARIO_BROS,   name_texture.MARIO,          portrait_offsets.MARIO,            -1)
+	add_to_css(Character.id.SPM,    FGM.announcer.names.MARIO,          1.50,         0x00010001, SMASH,        name_texture.MARIO,          portrait_offsets.MARIO,            -1)
 
     // ADD NEW CHARACTERS HERE
 

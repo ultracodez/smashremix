@@ -2182,7 +2182,7 @@ scope SinglePlayer {
     dh File.GOEMON_VICTORY_IMAGE_BOTTOM                     // GOEMON
     dh File.PEPPY_SLIPPY_VICTORY_IMAGE_BOTTOM               // PEPPY
     dh File.PEPPY_SLIPPY_VICTORY_IMAGE_BOTTOM               // SLIPPY
-	dh File.SINGLEPLAYER_VICTORY_IMAGE_BOTTOM               // SPM
+	dh File.SPM_VICTORY_IMAGE_BOTTOM                        // SPM
     // ADD NEW CHARACTERS HERE
 
     // ADD FOR REMIX POLYGONS HERE

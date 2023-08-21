@@ -16,14 +16,17 @@ scope Spiderman {
     insert FORWARD_AERIAL, "moveset/FORWARD_AERIAL.bin"
     insert FORWARD_SMASH, "moveset/FORWARD_SMASH.bin"
     insert FORWARD_TILT, "moveset/FORWARD_TILT.bin"
-    insert GRAB, "moveset/GRAB.bin"
+    insert GRAB_RELEASE_DATA, "moveset/GRAB_RELEASE_DATA.bin"
+    GRAB:; Moveset.THROW_DATA(GRAB_RELEASE_DATA); insert "moveset/GRAB.bin"
+    insert THROW_B_DATA,"moveset/THROW_B_DATA.bin"
+    THROW_B:; Moveset.THROW_DATA(THROW_B_DATA); insert "moveset/THROW_B.bin"
+    insert THROW_F_DATA,"moveset/THROW_F_DATA.bin"
+    THROW_F:; Moveset.THROW_DATA(THROW_F_DATA); insert "moveset/THROW_F.bin"
     insert JAB1, "moveset/JAB1.bin"
     insert JAB2, "moveset/JAB2.bin"
     insert JAB3, "moveset/JAB3.bin"
     insert NEUTRAL_AERIAL, "moveset/NEUTRAL_AERIAL.bin"
     insert TAUNT, "moveset/TAUNT.bin"
-    insert THROW_B, "moveset/THROW_B.bin"
-    insert THROW_F, "moveset/THROW_F.bin"
     insert UP_AERIAL, "moveset/UP_AERIAL.bin"
     insert UP_SMASH, "moveset/UP_SMASH.bin"
     insert UP_TILT, "moveset/UP_TILT.bin"
@@ -144,7 +147,7 @@ scope Spiderman {
     Character.edit_action_parameters(SPM, Action.Stun,                   File.SPM_STUN,                  -1,                       -1)
     Character.edit_action_parameters(SPM, Action.Sleep,                  File.SPM_STUN,                  -1,                       -1)
     Character.edit_action_parameters(SPM, Action.Grab,                   File.SPM_GRAB,                  GRAB,                     0x10000000)
-    Character.edit_action_parameters(SPM, Action.GrabPull,               File.SPM_GRABPULL,              -1,                       -1)
+    Character.edit_action_parameters(SPM, Action.GrabPull,               File.SPM_GRABPULL,              -1,                       0x10000000)
     Character.edit_action_parameters(SPM, Action.ThrowF,                 File.SPM_THROWF,                THROW_F,                  -1)
     Character.edit_action_parameters(SPM, Action.ThrowB,                 File.SPM_THROWB,                THROW_B,                  -1)
     Character.edit_action_parameters(SPM, Action.CapturePulled,          File.SPM_CAPTUREPULLED,         -1,                       -1)
