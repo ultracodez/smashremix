@@ -1341,6 +1341,23 @@ scope FGM {
     add_sound(Goemon/sounds/CLOUD_SPAWN, SAMPLE_RATE_16000, FGM_TYPE_VOICE, 0, -1)
     add_sound(Goemon/sounds/CLOUD_DESPAWN, SAMPLE_RATE_16000, FGM_TYPE_VOICE, 0, -1)
     add_sound(sounds/MASTERHAND, SAMPLE_RATE_16000, FGM_TYPE_VOICE, 40, -1)
+    add_sound(Spiderman/sounds/ATK1, SAMPLE_RATE_16000, FGM_TYPE_VOICE, 0, -1)
+    add_sound(Spiderman/sounds/ATK2, SAMPLE_RATE_16000, FGM_TYPE_VOICE, 0, -1)
+    add_sound(Spiderman/sounds/ATK3, SAMPLE_RATE_16000, FGM_TYPE_VOICE, 0, -1)
+    add_sound(Spiderman/sounds/CAMERA, SAMPLE_RATE_16000, FGM_TYPE_VOICE, 0, -1)
+    add_sound(Spiderman/sounds/CMON, SAMPLE_RATE_16000, FGM_TYPE_VOICE, 0, -1)
+    add_sound(Spiderman/sounds/DEATH, SAMPLE_RATE_16000, FGM_TYPE_VOICE, 0, -1)
+    add_sound(Spiderman/sounds/DMG1, SAMPLE_RATE_16000, FGM_TYPE_VOICE, 0, -1)
+    add_sound(Spiderman/sounds/DMG2, SAMPLE_RATE_16000, FGM_TYPE_VOICE, 0, -1)
+    add_sound(Spiderman/sounds/HEY, SAMPLE_RATE_16000, FGM_TYPE_VOICE, 0, -1)
+    add_sound(Spiderman/sounds/ONEFORJJ, SAMPLE_RATE_16000, FGM_TYPE_VOICE, 0, -1)
+    add_sound(Spiderman/sounds/SHOOT, SAMPLE_RATE_16000, FGM_TYPE_VOICE, 0, -1)
+    add_sound(Spiderman/sounds/SHOWTIME, SAMPLE_RATE_16000, FGM_TYPE_VOICE, 0, -1)
+    add_sound(Spiderman/sounds/TAUNT, SAMPLE_RATE_16000, FGM_TYPE_VOICE, 0, -1)
+    add_sound(Spiderman/sounds/WEBBALL, SAMPLE_RATE_16000, FGM_TYPE_VOICE, 0, -1)
+    add_sound(Spiderman/sounds/WEBSWING, SAMPLE_RATE_16000, FGM_TYPE_VOICE, 0, -1)
+    add_sound(Spiderman/sounds/WEBTHROW, SAMPLE_RATE_16000, FGM_TYPE_VOICE, 0, -1)
+    add_sound(Spiderman/sounds/ANNOUNCER, SAMPLE_RATE_16000, FGM_TYPE_VOICE, 40, -1)
     
     // This is always last
     write_sounds()
@@ -1471,6 +1488,7 @@ scope FGM {
             constant PEPPY(1273)
             constant NFALCO(1235)
             constant NGANONDORF(1236)
+            constant SPIDERMAN(1299)
         }
 
         scope css {

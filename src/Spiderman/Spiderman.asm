@@ -198,9 +198,9 @@ scope Spiderman {
     Character.edit_menu_action_parameters(SPM,   0xA,               File.SPM_CONTINUEUP,        -1,                         -1)
 
     // Set crowd chant FGM.
-    Character.table_patch_start(crowd_chant_fgm, Character.id.SPM, 0x2)
-    dh  0x031E
-    OS.patch_end()
+    //Character.table_patch_start(crowd_chant_fgm, Character.id.SPM, 0x2)
+    //dh  0x031E
+    //OS.patch_end()
 
     // Remove entry script (no Blue Falcon).
     Character.table_patch_start(entry_script, Character.id.SPM, 0x4)
