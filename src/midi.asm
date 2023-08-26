@@ -441,6 +441,7 @@ scope MIDI {
     insert_midi(BOB, OS.TRUE, OS.TRUE, "Bob-omb Battlefield", sm64)
     insert_midi(AREA6, OS.TRUE, OS.TRUE, "Area 6", starfox64)
     insert_midi(SPIDERMAN_THEME, OS.TRUE, OS.TRUE, "Theme of Spider-Man", mvc)
+    insert_victory_midi(SPIDERMAN_VICTORY)
     pushvar origin, base
 
     // Extend Sound Test Music numbers so we can test in game easier

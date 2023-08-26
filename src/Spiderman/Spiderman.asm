@@ -33,6 +33,8 @@ scope Spiderman {
     insert UP_SMASH, "moveset/UP_SMASH.bin"
     insert UP_TILT, "moveset/UP_TILT.bin"
     insert HAMMER, "moveset/HAMMER.bin"
+    insert NSP_GROUND,"moveset/NSP_GROUND.bin"
+    insert NSP_AIR,"moveset/NSP_AIR.bin"
     
     // Modify Action Parameters           // Action                      // Animation                    // Moveset Data           // Flags
     Character.edit_action_parameters(SPM, Action.Entry,                  File.SPM_IDLE,                  -1,                       -1)
@@ -189,6 +191,12 @@ scope Spiderman {
 	Character.edit_action_parameters(SPM, 0xE1,                          File.SPM_ACTION_0E1,            ENTRY_1,                  0x40000008) //ENTRY_1_RIGHT
 	Character.edit_action_parameters(SPM, 0xE2,                          File.SPM_ACTION_0E2,            ENTRY_2,                  0x40000008) //ENTRY_2_LEFT
 	Character.edit_action_parameters(SPM, 0xE3,                          File.SPM_ACTION_0E3,            ENTRY_2,                  0x40000008) //ENTRY_2_RIGHT
+    Character.edit_action_parameters(SPM, 0xE4,                          File.SPM_ACTION_0E4,            NSP_GROUND,               -1)
+    Character.edit_action_parameters(SPM, 0xE5,                          File.SPM_ACTION_0E5,            NSP_AIR,                  -1)
+
+    // Modify Actions            // Action          // Staling ID   // Main ASM                 // Interrupt/Other ASM          // Movement/Physics ASM         // Collision ASM
+	Character.edit_action(SPM,   0xE4,              -1,             SpidermanNSP.main,  		-1,                             -1,                         -1)
+	Character.edit_action(SPM,   0xE5,              -1,             SpidermanNSP.main,  		-1,                             -1,                         SpidermanNSP.air_collision_)
 
     // Modify Menu Action Parameters             // Action          // Animation                // Moveset Data             // Flags
     Character.edit_menu_action_parameters(SPM,   0x0,               File.SPM_IDLE,              -1,                         -1)          // CSS Idle
@@ -201,6 +209,18 @@ scope Spiderman {
     Character.edit_menu_action_parameters(SPM,   0x9,               File.SPM_CONTINUEFALL,      -1,                         -1)
     Character.edit_menu_action_parameters(SPM,   0xA,               File.SPM_CONTINUEUP,        -1,                         -1)
 
+    // Set action strings
+    Character.table_patch_start(action_string, Character.id.SPM, 0x4)
+    dw  Action.CAPTAIN.action_string_table
+    OS.patch_end()
+
+    //Character.table_patch_start(ground_nsp, Character.id.SPM, 0x4)
+    //dw      SpidermanNSP.ground_begin_initial_
+    //OS.patch_end()
+    //Character.table_patch_start(air_nsp, Character.id.SPM, 0x4)
+    //dw      SpidermanNSP.air_begin_initial_
+    //OS.patch_end()
+
     Character.table_patch_start(rapid_jab, Character.id.SPM, 0x4)
     dw      Character.rapid_jab.DISABLED        // disable rapid jab
     OS.patch_end()
@@ -209,6 +229,7 @@ scope Spiderman {
     //Character.table_patch_start(crowd_chant_fgm, Character.id.SPM, 0x2)
     //dh  0x031E
     //OS.patch_end()
+
 
 
     // Remove entry script (no Blue Falcon).
@@ -228,13 +249,18 @@ scope Spiderman {
         constant Jab3(0x0DC)
         constant JabLoop(0x0DD)
         constant JabLoopEnd(0x0DE)
+        constant WebBall(0x0E4)
+        constant WebBallAir(0x0E5)
+
+        // strings!
+        string_0x0E4:; String.insert("WebBall")
+        string_0x0E5:; String.insert("WebBallAir")
+
         action_string_table:
         dw Action.COMMON.string_jab3
         dw 0 //Action.COMMON.string_jabloop
         dw 0 //dw Action.COMMON.string_jabloopend
+        dw string_0x0E4
+        dw string_0x0E5
     }
-    // Set action strings
-    Character.table_patch_start(action_string, Character.id.SPM, 0x4)
-    dw  Action.CAPTAIN.action_string_table
-    OS.patch_end()
 }

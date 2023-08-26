@@ -230,6 +230,7 @@ include "src/Peppy/Peppy.asm"
 include "src/Slippy/SlippySpecial.asm"
 include "src/Slippy/Slippy.asm"
 // SPM
+include "src/Spiderman/SpidermanSpecial.asm"
 include "src/Spiderman/Spiderman.asm"
 
 // KIRBY
