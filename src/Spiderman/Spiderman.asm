@@ -35,6 +35,7 @@ scope Spiderman {
     insert HAMMER, "moveset/HAMMER.bin"
     insert NSP_GROUND,"moveset/NSP_GROUND.bin"
     insert NSP_AIR,"moveset/NSP_AIR.bin"
+    insert JUMP2, "moveset/JUMP2.bin"
     
     // Modify Action Parameters           // Action                      // Animation                    // Moveset Data           // Flags
     Character.edit_action_parameters(SPM, Action.Entry,                  File.SPM_IDLE,                  -1,                       -1)
@@ -55,8 +56,8 @@ scope Spiderman {
     Character.edit_action_parameters(SPM, Action.ShieldJumpSquat,        File.SPM_LANDING,               -1,                       -1)
     Character.edit_action_parameters(SPM, Action.JumpF,                  File.SPM_JUMPF,                 -1,                       -1)
     Character.edit_action_parameters(SPM, Action.JumpB,                  File.SPM_JUMPB,                 -1,                       -1)
-    Character.edit_action_parameters(SPM, Action.JumpAerialF,            File.SPM_JUMPAERIALF,           -1,                       -1)
-    Character.edit_action_parameters(SPM, Action.JumpAerialB,            File.SPM_JUMPAERIALB,           -1,                       -1)
+    Character.edit_action_parameters(SPM, Action.JumpAerialF,            File.SPM_JUMPAERIALF,           JUMP2,                    -1)
+    Character.edit_action_parameters(SPM, Action.JumpAerialB,            File.SPM_JUMPAERIALB,           JUMP2,                    -1)
     Character.edit_action_parameters(SPM, Action.Fall,                   File.SPM_FALL,                  -1,                       -1)
     Character.edit_action_parameters(SPM, Action.FallAerial,             File.SPM_FALLAERIAL,            -1,                       -1)
     Character.edit_action_parameters(SPM, Action.Crouch,                 File.SPM_CROUCH,                -1,                       -1)
@@ -196,7 +197,7 @@ scope Spiderman {
 
     // Modify Actions            // Action          // Staling ID   // Main ASM                 // Interrupt/Other ASM          // Movement/Physics ASM         // Collision ASM
 	Character.edit_action(SPM,   0xE4,              -1,             SpidermanNSP.main,  		-1,                             -1,                         -1)
-	Character.edit_action(SPM,   0xE5,              -1,             SpidermanNSP.main,  		-1,                             -1,                         SpidermanNSP.air_collision_)
+	Character.edit_action(SPM,   0xE5,              -1,             SpidermanNSP.main,  		-1,                             SpidermanNSP.physics_,      SpidermanNSP.air_collision_)
 
     // Modify Menu Action Parameters             // Action          // Animation                // Moveset Data             // Flags
     Character.edit_menu_action_parameters(SPM,   0x0,               File.SPM_IDLE,              -1,                         -1)          // CSS Idle
@@ -217,9 +218,9 @@ scope Spiderman {
     //Character.table_patch_start(ground_nsp, Character.id.SPM, 0x4)
     //dw      SpidermanNSP.ground_begin_initial_
     //OS.patch_end()
-    //Character.table_patch_start(air_nsp, Character.id.SPM, 0x4)
-    //dw      SpidermanNSP.air_begin_initial_
-    //OS.patch_end()
+    Character.table_patch_start(air_nsp, Character.id.SPM, 0x4)
+    dw      SpidermanNSP.air_initial_
+    OS.patch_end()
 
     Character.table_patch_start(rapid_jab, Character.id.SPM, 0x4)
     dw      Character.rapid_jab.DISABLED        // disable rapid jab
