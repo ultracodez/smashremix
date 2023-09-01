@@ -2533,6 +2533,8 @@
 1226 Spiderman 1P Pose
 1227 Spiderman Ending Image 1
 1228 Spiderman Ending Image 2
+1229 Spiderman Projectile Hitbox
+122A Spiderman Projectile Graphic
 
 0611 CAPTAIN DeadU
 0611 CAPTAIN ScreenKO

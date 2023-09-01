@@ -2525,4 +2525,6 @@ scope File {
     constant SPM_1P_POSE(0x1226)
     constant SPM_VICTORY_IMAGE_BOTTOM(0x1227)
     constant SPM_VICTORY_IMAGE_TOP(0x1228)
+    constant SPM_PROJECTILE_HITBOX(0x1229)
+    constant SPM_PROJECTILE_GRAPHIC(0x122A)
 }

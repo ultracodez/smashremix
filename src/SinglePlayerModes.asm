@@ -2649,6 +2649,17 @@ scope SinglePlayerModes: {
     dw  0x000004C4                      // Announcer Call
     dw  0x00006F80                      // Model Scale
     dw  0x00016500                      // Progress Icon
+
+    // Spider-Man match settings
+    dw  0x00000000                      // flag
+    db  Character.id.SPM                // Character ID
+    db  Stages.id.GLACIAL               // Stage Option 1
+    db  Stages.id.GLACIAL               // Stage Option 2
+    db  Stages.id.TWILIGHT_CITY         // Stage Option 3
+    dw  SinglePlayer.name_texture.GOEMON + 0x10    // name texture
+    dw  0x00000513                      // Announcer Call
+    dw  0x00006F80                      // Model Scale
+    dw  0x00014FC0                      // Progress Icon
     
     //  Falco match settings
     falco_match_setting:
@@ -5408,7 +5419,7 @@ scope SinglePlayerModes: {
 
 // ALLSTAR
 
-// Total characters: 26
+// Total characters: 30
     // @ Description
     // Randomly generates a list of characters and stages for the matches
     // This only gets run after a player presses start on the 1p CSS screen
@@ -6182,7 +6193,7 @@ scope SinglePlayerModes: {
         constant MARINA(0x00001BA8 + 0x10)
         constant DEDEDE(0x00001C88 + 0x10)
         constant GOEMON(0x00001D68 + 0x10)
-		constant SPM(0x00000088 + 0x10)
+		constant SPM(0x00000BE8 + 0x10)
 
     }
 

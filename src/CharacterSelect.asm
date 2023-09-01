@@ -2584,70 +2584,77 @@ scope CharacterSelect {
     // add space for new characters
     fill (name_texture_table + (Character.NUM_CHARACTERS * 0x4)) - pc()
 
-    constant START_X(40)
-    constant START_Y(26)
+    //This is for a 4th row for 40 slots, rather than 2 new colums.
+    //constant START_X(40)
+    //constant START_Y(26)
+    //constant START_VISUAL(10)
+    //constant NUM_ROWS(4)
+    //constant NUM_COLUMNS(10)
+    //constant NUM_PORTRAITS(NUM_ROWS * NUM_COLUMNS)
+    //constant PORTRAIT_WIDTH_FILE(32)
+    //constant PORTRAIT_HEIGHT_FILE(32)
+    //constant PORTRAIT_SCALE(0x3F40)     // float 0.9375
+    //constant PORTRAIT_WIDTH(22)         // screen pixels
+    //constant PORTRAIT_HEIGHT(22)        // screen pixels
+
+    constant START_X(5.5)
+    constant START_Y(35)
     constant START_VISUAL(10)
-    constant NUM_ROWS(4)
-    constant NUM_COLUMNS(10)
+    constant NUM_ROWS(3)
+    constant NUM_COLUMNS(12)
     constant NUM_PORTRAITS(NUM_ROWS * NUM_COLUMNS)
     constant PORTRAIT_WIDTH_FILE(32)
     constant PORTRAIT_HEIGHT_FILE(32)
-    constant PORTRAIT_SCALE(0x3F40)     // float 0.9375
-    constant PORTRAIT_WIDTH(22)         // screen pixels
-    constant PORTRAIT_HEIGHT(22)        // screen pixels
+    constant PORTRAIT_SCALE(0x3F54)     // float 0.9375
+    constant PORTRAIT_WIDTH(24)         // screen pixels
+    constant PORTRAIT_HEIGHT(24)        // screen pixels
 
 
     // @ Description
     // CHARACTER SELECT SCREEN LAYOUT
-    constant NUM_SLOTS(40)
+    constant NUM_SLOTS(36)
     scope layout {
         // row 1
-        define slot_1(MARINA)
-        define slot_2(DRM)
-        define slot_3(LUIGI)
-        define slot_4(MARIO)
-        define slot_5(DONKEY)
-        define slot_6(LINK)
-        define slot_7(SAMUS)
-        define slot_8(CAPTAIN)
-        define slot_9(GND)
-        define slot_10(SONIC)
+        define slot_1(NONE)
+        define slot_2(MARINA)
+        define slot_3(DRM)
+        define slot_4(LUIGI)
+        define slot_5(MARIO)
+        define slot_6(DONKEY)
+        define slot_7(LINK)
+        define slot_8(SAMUS)
+        define slot_9(CAPTAIN)
+        define slot_10(GND)
+        define slot_11(SONIC)
+        define slot_12(NONE)
 
         // row 2
-        define slot_11(DEDEDE)
-        define slot_12(YLINK)
-        define slot_13(NESS)
-        define slot_14(YOSHI)
-        define slot_15(KIRBY)
-        define slot_16(FOX)
-        define slot_17(PIKACHU)
-        define slot_18(JIGGLYPUFF)
-        define slot_19(FALCO)
-        define slot_20(SHEIK)
+        define slot_13(NONE)
+        define slot_14(DEDEDE)
+        define slot_15(YLINK)
+        define slot_16(NESS)
+        define slot_17(YOSHI)
+        define slot_18(KIRBY)
+        define slot_19(FOX)
+        define slot_20(PIKACHU)
+        define slot_21(JIGGLYPUFF)
+        define slot_22(FALCO)
+        define slot_23(SHEIK)
+        define slot_24(NONE)
         
         // row 3
-        define slot_21(GOEMON)
-        define slot_22(DSAMUS)
-        define slot_23(WARIO)
-        define slot_24(LUCAS)
-        define slot_25(BOWSER)
-        define slot_26(WOLF)
-        define slot_27(CONKER)
-        define slot_28(MTWO)
-        define slot_29(MARTH)
-        define slot_30(SPM)
-
-        //row 4
-        define slot_31(DEDEDE)
-        define slot_32(DEDEDE)
-        define slot_33(DEDEDE)
-        define slot_34(DEDEDE)
-        define slot_35(DEDEDE)
-        define slot_36(DEDEDE)
-        define slot_37(DEDEDE)
-        define slot_38(DEDEDE)
-        define slot_39(DEDEDE)
-        define slot_40(DEDEDE)
+        define slot_25(NONE)
+        define slot_26(GOEMON)
+        define slot_27(DSAMUS)
+        define slot_28(WARIO)
+        define slot_29(LUCAS)
+        define slot_30(BOWSER)
+        define slot_31(WOLF)
+        define slot_32(CONKER)
+        define slot_33(MTWO)
+        define slot_34(MARTH)
+        define slot_35(SPM)
+        define slot_36(NONE)
     }
 
     // @ Description
@@ -2873,16 +2880,18 @@ scope CharacterSelect {
     // This could just be based on column, but it is set for each portrait to permit finer control
     // The custom characters' portraits slide in slower then the original cast's portraits
     portrait_velocity:
-    float32 1.9                               // column 1
-    float32 3.9                               // column 2
-    float32 7.8                               // column 3
-    float32 11.8                              // column 4
-    float32 13.8                              // column 5
-    float32 -11.8                             // column 6
-    float32 -7.8                              // column 7
-    float32 -3.8                              // column 8
-    float32 -1.8                              // column 9
-    float32 -0.9                              // column 10
+    float32 0.9                               // column 1
+    float32 1.9                               // column 2
+    float32 3.9                               // column 3
+    float32 7.8                               // column 4
+    float32 11.8                              // column 5
+    float32 13.8                              // column 6
+    float32 -13.8                             // column 7
+    float32 -11.8                             // column 8
+    float32 -7.8                              // column 9
+    float32 -3.8                              // column 10
+    float32 -1.8                              // column 11
+    float32 -0.9                              // column 12
 
     // @ Description
     // Pointer to id_table
@@ -4964,7 +4973,7 @@ scope CharacterSelect {
     add_to_css(Character.id.MTWO,   FGM.announcer.names.MEWTWO,         1.50,         0x00010004, POKEMON,      name_texture.MEWTWO,         portrait_offsets.MTWO,           -1)
     add_to_css(Character.id.MARTH,  FGM.announcer.names.MARTH,          1.50,         0x00010004, FIRE_EMBLEM,  name_texture.MARTH,          portrait_offsets.MARTH,          -1)
     add_to_css(Character.id.SONIC,  FGM.announcer.names.SONIC,        	1.50,         0x00010004, SONIC,        name_texture.SONIC,          portrait_offsets.SONIC,          -1)
-    add_to_css(Character.id.SANDBAG,FGM.announcer.names.FALCO,          1.50,         0x00010001, ZELDA,        name_texture.JPUFF,          portrait_offsets.SANDBAG,        -1)
+    add_to_css(Character.id.SANDBAG,FGM.announcer.names.FALCO,          1.50,         0x00010001, ZELDA,        name_texture.JPUFF,          portrait_offsets.SANDBAG,        7)
     add_to_css(Character.id.SSONIC, FGM.announcer.names.SSONIC,        	1.50,         0x00010004, SONIC,        name_texture.SSONIC,         portrait_offsets.SSONIC,         9)
     add_to_css(Character.id.SHEIK,  FGM.announcer.names.SHEIK,          1.50,         0x00010001, ZELDA,        name_texture.SHEIK,          portrait_offsets.SHEIK,          -1)
     add_to_css(Character.id.MARINA, FGM.announcer.names.MARINA,        	1.50,         0x00010004, MISCHIEF_MAKERS,  name_texture.MARINA,     portrait_offsets.MARINA,         -1)

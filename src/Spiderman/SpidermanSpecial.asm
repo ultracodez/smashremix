@@ -5,7 +5,7 @@
 scope SpidermanNSP {
 
     // floating point constants for physics and fsm
-    constant AIR_Y_SPEED(0x4238)            // current setting - float32 46
+    constant AIR_Y_SPEED(0x4280)            // current setting - float32 64
     constant GROUND_Y_SPEED(0x42C4)         // current setting - float32 98
     constant X_SPEED(0x4120)                // current setting - float32 10
     constant AIR_ACCELERATION(0x3C88)       // current setting - float32 0.0166
@@ -14,42 +14,6 @@ scope SpidermanNSP {
     constant BEGIN(0x1)
     constant BEGIN_MOVE(0x2)
     constant MOVE(0x3)
-
-    // @ Description
-    // Subroutine which runs when Spider-Man initiates an aerial neutral special.
-    // Changes action, and sets up initial variable values.
-    // Used from Marth's USP.
-    scope air_initial_: {
-        addiu   sp, sp, 0xFFE0              // ~
-        sw      ra, 0x001C(sp)              // ~
-        sw      a0, 0x0020(sp)              // original lines 1-3
-        sw      r0, 0x0010(sp)              // argument 4 = 0
-        lli     a1, Spiderman.Action.WebBallAir       // a1 = Action.USPA
-        or      a2, r0, r0                  // a2 = float: 0.0
-        jal     0x800E6F24                  // change action
-        lui     a3, 0x3F80                  // a3 = float: 1.0
-        jal     0x800E0830                  // unknown common subroutine
-        lw      a0, 0x0020(sp)              // a0 = player object
-        lw      a0, 0x0020(sp)              // ~
-        lw      a0, 0x0084(a0)              // a0 = player struct
-        sw      r0, 0x017C(a0)              // temp variable 1 = 0
-        sw      r0, 0x0180(a0)              // temp variable 2 = 0
-        ori     v1, r0, 0x0001              // ~
-        sw      v1, 0x0184(a0)              // temp variable 3 = 0x1(BEGIN)
-        // reset fall speed
-        lbu     v1, 0x018D(a0)              // v1 = fast fall flag
-        ori     t6, r0, 0x0007              // t6 = bitmask (01111111)
-        and     v1, v1, t6                  // ~
-        sb      v1, 0x018D(a0)              // disable fast fall flag
-        // freeze y position
-        lw      v1, 0x09C8(a0)              // v1 = attribute pointer
-        lw      v1, 0x0058(v1)              // v1 = gravity
-        sw      v1, 0x004C(a0)              // y velocity = gravity
-        lw      ra, 0x001C(sp)              // ~
-        addiu   sp, sp, 0x0020              // ~
-        jr      ra                          // original return logic
-        nop
-    }
 
  // @ Description 
     // main subroutine for Wolf's Blaster
@@ -345,14 +309,14 @@ scope SpidermanNSP {
 		
 		_blaster_fireball_struct:
         dw 100                          // 0x0000 - duration (int)
-        float32 200                     // 0x0004 - max speed
-        float32 22                      // 0x0008 - min speed
+        float32 45                     // 0x0004 - max speed (200)
+        float32 45                      // 0x0008 - min speed (22)
         float32 0                       // 0x000C - gravity
         float32 0                       // 0x0010 - bounce multiplier
         float32 0                       // 0x0014 - rotation angle
         float32 0                       // 0x0018 - initial angle (ground)
-        float32 0                       // 0x001C   initial angle (air)
-        float32 22                      // 0x0020   initial speed
+        float32 345                     // 0x001C   initial angle (air)
+        float32 45                      // 0x0020   initial speed
         dw Character.SPM_file_6_ptr    // 0x0024   projectile data pointer
         dw 0                            // 0x0028   unknown (default 0)
         float32 0                       // 0x002C   palette index (0 = mario, 1 = luigi)
@@ -360,7 +324,7 @@ scope SpidermanNSP {
 		}
 
     // @ Description
-    // Subroutine which handles movement for Spider-Man's neutral special. Marina's was used as reference (aka copied verbatim and modified lmao)
+    // Subroutine which handles movement for Spider-Man's neutral special. Marina's was used as reference (need to cleanup and remove the grounded version)
     // Uses the moveset data command 5C0000XX (orignally identified as "apply throw?" by toomai)
     // This command's purpose appears to be setting a temporary variable in the player struct.
     // The most common use of this variable is to determine when a throw should be applied.
@@ -415,6 +379,11 @@ scope SpidermanNSP {
         lli     t1, Spiderman.Action.WebBall      // t1 = Action.USPG
         beq     t0, t1, _check_begin_move   // skip if current action = USP_GROUND
         nop
+        // reset fall speed
+        lbu     v1, 0x018D(s0)              // v1 = fast fall flag
+        ori     t6, r0, 0x0007              // t6 = bitmask (01111111)
+        and     v1, v1, t6                  // ~
+        sb      v1, 0x018D(s0)              // disable fast fall flag
         // slow x movement
         lwc1    f0, 0x0048(s0)              // f0 = current x velocity
         lui     t0, 0x3F60                  // ~
@@ -423,6 +392,7 @@ scope SpidermanNSP {
         swc1    f0, 0x0048(s0)              // x velocity = (x velocity * 0.875)
         // freeze y position
         sw      r0, 0x004C(s0)              // y velocity = 0
+        
 
         _check_begin_move:
         lw      t0, 0x0184(s0)              // t0 = temp variable 3
@@ -530,4 +500,41 @@ scope SpidermanNSP {
         jr      ra                          // return
         nop
     }	
-	}
+}
+
+scope SpidermanDSP {
+    // @ Description
+    // Subroutine which runs when Spider-Man initiates an aerial down special.
+    // Changes action, and sets up initial variable values.
+    scope air_initial_: {
+        addiu   sp, sp, 0xFFE0              // ~
+        sw      ra, 0x001C(sp)              // ~
+        sw      a0, 0x0020(sp)              // original lines 1-3
+        sw      r0, 0x0010(sp)              // argument 4 = 0
+        lli     a1, Spiderman.Action.WebBallAir       // a1 = Action.USPA
+        or      a2, r0, r0                  // a2 = float: 0.0
+        jal     0x800E6F24                  // change action
+        lui     a3, 0x3F80                  // a3 = float: 1.0
+        jal     0x800E0830                  // unknown common subroutine
+        lw      a0, 0x0020(sp)              // a0 = player object
+        lw      a0, 0x0020(sp)              // ~
+        lw      a0, 0x0084(a0)              // a0 = player struct
+        sw      r0, 0x017C(a0)              // temp variable 1 = 0
+        sw      r0, 0x0180(a0)              // temp variable 2 = 0
+        ori     v1, r0, 0x0001              // ~
+        sw      v1, 0x0184(a0)              // temp variable 3 = 0x1(BEGIN)
+        // reset fall speed
+        lbu     v1, 0x018D(a0)              // v1 = fast fall flag
+        ori     t6, r0, 0x0007              // t6 = bitmask (01111111)
+        and     v1, v1, t6                  // ~
+        sb      v1, 0x018D(a0)              // disable fast fall flag
+        // freeze y position
+        lw      v1, 0x09C8(a0)              // v1 = attribute pointer
+        lw      v1, 0x0058(v1)              // v1 = gravity
+        sw      v1, 0x004C(a0)              // y velocity = gravity
+        lw      ra, 0x001C(sp)              // ~
+        addiu   sp, sp, 0x0020              // ~
+        jr      ra                          // original return logic
+        nop
+    }
+}

@@ -206,6 +206,7 @@ scope Spiderman {
     Character.edit_menu_action_parameters(SPM,   0x3,               File.SPM_VICTORY_3,         VICTORY_3,                  -1)          // Victory3
     Character.edit_menu_action_parameters(SPM,   0x4,               File.SPM_VICTORY_1,         VICTORY_1,                  -1)          // CSS Select
     Character.edit_menu_action_parameters(SPM,   0xD,               File.SPM_1P_POSE,           -1,                         -1)          // 1P Mode Pose
+    Character.edit_menu_action_parameters(SPM,   0xE,               File.SPM_1P_POSE,           -1,                         -1)          // CPU Pose
     Character.edit_menu_action_parameters(SPM,   0x5,               File.SPM_CLAP,              -1,                         -1)
     Character.edit_menu_action_parameters(SPM,   0x9,               File.SPM_CONTINUEFALL,      -1,                         -1)
     Character.edit_menu_action_parameters(SPM,   0xA,               File.SPM_CONTINUEUP,        -1,                         -1)
@@ -218,9 +219,9 @@ scope Spiderman {
     //Character.table_patch_start(ground_nsp, Character.id.SPM, 0x4)
     //dw      SpidermanNSP.ground_begin_initial_
     //OS.patch_end()
-    Character.table_patch_start(air_nsp, Character.id.SPM, 0x4)
-    dw      SpidermanNSP.air_initial_
-    OS.patch_end()
+    //Character.table_patch_start(air_nsp, Character.id.SPM, 0x4)
+    //dw      SpidermanNSP.air_initial_
+    //OS.patch_end()
 
     Character.table_patch_start(rapid_jab, Character.id.SPM, 0x4)
     dw      Character.rapid_jab.DISABLED        // disable rapid jab
