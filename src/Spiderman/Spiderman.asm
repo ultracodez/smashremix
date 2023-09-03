@@ -5,6 +5,7 @@
 scope Spiderman {
     // Insert Moveset files
     insert VICTORY_1, "moveset/VICTORY_1.bin"
+    insert VICTORY_2, "moveset/VICTORY_2.bin"
     insert VICTORY_3, "moveset/VICTORY_3.bin"
 	insert BACK_AERIAL, "moveset/BACK_AERIAL.bin"
     insert DASH_ATTACK, "moveset/DASH_ATTACK.bin"
@@ -202,7 +203,7 @@ scope Spiderman {
     // Modify Menu Action Parameters             // Action          // Animation                // Moveset Data             // Flags
     Character.edit_menu_action_parameters(SPM,   0x0,               File.SPM_IDLE,              -1,                         -1)          // CSS Idle
     Character.edit_menu_action_parameters(SPM,   0x1,               File.SPM_VICTORY_1,         VICTORY_1,                  -1)          // Victory1
-    Character.edit_menu_action_parameters(SPM,   0x2,               File.SPM_VICTORY_2,         -1,                         -1)          // Victory2
+    Character.edit_menu_action_parameters(SPM,   0x2,               File.SPM_VICTORY_2,         VICTORY_2,                  -1)          // Victory2
     Character.edit_menu_action_parameters(SPM,   0x3,               File.SPM_VICTORY_3,         VICTORY_3,                  -1)          // Victory3
     Character.edit_menu_action_parameters(SPM,   0x4,               File.SPM_VICTORY_1,         VICTORY_1,                  -1)          // CSS Select
     Character.edit_menu_action_parameters(SPM,   0xD,               File.SPM_1P_POSE,           -1,                         -1)          // 1P Mode Pose

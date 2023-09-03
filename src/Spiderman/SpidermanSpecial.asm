@@ -150,6 +150,7 @@ scope SpidermanNSP {
         _continue:
         addiu   t8, r0, r0          // used to use free space area, but for no apparent reason, affects graphics
         //lw      t8, 0x029C(a0)
+        lw      t7, 0x0020(sp)      // t7 = projectile object
         li      t0, _blaster_fireball_struct
         addu    v0, r0, t0
         lw      a1, 0x000C(v0)
@@ -162,47 +163,46 @@ scope SpidermanNSP {
 		lui		at, 0x3F84          // speed multiplier (accel) loaded in at (1.03125)
 		mtc1	at, f6              // move speed multiplier to floating point register
 		mul.s   f8, f8, f6          // speed multiplied by accel
-        
-        
+
         lw      at, 0x0004(t0)      // load max speed
         mtc1    at, f6
         lw      at, 0x029C(a0)      // load multiplier that is typically one, unless reflected
         mtc1    at, f10
         mul.s   f6, f6, f10
         c.le.s  f8, f6
-        nop
-        bc1f    _scaling
-        swc1    f6, 0x0020(a0)      // if speed is greater than max rightward velocity, save max speed
-        neg.s   f6, f6
-        c.le.s  f8, f6
-        nop
-        bc1t    _scaling
-        swc1    f6, 0x0020(a0)      // if speed is less than max leftward velocity, save max speed
-		swc1    f8, 0x0020(a0)      // save new speed amount to projectile hitbox information
-        
-        _scaling:
-        // v1 = projectile joint 1
-        // a0 = projectile struct
-        // t1 = projectile object
-        lwc1    f6, 0x0020(a0)      // ~
-        abs.s   f6, f6              // f6 = absolute current speed
-        lui     at, 0x41B0          // ~
-        mtc1    at, f8              // f8 = initial speed (currently 22)
-        lui     at, 0x3E80          // ~
-        mtc1    at, f10             // f10 = 0.25
-        add.s   f6, f6, f8          // ~
-        add.s   f6, f6, f8          // ~
-        add.s   f6, f6, f8          // ~
-        mul.s   f6, f6, f10         // f6 = (current speed + 66) * 0.25
-        div.s   f6, f6, f8          // f6 = x size multiplier (adjusted current speed / initial speed)
-        swc1    f6, 0x0040(v1)      // store x size multiplier to projectile joint
-        add.s   f10, f10, f10       // f10 = 0.5
-        mul.s   f6, f6, f10         // ~
-        add.s   f6, f6, f10         // f6 = (x size multiplier * 0.5) + 0.5
-        add.s   f10, f10, f10       // f10 = 1.0
-        div.s   f6, f10, f6         // f6 = y size multiplier (1.0 / ((x size multiplier * 0.5) + 0.5))
-        swc1    f6, 0x0044(v1)      // store y size multiplier to projectile joint
-        
+
+        //Sonic USP Start
+        lw      t8, 0x0000(t0)      // t8 = initial duration
+        addiu   t8, t8, -0x0004     // t8 = initial duration - 4 frames
+        // t7 has current count from prior jal
+        sltu    t8, t7, t8          // t8 = 1 if after first 4 frames
+        //mtc1    r0, f6              // f6 = 0 = no rotation
+        lui		at, 0x3E80          // f6 = 0.5 rotation multiplier
+        mtc1    at, f6
+        beqz    t8, _initial_rotation // if in the first 4 frames, skip normal rotation/gravity
+        addiu   a1, r0, r0          // set gravity to 0
+
+        // rest of the duration functionality
+        lw      a1, 0x000C(t0)      // load normal gravity
+
+        lw      t1, 0x0020(sp)      // t1 = projectile object
+        lw      t2, 0x0084(t1)      // t2 = projectile special struct
+
+        // ensure hitbox is always on in the air
+        lli     at, 0x0001          // at = 1 = enable hitbox
+        sw      at, 0x0150(t2)      // turn on hitbox
+
+        lw      t3, 0x00FC(t2)      // t3 = 0 if grounded
+        bnezl   t3, _initial_rotation // if not grounded, rotate
+        lwc1    f6, 0x0014(v0)      // load normal rotation
+
+        _initial_rotation:
+        lw      t1, 0x0020(sp)      // t1 = projectile object
+        lw      v1, 0x0074(t1)      // v1 = top joint
+        lwc1    f4, 0x0030(v1)      // f4 = current rotation value
+        add.s   f8, f4, f6          // f8 = new rotation value (rot * 0.5)
+        swc1    f8, 0x0030(v1)      // update rotation value
+       
         _end_duration:
         lw      ra, 0x0014(sp)
         lwc1    f10, 0x0024(sp)
@@ -295,7 +295,7 @@ scope SpidermanNSP {
 		dw 0x00000000
         dw Character.SPM_file_6_ptr    // pointer to file
         dw 0x00000000                   // 00000000
-        dw 0x12480000                   // rendering routine?
+        dw 0x12470000                   // rendering routine?
         dw blaster_duration             // duration (default 0x80168540) (samus 0x80168F98)
         dw 0x80175914                   // collision (0x801685F0 - Mario) (0x80169108 - Samus)
         dw 0x80175958    		        // after_effect 0x801691FC, this one is used when grenade connects with player
@@ -309,15 +309,15 @@ scope SpidermanNSP {
 		
 		_blaster_fireball_struct:
         dw 100                          // 0x0000 - duration (int)
-        float32 45                     // 0x0004 - max speed (200)
+        float32 45                      // 0x0004 - max speed (200)
         float32 45                      // 0x0008 - min speed (22)
         float32 0                       // 0x000C - gravity
         float32 0                       // 0x0010 - bounce multiplier
-        float32 0                       // 0x0014 - rotation angle
+        float32 0.05                    // 0x0014 - rotation angle
         float32 0                       // 0x0018 - initial angle (ground)
         float32 345                     // 0x001C   initial angle (air)
         float32 45                      // 0x0020   initial speed
-        dw Character.SPM_file_6_ptr    // 0x0024   projectile data pointer
+        dw Character.SPM_file_6_ptr     // 0x0024   projectile data pointer
         dw 0                            // 0x0028   unknown (default 0)
         float32 0                       // 0x002C   palette index (0 = mario, 1 = luigi)
         OS.copy_segment(0x1038A0, 0x30)
