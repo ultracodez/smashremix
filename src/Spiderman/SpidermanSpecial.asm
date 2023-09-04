@@ -504,19 +504,25 @@ scope SpidermanNSP {
 
 scope SpidermanDSP {
     // @ Description
-    // Subroutine which runs when Spider-Man initiates an aerial down special.
-    // Changes action, and sets up initial variable values.
-    scope air_initial_: {
+    // Subroutine which runs when Spider-Man initiates a grounded down special.
+    // Puts him in an aerial state and that's about it 00E6
+    scope ground_initial_: {
         addiu   sp, sp, 0xFFE0              // ~
         sw      ra, 0x001C(sp)              // ~
         sw      a0, 0x0020(sp)              // original lines 1-3
-        sw      r0, 0x0010(sp)              // argument 4 = 0
-        lli     a1, Spiderman.Action.WebBallAir       // a1 = Action.USPA
+        lw      a0, 0x0084(a0)              // a0 = player struct
+        lw      t7, 0x014C(a0)              // t7 = kinetic state
+        bnez    t7, _change_action          // skip if kinetic state !grounded
+        nop
+        jal     0x800DEEC8                  // set aerial state
+        nop
+        _change_action:
+        lw      a0, 0x0020(sp)              // a0 = player object
+        sw      r0, 0x0010(sp)              // store r0 (some kind of parameter for change action)
+        ori     a1, r0, 0x00E9              // a1 = 0xE9 (DSP Air)
         or      a2, r0, r0                  // a2 = float: 0.0
         jal     0x800E6F24                  // change action
         lui     a3, 0x3F80                  // a3 = float: 1.0
-        jal     0x800E0830                  // unknown common subroutine
-        lw      a0, 0x0020(sp)              // a0 = player object
         lw      a0, 0x0020(sp)              // ~
         lw      a0, 0x0084(a0)              // a0 = player struct
         sw      r0, 0x017C(a0)              // temp variable 1 = 0
@@ -535,6 +541,49 @@ scope SpidermanDSP {
         lw      ra, 0x001C(sp)              // ~
         addiu   sp, sp, 0x0020              // ~
         jr      ra                          // original return logic
+        nop
+    }
+    scope air_collision_: {
+        addiu   sp, sp,-0x0018              // allocate stack space
+        sw      ra, 0x0014(sp)              // store ra
+        li      a1, air_to_ground_          // a1(transition subroutine) = air_to_ground_
+        jal     0x800DE6E4                  // common air collision subroutine (transition on landing, no ledge grab)
+        nop
+        lw      ra, 0x0014(sp)              // load ra
+        addiu   sp, sp, 0x0018              // deallocate stack space
+        jr      ra                          // return
+        nop
+    }
+
+    scope air_to_ground_: {
+        addiu   sp, sp,-0x0038              // allocate stack space
+        sw      ra, 0x001C(sp)              // store ra
+        sw      a0, 0x0038(sp)              // 0x0038(sp) = player object
+        lw      a0, 0x0084(a0)              // a0 = player struct
+        jal     0x800DEEC8                  // set grounded state 0x800DEE98
+        sw      a0, 0x0034(sp)              // 0x0034(sp) = player struct
+        lw      v0, 0x0034(sp)              // v0 = player struct
+        lw      a0, 0x0038(sp)              // a0 = player object
+        
+        //lw      a2, 0x0008(v0)              // load character ID
+        //lli     a1, Character.id.KIRBY      // a1 = id.KIRBY
+        //beql    a1, a2, _change_action      // if Kirby, load alternate action ID
+        //lli     a1, Kirby.Action.SPM_NSP_Ground
+        //lli     a1, Character.id.JKIRBY     // a1 = id.JKIRBY
+        //beql    a1, a2, _change_action      // if J Kirby, load alternate action ID
+        //lli     a1, Kirby.Action.SPM_NSP_Ground
+        
+        
+        addiu   a1, r0, 0x00E6              // a1 = equivalent ground action for current air action
+        _change_action:
+        lw      a2, 0x0078(a0)              // a2(starting frame) = current animation frame
+        lui     a3, 0x3F80                  // a3(frame speed multiplier) = 1.0
+        lli     t6, 0x0001                  // ~
+        jal     0x800E6F24                  // change action
+        sw      t6, 0x0010(sp)              // argument 4 = 1 (continue hitbox)
+        lw      ra, 0x001C(sp)              // load ra
+        addiu   sp, sp, 0x0038              // deallocate stack space
+        jr      ra                          // return
         nop
     }
 }
