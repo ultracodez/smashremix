@@ -1771,7 +1771,7 @@ scope SinglePlayer {
         constant GOEMON(0x00000032)
         constant PEPPY(0x00000032)
         constant SLIPPY(0x00000032)
-		constant SPM(0x00000032)
+		constant SPM(0x00000046)
         // TODO: make sure these are good
         constant JSAMUS(0x00000032)
         constant JNESS(0x00000032)
@@ -2553,7 +2553,7 @@ scope SinglePlayer {
     add_to_single_player(Character.id.GOEMON,  name_texture.GOEMON,  name_delay.GOEMON)
     add_to_single_player(Character.id.PEPPY,   name_texture.PEPPY,   name_delay.PEPPY)
     add_to_single_player(Character.id.SLIPPY,  name_texture.SLIPPY,  name_delay.SLIPPY)
-	add_to_single_player(Character.id.SPM,     name_texture.JMARIO,  name_delay.JMARIO)
+	add_to_single_player(Character.id.SPM,     name_texture.JMARIO,  name_delay.SPM)
 
 	// REMIX POLYGONS    character id          name texture          name delay
     add_to_single_player(Character.id.NWARIO,  name_texture.NWARIO,  name_delay.NWARIO)

@@ -503,6 +503,9 @@ scope SpidermanNSP {
 }
 
 scope SpidermanDSP {
+    constant Y_SPEED(0x4210)                // current setting - float32 36
+    constant Y_SPEED_STALE(0x4180)          // current setting - float32 16
+    constant Y_SPEED_SECOND(0x4100)          // current setting - float32 8
     // @ Description
     // Subroutine which runs when Spider-Man initiates a grounded down special.
     // Puts him in an aerial state and that's about it 00E6
@@ -543,6 +546,7 @@ scope SpidermanDSP {
         jr      ra                          // original return logic
         nop
     }
+
     scope air_collision_: {
         addiu   sp, sp,-0x0018              // allocate stack space
         sw      ra, 0x0014(sp)              // store ra
@@ -574,7 +578,7 @@ scope SpidermanDSP {
         //lli     a1, Kirby.Action.SPM_NSP_Ground
         
         
-        addiu   a1, r0, 0x00E6              // a1 = equivalent ground action for current air action
+        addiu   a1, r0, 0x00E9              // a1 = equivalent ground action for current air action
         _change_action:
         lw      a2, 0x0078(a0)              // a2(starting frame) = current animation frame
         lui     a3, 0x3F80                  // a3(frame speed multiplier) = 1.0

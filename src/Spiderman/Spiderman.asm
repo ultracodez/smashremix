@@ -199,12 +199,13 @@ scope Spiderman {
     Character.edit_action_parameters(SPM, 0xE6,                          File.SPM_ACTION_0E9,            DSP,                      -1)          //DSP_Ground
     Character.edit_action_parameters(SPM, 0xE7,                          0,                              0x80000000,                0)          //DSP_Collide
     Character.edit_action_parameters(SPM, 0xE8,                          0,                              0x80000000,                0)          //DSP_Land
-    Character.edit_action_parameters(SPM, 0xE9,                          File.SPM_ACTION_0E9,            DSP,                  -1)          //DSP_Air
+    Character.edit_action_parameters(SPM, 0xE9,                          File.SPM_ACTION_0E9,            DSP,                      -1)          //DSP_Air
 
     // Modify Actions            // Action          // Staling ID   // Main ASM                 // Interrupt/Other ASM          // Movement/Physics ASM         // Collision ASM
 	Character.edit_action(SPM,   0xE4,              -1,             SpidermanNSP.main,  		-1,                             -1,                         -1)
 	Character.edit_action(SPM,   0xE5,              -1,             SpidermanNSP.main,  		-1,                             SpidermanNSP.physics_,      SpidermanNSP.air_collision_)
-    Character.edit_action(SPM,   0xE9,              -1,             -1,  		                -1,                             -1,                         SpidermanDSP.air_collision_)
+    Character.edit_action(SPM,   0xE6,              -1,             -1,  		                -1,                             -1,                         SpidermanDSP.air_collision_)
+    Character.edit_action(SPM,   0xE9,              -1,             -1,          -1,                             -1,                         SpidermanDSP.air_collision_)
 
     // Modify Menu Action Parameters             // Action          // Animation                // Moveset Data             // Flags
     Character.edit_menu_action_parameters(SPM,   0x0,               File.SPM_IDLE,              -1,                         -1)          // CSS Idle
@@ -213,7 +214,7 @@ scope Spiderman {
     Character.edit_menu_action_parameters(SPM,   0x3,               File.SPM_VICTORY_3,         VICTORY_3,                  -1)          // Victory3
     Character.edit_menu_action_parameters(SPM,   0x4,               File.SPM_VICTORY_1,         VICTORY_1,                  -1)          // CSS Select
     Character.edit_menu_action_parameters(SPM,   0xD,               File.SPM_1P_POSE,           -1,                         -1)          // 1P Mode Pose
-    Character.edit_menu_action_parameters(SPM,   0xE,               File.SPM_1P_POSE,           -1,                         -1)          // CPU Pose
+    Character.edit_menu_action_parameters(SPM,   0xE,               File.SPM_CPU_POSE,          -1,                         -1)          // CPU Pose
     Character.edit_menu_action_parameters(SPM,   0x5,               File.SPM_CLAP,              -1,                         -1)
     Character.edit_menu_action_parameters(SPM,   0x9,               File.SPM_CONTINUEFALL,      -1,                         -1)
     Character.edit_menu_action_parameters(SPM,   0xA,               File.SPM_CONTINUEUP,        -1,                         -1)
@@ -226,8 +227,8 @@ scope Spiderman {
     //Character.table_patch_start(ground_nsp, Character.id.SPM, 0x4)
     //dw      SpidermanNSP.ground_begin_initial_
     //OS.patch_end()
-    //Character.table_patch_start(air_nsp, Character.id.SPM, 0x4)
-    //dw      SpidermanNSP.air_initial_
+    //Character.table_patch_start(air_dsp, Character.id.SPM, 0x4)
+    //dw      SpidermanDSP.air_initial_
     //OS.patch_end()
     Character.table_patch_start(ground_dsp, Character.id.SPM, 0x4)
     dw      SpidermanDSP.ground_initial_
@@ -250,7 +251,7 @@ scope Spiderman {
     OS.patch_end()
 
     // Set default costumes
-    Character.set_default_costumes(Character.id.SPM, 0, 1, 2, 3, 1, 2, 3)
+    Character.set_default_costumes(Character.id.SPM, 0, 1, 2, 3, 0, 4, 2)
 
     // Shield colors for costume matching
     Character.set_costume_shield_colors(SPM, BLUE, RED, GREEN, BLACK, BLUE, BLUE, YELLOW, WHITE)
@@ -268,7 +269,7 @@ scope Spiderman {
         constant WebSwingAir(0x0E9)
 
         // strings!
-        //string_0x0DC:; String.insert("Jab3")
+        string_0x0DC:; String.insert("Jab3")
         //string_0x0DD:; String.insert("JabLoopStart")
         //string_0x0DE:; String.insert("JabLoop")
         string_0x0E4:; String.insert("WebBall")

@@ -2655,7 +2655,7 @@ scope SinglePlayerModes: {
     db  Character.id.SPM                // Character ID
     db  Stages.id.GLACIAL               // Stage Option 1
     db  Stages.id.GLACIAL               // Stage Option 2
-    db  Stages.id.TWILIGHT_CITY         // Stage Option 3
+    db  Stages.id.GLACIAL               // Stage Option 3
     dw  SinglePlayer.name_texture.GOEMON + 0x10    // name texture
     dw  0x00000513                      // Announcer Call
     dw  0x00006F80                      // Model Scale
