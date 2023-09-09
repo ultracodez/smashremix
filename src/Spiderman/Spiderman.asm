@@ -205,7 +205,7 @@ scope Spiderman {
 	Character.edit_action(SPM,   0xE4,              -1,             SpidermanNSP.main,  		-1,                             -1,                         -1)
 	Character.edit_action(SPM,   0xE5,              -1,             SpidermanNSP.main,  		-1,                             SpidermanNSP.physics_,      SpidermanNSP.air_collision_)
     Character.edit_action(SPM,   0xE6,              -1,             -1,  		                -1,                             -1,                         SpidermanDSP.air_collision_)
-    Character.edit_action(SPM,   0xE9,              -1,             -1,          -1,                             -1,                         SpidermanDSP.air_collision_)
+    Character.edit_action(SPM,   0xE9,              -1,             -1,                         -1,                             -1,                         SpidermanDSP.air_collision_)
 
     // Modify Menu Action Parameters             // Action          // Animation                // Moveset Data             // Flags
     Character.edit_menu_action_parameters(SPM,   0x0,               File.SPM_IDLE,              -1,                         -1)          // CSS Idle
