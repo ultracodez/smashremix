@@ -2377,4 +2377,5 @@ scope File {
     constant RYU_TATSU_GND_L(0x1192)
     constant RYU_DSMASH(0x1193)
     constant RYU_DASH(0x1194)
+    constant RYU_FTILT_CLOSE(0x1195)
 }
