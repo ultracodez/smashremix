@@ -503,9 +503,7 @@ scope SpidermanNSP {
 }
 
 scope SpidermanDSP {
-    constant Y_SPEED(0x4210)                // current setting - float32 36
-    constant Y_SPEED_STALE(0x4180)          // current setting - float32 16
-    constant Y_SPEED_SECOND(0x4100)          // current setting - float32 8
+
     // @ Description
     // Subroutine which runs when Spider-Man initiates a grounded down special.
     // Puts him in an aerial state and that's about it 00E6
@@ -522,7 +520,7 @@ scope SpidermanDSP {
         _change_action:
         lw      a0, 0x0020(sp)              // a0 = player object
         sw      r0, 0x0010(sp)              // store r0 (some kind of parameter for change action)
-        ori     a1, r0, 0x00E9              // a1 = 0xE9 (DSP Air)
+        ori     a1, r0, Spiderman.Action.WebSwingAir              // a1 = 0xE9 (DSP Air)
         or      a2, r0, r0                  // a2 = float: 0.0
         jal     0x800E6F24                  // change action
         lui     a3, 0x3F80                  // a3 = float: 1.0
@@ -547,6 +545,81 @@ scope SpidermanDSP {
         nop
     }
 
+    // @ Description
+    // Subroutine which runs when Marth initiates aerial neutral special actions.
+    // Changes action, and sets up initial variable values.
+    // a0 - player object
+    // a1 - action id
+    scope air_initial_: {
+        addiu   sp, sp,-0x0030             // allocate stack space
+        sw      ra, 0x001C(sp)              // ~
+        sw      a0, 0x0020(sp)              // store ra, a0
+        sw      r0, 0x0010(sp)              // argument 4 = 0
+        
+        lw      a1, 0x0084(a0)              // a1 = player struct
+        lw      at, 0x0ADC(a1)              // at = down b flag
+        bnez    at, _end                    // skip if down b flag != 0
+        lli     at, OS.TRUE                 // ~
+        sw      at, 0x0ADC(a1)              // down b flag = TRUE
+        
+        lli     a1, Spiderman.Action.WebSwingAir    // a1(action id) = DSPAir
+        or      a2, r0, r0                  // a2 = float: 0.0
+        jal     0x800E6F24                  // change action
+        lui     a3, 0x3F80                  // a3 = float: 1.0
+        jal     0x800E0830                  // unknown common subroutine
+        lw      a0, 0x0020(sp)              // a0 = player object
+        lw      a0, 0x0020(sp)              // ~
+        lw      a0, 0x0084(a0)              // a0 = player struct
+        sw      r0, 0x017C(a0)              // temp variable 1 = 0
+        sw      r0, 0x0180(a0)              // temp variable 2 = 0
+        ori     v1, r0, 0x0001              // ~
+        sw      v1, 0x0184(a0)              // temp variable 3 = 0x1(BEGIN)
+        // reset fall speed
+        lbu     v1, 0x018D(a0)              // v1 = fast fall flag
+        ori     t6, r0, 0x0007              // t6 = bitmask (01111111)
+        and     v1, v1, t6                  // ~
+        sb      v1, 0x018D(a0)              // disable fast fall flag
+        // freeze y position
+        lw      v1, 0x09C8(a0)              // v1 = attribute pointer
+        lw      v1, 0x0058(v1)              // v1 = gravity
+        sw      v1, 0x004C(a0)              // y velocity = gravity
+
+        _end:
+        lw      ra, 0x001C(sp)              // load ra
+        addiu   sp, sp, 0x0030              // deallocate stack space
+        jr      ra                          // return
+        nop
+    }
+    
+    // @ Description
+    // Subroutine which allows a direction change for Spiderman's down special.
+    // Uses the moveset data command 580000XX (orignally identified as "set flag" by toomai)
+    // This command's purpose appears to be setting a temporary variable in the player struct.
+    // Variable values used by this subroutine:
+    // 0x2 = change direction
+    scope change_direction_: {
+        // 0x180 in player struct = temp variable 2
+        lw      a1, 0x0084(a0)              // a1 = player struct
+        addiu   sp, sp,-0x0010              // allocate stack space
+        sw      t0, 0x0004(sp)              // ~
+        sw      t1, 0x0008(sp)              // ~
+        sw      ra, 0x000C(sp)              // store t0, t1, ra
+        lw      t0, 0x0180(a1)              // t0 = temp variable 2
+        ori     t1, r0, 0x0002              // t1 = 0x2
+        bne     t1, t0, _end                // skip if temp variable 2 != 2
+        nop
+        jal     0x80160370                  // turn subroutine (copied from captain falcon)
+        nop
+
+        _end:
+        lw      t0, 0x0004(sp)              // ~
+        lw      t1, 0x0008(sp)              // ~
+        lw      ra, 0x000C(sp)              // load t0, t1, ra
+        addiu   sp, sp, 0x0010              // deallocate stack space
+        jr      ra                          // return
+        nop
+    }
+
     scope air_collision_: {
         addiu   sp, sp,-0x0018              // allocate stack space
         sw      ra, 0x0014(sp)              // store ra
@@ -564,21 +637,12 @@ scope SpidermanDSP {
         sw      ra, 0x001C(sp)              // store ra
         sw      a0, 0x0038(sp)              // 0x0038(sp) = player object
         lw      a0, 0x0084(a0)              // a0 = player struct
-        jal     0x800DEEC8                  // set grounded state 0x800DEE98
+        jal     0x800DEEC8                  // set airborne state (grounded is 0x800DEE98)
         sw      a0, 0x0034(sp)              // 0x0034(sp) = player struct
         lw      v0, 0x0034(sp)              // v0 = player struct
         lw      a0, 0x0038(sp)              // a0 = player object
         
-        //lw      a2, 0x0008(v0)              // load character ID
-        //lli     a1, Character.id.KIRBY      // a1 = id.KIRBY
-        //beql    a1, a2, _change_action      // if Kirby, load alternate action ID
-        //lli     a1, Kirby.Action.SPM_NSP_Ground
-        //lli     a1, Character.id.JKIRBY     // a1 = id.JKIRBY
-        //beql    a1, a2, _change_action      // if J Kirby, load alternate action ID
-        //lli     a1, Kirby.Action.SPM_NSP_Ground
-        
-        
-        addiu   a1, r0, 0x00E9              // a1 = equivalent ground action for current air action
+        addiu   a1, r0, Spiderman.Action.WebSwingAir              // a1 = equivalent ground action for current air action
         _change_action:
         lw      a2, 0x0078(a0)              // a2(starting frame) = current animation frame
         lui     a3, 0x3F80                  // a3(frame speed multiplier) = 1.0
@@ -588,6 +652,743 @@ scope SpidermanDSP {
         lw      ra, 0x001C(sp)              // load ra
         addiu   sp, sp, 0x0038              // deallocate stack space
         jr      ra                          // return
+        nop
+    }
+}
+scope SpidermanUSP {
+    constant ATTACK_X_SPEED(0x4280)         // float32 64
+    constant END_X_SPEED(0x41C0)            // float32 24
+    constant END_Y_SPEED(0x4210)            // float32 36
+    constant COLLISION_SFX(0x13)            // grab fgm
+
+    // @ Description
+    // Initial subroutine for DSPGround.
+    scope ground_initial_: {
+        addiu   sp, sp,-0x0028              // allocate stack space
+        sw      ra, 0x0014(sp)              // ~
+        sw      a0, 0x0018(sp)              // store ra, a0
+        lli     a1, Goemon.Action.DSPGround // a1(action id) = DSPGround
+        or      a2, r0, r0                  // a2(starting frame) = 0
+        lui     a3, 0x3F80                  // a3(frame speed multiplier) = 1.0
+        jal     0x800E6F24                  // change action
+        sw      r0, 0x0010(sp)              // argument 4 = 0
+        lw      a0, 0x0018(sp)              // a0 = player object
+        li      a1, ground_pull_initial_    // a1 = ground_pull_initial_
+        jal     0x8015E310                  // command grab setup (yoshi)
+        lw      a0, 0x0084(a0)              // a0 = player struct
+        jal     0x800E0830                  // unknown common subroutine
+        lw      a0, 0x0018(sp)              // a0 = player object
+        lw      a0, 0x0018(sp)              // ~
+        lw      a0, 0x0084(a0)              // ~
+        sw      r0, 0x017C(a0)              // temp variable 1 = 0
+        sw      r0, 0x0180(a0)              // temp variable 2 = 0
+        sw      r0, 0x0184(a0)              // temp variable 3 = 0
+        lw      ra, 0x0014(sp)              // load ra
+        addiu   sp, sp, 0x0028              // deallocate stack space
+        jr      ra                          // return
+        nop
+    }
+
+    // @ Description
+    // Initial subroutine for DSPAir.
+    scope air_initial_: {
+        addiu   sp, sp,-0x0028              // allocate stack space
+        sw      ra, 0x0014(sp)              // ~
+        sw      a0, 0x0018(sp)              // store ra, a0
+        lli     a1, Goemon.Action.DSPAir    // a1(action id) = DSPAir
+        or      a2, r0, r0                  // a2(starting frame) = 0
+        lui     a3, 0x3F80                  // a3(frame speed multiplier) = 1.0
+        jal     0x800E6F24                  // change action
+        sw      r0, 0x0010(sp)              // argument 4 = 0
+        lw      a0, 0x0018(sp)              // a0 = player object
+        li      a1, air_pull_initial_       // a1 = air_pull_initial_
+        jal     0x8015E310                  // command grab setup (yoshi)
+        lw      a0, 0x0084(a0)              // a0 = player struct
+        jal     0x800E0830                  // unknown common subroutine
+        lw      a0, 0x0018(sp)              // a0 = player object
+        lw      a0, 0x0018(sp)              // ~
+        lw      a0, 0x0084(a0)              // ~
+        sw      r0, 0x017C(a0)              // temp variable 1 = 0
+        sw      r0, 0x0180(a0)              // temp variable 2 = 0
+        sw      r0, 0x0184(a0)              // temp variable 3 = 0
+        ori     t6, r0, 0x0007              // t6 = bitmask (01111111)
+        and     v1, v1, t6                  // ~
+        sb      v1, 0x018D(a0)              // disable fast fall flag
+        lw      ra, 0x0014(sp)              // load ra
+        addiu   sp, sp, 0x0028              // deallocate stack space
+        jr      ra                          // return
+        nop
+    }
+
+    // @ Description
+    // Initial subroutine for DSPGroundPull.
+    scope ground_pull_initial_: {
+        addiu   sp, sp,-0x0020              // allocate stack space
+        sw      ra, 0x001C(sp)              // ~
+        sw      a0, 0x0020(sp)              // store a0, ra
+        lw      v1, 0x0084(a0)              // v1 = player struct
+        lli     a1, Goemon.Action.DSPGroundPull // a1(action id) = DSPGroundPull
+        lwc1    f2, 0x0180(v1)              // ~
+        cvt.s.w f2, f2                      // ~
+        mfc1    a2, f2                      // a2(starting frame) = temp variable 2
+        lli     t6, 0x0002                  // ~
+        sw      t6, 0x0010(sp)              // argument 4 = 0x0002
+        jal     0x800E6F24                  // change action
+        lui     a3, 0x3F80                  // a3(frame speed multiplier) = 1.0
+        jal     0x800E0830                  // unknown common subroutine
+        lw      a0, 0x0020(sp)              // a0 = player object
+        jal     grab_pull_setup_            // additional command grab setup
+        lw      a0, 0x0020(sp)              // a0 = player object
+        lw      a0, 0x0020(sp)              // ~
+        lw      a0, 0x0084(a0)              // a0 = player struct
+        sw      r0, 0x017C(a0)              // temp variable 1 = 0
+        sw      r0, 0x0180(a0)              // temp variable 2 = 0
+        sw      r0, 0x0184(a0)              // temp variable 3 = 0
+        FGM.play(COLLISION_SFX)             // play collision sfx
+        lw      ra, 0x001C(sp)              // load ra
+        addiu   sp, sp, 0x0020              // deallocate stack space
+        jr      ra                          // return
+        nop
+    }
+
+    // @ Description
+    // Initial subroutine for DSPAirPull.
+    scope air_pull_initial_: {
+        addiu   sp, sp,-0x0020              // allocate stack space
+        sw      ra, 0x001C(sp)              // ~
+        sw      a0, 0x0020(sp)              // store a0, ra
+        lw      v1, 0x0084(a0)              // v1 = player struct
+        lli     a1, Goemon.Action.DSPAirPull // a1(action id) = DSPAirPull
+        lwc1    f2, 0x0180(v1)              // ~
+        cvt.s.w f2, f2                      // ~
+        mfc1    a2, f2                      // a2(starting frame) = temp variable 2
+        lli     t6, 0x0002                  // ~
+        sw      t6, 0x0010(sp)              // argument 4 = 0x0002
+        jal     0x800E6F24                  // change action
+        lui     a3, 0x3F80                  // a3(frame speed multiplier) = 1.0
+        jal     0x800E0830                  // unknown common subroutine
+        lw      a0, 0x0020(sp)              // a0 = player object
+        jal     grab_pull_setup_            // additional command grab setup
+        lw      a0, 0x0020(sp)              // a0 = player object
+        lw      a0, 0x0020(sp)              // ~
+        lw      a0, 0x0084(a0)              // a0 = player struct
+        sw      r0, 0x017C(a0)              // temp variable 1 = 0
+        sw      r0, 0x0180(a0)              // temp variable 2 = 0
+        sw      r0, 0x0184(a0)              // temp variable 3 = 0
+        sw      r0, 0x0048(a0)              // x velocity = 0
+        sw      r0, 0x004C(a0)              // y velocity = 0
+        swc1    f4, 0x0048(a0)              // store updated x velocity
+        FGM.play(COLLISION_SFX)             // play collision sfx
+        lw      ra, 0x001C(sp)              // load ra
+        addiu   sp, sp, 0x0020              // deallocate stack space
+        jr      ra                          // return
+        nop
+    }
+
+    // @ Description
+    // Initial subroutine for DSPGroundWallPull.
+    scope ground_wall_pull_initial_: {
+        addiu   sp, sp,-0x0020              // allocate stack space
+        sw      ra, 0x001C(sp)              // ~
+        sw      a0, 0x0020(sp)              // store a0, ra
+        lw      v1, 0x0084(a0)              // v1 = player struct
+        lli     a1, Goemon.Action.DSPGroundWallPull // a1(action id) = DSPGroundWallPull
+        lwc1    f2, 0x0180(v1)              // ~
+        cvt.s.w f2, f2                      // ~
+        mfc1    a2, f2                      // a2(starting frame) = temp variable 2
+        lli     t6, 0x0002                  // ~
+        sw      t6, 0x0010(sp)              // argument 4 = 0x0002
+        jal     0x800E6F24                  // change action
+        lui     a3, 0x3F80                  // a3(frame speed multiplier) = 1.0
+        jal     0x800E0830                  // unknown common subroutine
+        lw      a0, 0x0020(sp)              // a0 = player object
+        lw      a0, 0x0020(sp)              // ~
+        lw      a0, 0x0084(a0)              // a0 = player struct
+        sw      r0, 0x017C(a0)              // temp variable 1 = 0
+        sw      r0, 0x0180(a0)              // temp variable 2 = 0
+        sw      r0, 0x0184(a0)              // temp variable 3 = 0
+        FGM.play(COLLISION_SFX)             // play collision sfx
+        lw      ra, 0x001C(sp)              // load ra
+        addiu   sp, sp, 0x0020              // deallocate stack space
+        jr      ra                          // return
+        nop
+    }
+
+    // @ Description
+    // Initial subroutine for DSPAirWallPull.
+    scope air_wall_pull_initial_: {
+        addiu   sp, sp,-0x0020              // allocate stack space
+        sw      ra, 0x001C(sp)              // ~
+        sw      a0, 0x0020(sp)              // store a0, ra
+        lw      v1, 0x0084(a0)              // v1 = player struct
+        lli     a1, Goemon.Action.DSPAirWallPull // a1(action id) = DSPAirWallPull
+        lwc1    f2, 0x0180(v1)              // ~
+        cvt.s.w f2, f2                      // ~
+        mfc1    a2, f2                      // a2(starting frame) = temp variable 2
+        lli     t6, 0x0002                  // ~
+        sw      t6, 0x0010(sp)              // argument 4 = 0x0002
+        jal     0x800E6F24                  // change action
+        lui     a3, 0x3F80                  // a3(frame speed multiplier) = 1.0
+        jal     0x800E0830                  // unknown common subroutine
+        lw      a0, 0x0020(sp)              // a0 = player object
+        lw      a0, 0x0020(sp)              // ~
+        lw      a0, 0x0084(a0)              // a0 = player struct
+        sw      r0, 0x017C(a0)              // temp variable 1 = 0
+        sw      r0, 0x0180(a0)              // temp variable 2 = 0
+        sw      r0, 0x0184(a0)              // temp variable 3 = 0
+        sw      r0, 0x0048(a0)              // x velocity = 0
+        sw      r0, 0x004C(a0)              // y velocity = 0
+        swc1    f4, 0x0048(a0)              // store updated x velocity
+        FGM.play(COLLISION_SFX)             // play collision sfx
+        lw      ra, 0x001C(sp)              // load ra
+        addiu   sp, sp, 0x0020              // deallocate stack space
+        jr      ra                          // return
+        nop
+    }
+
+    // @ Description
+    // Initial subroutine for DSPAAttack.
+    // DISABLED: Transition to Idle instead if B is not held
+    scope attack_initial_: {
+        addiu   sp, sp,-0x0028              // allocate stack space
+        sw      ra, 0x0014(sp)              // store ra
+        // lw      v0, 0x0084(a0)              // v0 = player struct
+        // lh      t6, 0x01BC(v0)              // t6 = buttons_held
+        // andi    t6, t6, Joypad.B            // t6 = 0x4000 if (B_HELD); else t6 = 0
+        // beqz    t6, _idle                   // branch if (!B_HELD)
+		sw      a0, 0x0018(sp)              // 0x0018(a0) = player object
+
+        lw      v0, 0x0084(a0)              // v0 = player struct
+        lli     at, 0x0001                  // ~
+        sw      at, 0x014C(v0)              // kinetic state = aerial
+        lbu     t6, 0x0148(v0)              // v0 = jumps used
+        beqzl   t6, pc() + 8                // if jumps used = 0...
+        sb      at, 0x0148(v0)              // ...jumps used = 1
+        lli     a1, Goemon.Action.DSPAAttack // a1(action id) = DSPAAttack
+        or      a2, r0, r0                  // a2(starting frame) = 0
+        lui     a3, 0x3F80                  // a3(frame speed multiplier) = 1.0
+        jal     0x800E6F24                  // change action
+        sw      r0, 0x0010(sp)              // argument 4 = 0
+        jal     0x800E0830                  // unknown common subroutine
+        lw      a0, 0x0018(sp)              // a0 = player object
+        // b       _end                        // branch to end
+        lui     at, ATTACK_X_SPEED          // at = ATTACK_X_SPEED
+
+        // _idle:
+        // jal     0x800DEE54                  // transition to idle (ground and air)
+        // nop
+        // lui     at, END_X_SPEED             // at = END_X_SPEED
+
+        // _end:
+        lw      a0, 0x0018(sp)              // ~
+        lw      a0, 0x0084(a0)              // a0 = player struct
+        mtc1    at, f2                      // f2 = ATTACK_X_SPEED
+        lwc1    f4, 0x0044(a0)              // ~
+        cvt.s.w f4, f4                      // f4 = DIRECTION
+        mul.s   f2, f2, f4                  // f2 = ATTACK_X_SPEED * DIRECTION
+        lui     at, END_Y_SPEED             // ~
+        sw      at, 0x004C(a0)              // y velocity = END_Y_SPEED
+        swc1    f2, 0x0048(a0)              // x velocity = ATTACK_X_SPEED * DIRECTION
+        lw      ra, 0x0014(sp)              // load ra
+        jr      ra                          // return
+        addiu   sp, sp, 0x0028              // deallocate stack space
+    }
+
+    // @ Description
+    // Initial subroutine for DSPEnd.
+    scope end_initial_: {
+        addiu   sp, sp,-0x0028              // allocate stack space
+        sw      ra, 0x0014(sp)              // store ra
+        sw      a0, 0x0018(sp)              // 0x0018(a0) = player object
+        lw      v0, 0x0084(a0)              // v0 = player struct
+        lli     at, 0x0001                  // ~
+        sw      at, 0x014C(v0)              // kinetic state = aerial
+        lbu     t6, 0x0148(v0)              // v0 = jumps used
+        beqzl   t6, pc() + 8                // if jumps used = 0...
+        sb      at, 0x0148(v0)              // ...jumps used = 1
+        lli     a1, Goemon.Action.DSPEnd    // a1(action id) = DSPEnd
+        or      a2, r0, r0                  // a2(starting frame) = 0
+        lui     a3, 0x3F80                  // a3(frame speed multiplier) = 1.0
+        jal     0x800E6F24                  // change action
+        sw      r0, 0x0010(sp)              // argument 4 = 0
+        jal     0x800E0830                  // unknown common subroutine
+        lw      a0, 0x0018(sp)              // a0 = player object
+        lw      a0, 0x0018(sp)              // ~
+        lw      a0, 0x0084(a0)              // a0 = player struct
+        lui     at, END_X_SPEED             // ~
+        mtc1    at, f2                      // f2 = END_X_SPEED
+        lwc1    f4, 0x0044(a0)              // ~
+        cvt.s.w f4, f4                      // f4 = DIRECTION
+        mul.s   f2, f2, f4                  // f2 = END_X_SPEED * DIRECTION
+        lui     at, END_Y_SPEED             // ~
+        sw      at, 0x004C(a0)              // y velocity = END_Y_SPEED
+        swc1    f2, 0x0048(a0)              // x velocity = END_X_SPEED * DIRECTION
+        lw      ra, 0x0014(sp)              // load ra
+        jr      ra                          // return
+        addiu   sp, sp, 0x0028              // deallocate stack space
+    }
+
+    // @ Description
+    // Subroutine which helps set up the command grab for Goemon.
+    scope grab_pull_setup_: {
+        addiu   sp, sp,-0x0020              // allocate stack space
+        sw      ra, 0x001C(sp)              // ~
+        sw      a0, 0x0020(sp)              // store a0, ra
+        lli     a1, 0x003F                  // a1 = bitflags?
+        jal     0x800E8098                  // sets the byte at 0x193 in the player struct to the value in a1
+        lw      a0, 0x0084(a0)              // a0 = player struct
+        lw      t6, 0x0830(a0)              // ~
+        sw      t6, 0x0840(a0)              // update captured player?
+        lw      ra, 0x001C(sp)              // load ra
+        addiu   sp, sp, 0x0020              // deallocate stack space
+        jr      ra                          // return
+        nop
+    }
+
+    // @ Description
+    // Main function for DSPGround and DSPAir
+    scope main_: {
+        addiu   sp, sp,-0x0018              // allocate stack space
+        sw      ra, 0x0014(sp)              // store ra
+
+        lw      t5, 0x0084(a0)              // t5 = player struct
+        lw      t6, 0x0180(t5)              // t6 = starting frame (temp variable 2)
+        beqz    t6, _check_idle             // skip if starting frame = 0
+        addiu   t6, t6,-0x0001              // t6 = decrement starting frame
+        sw      t6, 0x0180(t5)              // store updated starting frame
+
+        _check_idle:
+        // checks the current animation frame to see if we've reached end of the animation
+        mtc1    r0, f6                      // ~
+        lwc1    f8, 0x0078(a0)              // ~
+        c.le.s  f8, f6                      // ~
+        nop
+        bc1fl   _end                        // skip if animation end has not been reached
+        nop
+        jal     0x800DEE54                  // transition to idle
+        nop
+
+        _end:
+        lw      ra, 0x0014(sp)              // load ra
+        addiu   sp, sp, 0x0018              // deallocate stack space
+        jr      ra                          // return
+        nop
+    }
+
+    // @ Description
+    // Main function for DSPGroundPull and DSPAirPull.
+    // Based on 0x8014A0C0, which is the main function for throws.
+    scope pull_main_: {
+        // Copy the first 67 lines of subroutine 0x8014A0C0
+        OS.copy_segment(0xC4B00, 0x10C)
+
+        jal     attack_initial_             // transition to DSPAttack
+        lw      a0, 0x0020(sp)              // a0 = player object
+        lw      ra, 0x001C(sp)              // load ra
+
+        _end:
+        lw      s0, 0x0018(sp)              // load s0
+        addiu   sp, sp, 0x0020              // deallocate stack space
+        jr      ra                          // return
+        nop
+    }
+
+    // @ Description
+    // Main function for DSPGroundWallPull and DSPAirWallPull
+    scope wall_pull_main_: {
+        addiu   sp, sp,-0x0028              // allocate stack space
+        sw      ra, 0x0014(sp)              // store ra
+
+        lw      v0, 0x0084(a0)              // v0 = player struct
+        sw      v0, 0x0018(sp)              // 0x0018(sp) = player struct
+
+        _check_idle:
+        // checks the current animation frame to see if we've reached end of the animation
+        mtc1    r0, f6                      // ~
+        lwc1    f8, 0x0078(a0)              // ~
+        c.le.s  f8, f6                      // ~
+        nop
+        bc1fl   _end                        // skip if animation end has not been reached
+        nop
+        jal     end_initial_                // transition to DSPEnd
+        nop
+
+        _end:
+        lw      ra, 0x0014(sp)              // load ra
+        addiu   sp, sp, 0x0028              // deallocate stack space
+        jr      ra                          // return
+        nop
+    }
+
+    // @ Description
+    // Collision subroutine for DSPGround.
+    scope ground_collision_: {
+        addiu   sp, sp,-0x0020              // allocate stack space
+        sw      ra, 0x0014(sp)              // store ra
+        lw      v0, 0x0084(a0)              // v0 = player struct
+        lw      at, 0x0184(v0)              // at = temp variable 3
+        beqz    at, _check_collision        // branch if temp variable 3 is not set
+        sw      a0, 0x0018(sp)              // 0x0018(sp) = player object
+
+        // if temp variable 3 is set, check for chain collisions
+        jal     chain_collision_            // run collision for chain
+        nop
+
+        beqz    v0, _check_collision        // branch if no collision detected
+        lw      a0, 0x0018(sp)              // a0 = player object
+
+        lw      v1, 0x0084(a0)              // v1 = player struct
+        lw      at, 0x0044(v1)              // at = DIRECTION
+        bgezl   at, _wall_chain_collision   // branch if direction = right
+        andi    v0, v0, 0x0001              // a1 = collision result & left wall mask
+        andi    v0, v0, 0x0002              // a1 = collision result & right wall mask
+
+        _wall_chain_collision:
+        beqz    v0, _check_collision        // branch if collision result is not valid for direction
+        nop
+
+        // if we're here, then the chain is colliding with a wall in front of Goemon, so transition to DSPGroundWallPull
+        jal     ground_wall_pull_initial_   // transition to DSPGroundWallPull
+        lw      a0, 0x0018(sp)              // a0 = player object
+        b       _end                        // branch to end
+        nop
+
+        _check_collision:
+        li      a1, ground_to_air_          // a1(transition subroutine) = ground_to_air_
+        jal     0x800DDDDC                  // common ground collision subroutine (transition on no floor, slide-off)
+        lw      a0, 0x0018(sp)              // a0 = player object
+
+        _end:
+        lw      ra, 0x0014(sp)              // load ra
+        addiu   sp, sp, 0x0020              // deallocate stack space
+        jr      ra                          // return
+        nop
+    }
+
+    // @ Description
+    // Collision subroutine for DSPAir.
+    scope air_collision_: {
+       addiu   sp, sp,-0x0020              // allocate stack space
+        sw      ra, 0x0014(sp)              // store ra
+        lw      v0, 0x0084(a0)              // v0 = player struct
+        lw      at, 0x0184(v0)              // at = temp variable 3
+        beqz    at, _check_collision        // branch if temp variable 3 is not set
+        sw      a0, 0x0018(sp)              // 0x0018(sp) = player object
+
+        // if temp variable 3 is set, check for chain collisions
+        jal     chain_collision_            // run collision for chain
+        nop
+
+        beqz    v0, _check_collision        // branch if no collision detected
+        lw      a0, 0x0018(sp)              // a0 = player object
+
+        lw      v1, 0x0084(a0)              // v1 = player struct
+        lw      at, 0x0044(v1)              // at = DIRECTION
+        bgezl   at, _wall_chain_collision   // branch if direction = right
+        andi    v0, v0, 0x0001              // a1 = collision result & left wall mask
+        andi    v0, v0, 0x0002              // a1 = collision result & right wall mask
+
+        _wall_chain_collision:
+        beqz    v0, _check_collision        // branch if collision result is not valid for direction
+        nop
+
+        // if we're here, then the chain is colliding with a wall in front of Goemon, so transition to DSPAirWallPull
+        jal     air_wall_pull_initial_      // transition to DSPAirWallPull
+        lw      a0, 0x0018(sp)              // a0 = player object
+        b       _end                        // branch to end
+        nop
+
+        _check_collision:
+        li      a1, air_to_ground_          // a1(transition subroutine) = air_to_ground_
+        jal     0x800DE6E4                  // common air collision subroutine (transition on landing, no ledge grab)
+        lw      a0, 0x0018(sp)              // a0 = player object
+
+        _end:
+        lw      ra, 0x0014(sp)              // load ra
+        addiu   sp, sp, 0x0020              // deallocate stack space
+        jr      ra                          // return
+        nop
+    }
+
+    // @ Description
+    // Subroutine which handles the transition from DSPGround to DSPAir.
+    scope ground_to_air_: {
+        addiu   sp, sp,-0x0020              // allocate stack space
+        sw      ra, 0x001C(sp)              // ~
+        sw      a0, 0x0020(sp)              // store a0, ra
+        jal     0x800DEEC8                  // set aerial state
+        lw      a0, 0x0084(a0)              // a0 = player struct
+        lw      a0, 0x0020(sp)              // a0 = player object
+        lw      a1, 0x0084(a0)              // ~
+        lw      a1, 0x0024(a1)              // ~
+        addiu   a1, a1, 0x0004              // a1 = equivalent air action for current ground action (id + 4)
+        lw      a2, 0x0078(a0)              // a2(starting frame) = current animation frame
+        lli     t6, 0x0003                  // ~
+        sw      t6, 0x0010(sp)              // argument 4 = 0x0003
+        jal     0x800E6F24                  // change action
+        lui     a3, 0x3F80                  // a3(frame speed multiplier) = 1.0
+        lw      a0, 0x0020(sp)              // a0 = player object
+        li      a1, air_pull_initial_       // a1 = air_pull_initial_
+        jal     0x8015E310                  // command grab setup (yoshi)
+        lw      a0, 0x0084(a0)              // a0 = player struct
+        lw      ra, 0x001C(sp)              // load ra
+        addiu   sp, sp, 0x0020              // deallocate stack space
+        jr      ra                          // return
+        nop
+    }
+
+    // @ Description
+    // Subroutine which handles the transition from DSPAir to DSPGround.
+    scope air_to_ground_: {
+        addiu   sp, sp,-0x0020              // allocate stack space
+        sw      ra, 0x001C(sp)              // ~
+        sw      a0, 0x0020(sp)              // store a0, ra
+        jal     0x800DEE98                  // set grounded state
+        lw      a0, 0x0084(a0)              // a0 = player struct
+        lw      a0, 0x0020(sp)              // a0 = player object
+        lw      a1, 0x0084(a0)              // ~
+        lw      a1, 0x0024(a1)              // ~
+        addiu   a1, a1,-0x0004              // a1 = equivalent air action for current ground action (id - 4)
+        lw      a2, 0x0078(a0)              // a2(starting frame) = current animation frame
+        lli     t6, 0x0003                  // ~
+        sw      t6, 0x0010(sp)              // argument 4 = 0x0003
+        jal     0x800E6F24                  // change action
+        lui     a3, 0x3F80                  // a3(frame speed multiplier) = 1.0
+        lw      a0, 0x0020(sp)              // a0 = player object
+        li      a1, ground_pull_initial_    // a1 = air_pull_initial_
+        jal     0x8015E310                  // command grab setup (yoshi)
+        lw      a0, 0x0084(a0)              // a0 = player struct
+        lw      ra, 0x001C(sp)              // load ra
+        addiu   sp, sp, 0x0020              // deallocate stack space
+        jr      ra                          // return
+        nop
+    }
+
+    // @ Description
+    // Collision subroutine for DSPGround actions.
+    scope shared_ground_collision_: {
+        addiu   sp, sp,-0x0018              // allocate stack space
+        sw      ra, 0x0014(sp)              // store ra
+        li      a1, shared_ground_to_air_    // a1(transition subroutine) = shared_ground_to_air_
+        jal     0x800DDDDC                  // common ground collision subroutine (transition on no floor, slide-off)
+        nop
+        lw      ra, 0x0014(sp)              // load ra
+        addiu   sp, sp, 0x0018              // deallocate stack space
+        jr      ra                          // return
+        nop
+    }
+
+    // @ Description
+    // Collision subroutine for DSPAir actions.
+    scope shared_air_collision_: {
+        addiu   sp, sp,-0x0018              // allocate stack space
+        sw      ra, 0x0014(sp)              // store ra
+        li      a1, shared_air_to_ground_   // a1(transition subroutine) = shared_air_to_ground_
+        jal     0x800DE6E4                  // common air collision subroutine (transition on landing, no ledge grab)
+        nop
+        lw      ra, 0x0014(sp)              // load ra
+        addiu   sp, sp, 0x0018              // deallocate stack space
+        jr      ra                          // return
+        nop
+    }
+
+    // @ Description
+    // Subroutine which handles ground to air transitions for DSPGround actions.
+    scope shared_ground_to_air_: {
+        addiu   sp, sp,-0x0020              // allocate stack space
+        sw      ra, 0x001C(sp)              // ~
+        sw      a0, 0x0020(sp)              // store a0, ra
+        jal     0x800DEEC8                  // set aerial state
+        lw      a0, 0x0084(a0)              // a0 = player struct
+        lw      a0, 0x0020(sp)              // a0 = player object
+        lw      a1, 0x0084(a0)              // ~
+        lw      a1, 0x0024(a1)              // ~
+        addiu   a1, a1, 0x0004              // a1 = equivalent air action for current ground action (id + 4)
+        lw      a2, 0x0078(a0)              // a2(starting frame) = current animation frame
+        lli     t6, 0x0003                  // ~
+        sw      t6, 0x0010(sp)              // argument 4 = 0x0003
+        jal     0x800E6F24                  // change action
+        lui     a3, 0x3F80                  // a3(frame speed multiplier) = 1.0
+        lw      ra, 0x001C(sp)              // load ra
+        addiu   sp, sp, 0x0020              // deallocate stack space
+        jr      ra                          // return
+        nop
+    }
+
+    // @ Description
+    // Subroutine which handles air to ground transitions for DSPAir actions.
+    scope shared_air_to_ground_: {
+        addiu   sp, sp,-0x0020              // allocate stack space
+        sw      ra, 0x001C(sp)              // ~
+        sw      a0, 0x0020(sp)              // store a0, ra
+        jal     0x800DEE98                  // set grounded state
+        lw      a0, 0x0084(a0)              // a0 = player struct
+        lw      a0, 0x0020(sp)              // a0 = player object
+        lw      a1, 0x0084(a0)              // ~
+        lw      a1, 0x0024(a1)              // ~
+        addiu   a1, a1,-0x0004              // a1 = equivalent air action for current ground action (id - 4)
+        lw      a2, 0x0078(a0)              // a2(starting frame) = current animation frame
+        lli     t6, 0x0003                  // ~
+        sw      t6, 0x0010(sp)              // argument 4 = 0x0003
+        jal     0x800E6F24                  // change action
+        lui     a3, 0x3F80                  // a3(frame speed multiplier) = 1.0
+        lw      ra, 0x001C(sp)              // load ra
+        addiu   sp, sp, 0x0020              // deallocate stack space
+        jr      ra                          // return
+        nop
+    }
+
+    // @ Description
+    // Sets up an ECB for the chain pipe and detects collisions.
+    // @ Arguments
+    // a0 - player object
+    // @ Returns
+    // v0 - 0 for no collision, 1 for left wall collision, 2 for right wall collision
+    scope chain_collision_: {
+        addiu   sp, sp,-0x0110              // allocate stack space
+        sw      ra, 0x0014(sp)              // store ra
+        sw      a0, 0x0018(sp)              // 0x0018(sp) = player object
+
+        addiu   a1, sp, 0x0020              // a1 = address to return x/y/z coordinates to
+        sw      r0, 0x0000(a1)              // ~
+        sw      r0, 0x0004(a1)              // ~
+        sw      r0, 0x0008(a1)              // clear space for x/y/z coordinates
+        jal     0x800EDF24                  // returns x/y/z coordinates of the part in a0 to a1
+        lw      a0, 0x094C(v0)              // a0 = chain end joint
+
+        lw      a0, 0x0018(sp)              // a0 = player object
+        lw      v0, 0x0084(a0)              // v0 = player struct
+        addiu   t0, v0, 0x0078              // t0 = ecb info
+        addiu   t1, sp, 0x0030              // t1 = chain ecb info
+        addiu   at, sp, 0x0020              // ~
+        sw      at, 0x0000(t1)              // store chain end x/y/z pointer
+        or      t2, t0, r0                  // ~
+        or      t3, t1, r0                  // loop setup
+        addiu   t4, t1, 0x00D0              // loop end address
+
+        _loop:
+        addiu   t2, t2, 0x0004              // ~
+        addiu   t3, t3, 0x0004              // increment copy address
+        lw      at, 0x0000(t2)              // ~
+        bne     t3, t4, _loop               // loop if end not reached
+        sw      at, 0x0000(t3)              // copy data from player ecb to chain ecb
+
+        lui     at, 0x4120                  // ~
+        sw      at, 0x0038(t1)              // chain ecb upper y = 10
+        lui     at, 0x40A0                  // ~
+        sw      at, 0x003C(t1)              // chain ecb middle y = 5
+        sw      r0, 0x0040(t1)              // chain ecb lower y = 0
+        lui     at, 0x4320                  // ~
+        sw      at, 0x0044(t1)              // chain ecb width = 160
+        addiu   at, t1, 0x0038              // ~
+        sw      at, 0x0048(t1)              // store ecb pointer
+
+        or      a0, t1, r0                  // a0 = chain ecb info
+        lw      a1, 0x0018(sp)              // a1 = player object
+        jal     chain_detect_collision_     // detect collision for chain
+        or      a2, r0, r0                  // a2 = 0
+
+        lw      ra, 0x0014(sp)              // load ra
+        jr      ra                          // return
+        addiu   sp, sp, 0x0110              // allocate stack space
+    }
+
+    // @ Description
+    // Collision detection function for DSP.
+    // Based on function 0x800DE45C
+    // @ Arguments
+    // a0 - ECB info
+    // a1 - player object
+    // a2 - unknown(0)
+    // @ Returns
+    // v0 - 0 for no collision, 1 for left wall collision, 2 for right wall collision, 3 for floor collision, 4 for ceiling
+    scope chain_detect_collision_: {
+        addiu   sp, sp,-0x0058              // allocate stack space
+        sw      ra, 0x001C(sp)              // ~
+        sw      s1, 0x0018(sp)              // ~
+        sw      s0, 0x0014(sp)              // store ra, s0, s1
+        sw      a1, 0x003C(sp)              // 0x003C(sp) = player object
+        sw      a2, 0x0040(sp)              // 0x0040(sp) = unknown
+        lw      s0, 0x0084(a1)              // s0 = player struct
+        or      s1, a0, r0                  // s1 = ecb info
+        lw      t0, 0x0044(s0)              // t0 = player direction
+        addiu   at, r0, 1                   // at = 1
+        bne     at, t0, _check_right_wall   // check right wall collision if facing left
+        nop
+
+        _check_left_wall:
+        jal     0x800DB838                  // detect left wall collision
+        sw      r0, 0x0024(sp)              // 0x0024(sp) = 0
+        bnez    v0, _end                    // branch if left collision = true
+        lli     v0, 0x0001                  // v0 = 0x1 (left collision)
+        b       _check_floor
+        nop
+
+        _check_right_wall:
+        jal     0x800DC3C8                  // detect right wall collision
+        or      a0, s1, r0                  // a0 = ecb info
+        bnez    v0, _end                    // branch if right wall collision = true
+        lli     v0, 0x0002                  // v0 = 0x2 (right collision)
+
+        _check_floor:
+        //jal     0x800DD578                  // detect floor collision
+        //or      a0, s1, r0                  // a0 = ecb info
+
+        //bnez    v0, _end                    // branch if floor collision = true
+        //lli     v0, 0x0003                  // v0 = 0x3 (floor collision)
+
+        jal     0x800DCF58
+        or      a0, s1, r0                  // a0 = ecb info
+
+        bnez    v0, _end                    // branch if ceiling collision = true
+        lli     v0, 0x0004                  // v0 = 0x4 (ceiling collision)
+
+        or      v0, r0, r0                  // if no wall collision detected, v0 = 0 (no collision)
+
+        _end:
+        lw      ra, 0x001C(sp)              // ~
+        lw      s1, 0x0018(sp)              // ~
+        lw      s0, 0x0014(sp)              // load ra, s0, s1
+
+        jr      ra                          // return
+        addiu   sp, sp, 0x0058              // deallocate stack space
+    }
+
+    // @ Description
+    // Patch which allows Goemon's down b to collide with item hurtboxes.
+    scope item_hurtbox_patch_: {
+        OS.patch_start(0xEB0D8, 0x80170698)
+        j       item_hurtbox_patch_
+        nop
+        nop
+        _return:
+        OS.patch_end()
+
+        lw      t0, 0x0008(s7)              // t0 = character id
+        lli     at, Character.id.GOEMON     // at = id.GOEMON
+
+        bne     at, t0, _check_grab         // skip if character != GOEMON
+        nop
+
+        // if we're here the character is Goemon
+        lw      t0, 0x0024(s7)              // t0 = current action id
+        lli     at, Goemon.Action.DSPGround // at = DSPGround
+        beq     t0, at, _end                // skip grab check for Goemon DSPGround
+        lli     at, Goemon.Action.DSPAir    // at = DSPAir
+        beq     t0, at, _end                // skip grab check for Goemon DSPAir
+        nop
+
+        _check_grab:
+        sll     t0, t8, 18                  // original line 1
+        bltzl   t0, _j_0x80170850           // original line 2, modified
+        lw      t6, 0x0094(sp)              // original line 3
+
+        _end:
+        j       _return                     // return
+        nop
+
+        _j_0x80170850:
+        j       0x80170850                  // original branch location
         nop
     }
 }

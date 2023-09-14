@@ -38,6 +38,42 @@ scope Spiderman {
     insert NSP_AIR,"moveset/NSP_AIR.bin"
     insert JUMP2, "moveset/JUMP2.bin"
     insert DSP, "moveset/DSP.bin"
+    insert THROW_USP_DATA,"moveset/THROW_USP_DATA.bin"
+    USP:; Moveset.THROW_DATA(THROW_USP_DATA); insert "moveset/USP.bin"
+    USP_AIR:; Moveset.THROW_DATA(THROW_USP_DATA); insert "moveset/USP.bin"
+
+        // @ Description
+    // Spider-Man's extra actions
+    scope Action {
+        constant Jab3(0x0DC)
+        constant JabLoop(0x0DD)
+        constant JabLoopEnd(0x0DE)
+        constant WebBall(0x0E4)
+        constant WebBallAir(0x0E5)
+        constant WebSwing(0x0E6)
+        constant WebSwingCollide(0x0E7)
+        constant WebSwingAir(0x0E9)
+
+        // strings!
+        string_0x0DC:; String.insert("Jab3")
+        string_0x0DD:; String.insert("JabLoopStart")
+        string_0x0DE:; String.insert("JabLoop")
+        string_0x0E4:; String.insert("WebBall")
+        string_0x0E5:; String.insert("WebBallAir")
+        string_0x0E6:; String.insert("WebSwing")
+        string_0x0E7:; String.insert("WebSwingCollide")
+        string_0x0E9:; String.insert("WebSwingAir")
+
+        action_string_table:
+        dw Action.COMMON.string_jab3
+        dw 0 //Action.COMMON.string_jabloop
+        dw 0 //dw Action.COMMON.string_jabloopend
+        dw string_0x0E4
+        dw string_0x0E5
+        dw string_0x0E6
+        dw string_0x0E7
+        dw string_0x0E9
+    }
     
     // Modify Action Parameters           // Action                      // Animation                    // Moveset Data           // Flags
     Character.edit_action_parameters(SPM, Action.Entry,                  File.SPM_IDLE,                  -1,                       -1)
@@ -140,12 +176,12 @@ scope Spiderman {
     Character.edit_action_parameters(SPM, Action.RayGunShootAir,         File.SPM_ITEMSHOOTAIR,          -1,                       -1)
     Character.edit_action_parameters(SPM, Action.FireFlowerShoot,        File.SPM_ITEMSHOOT,             -1,                       -1)
     Character.edit_action_parameters(SPM, Action.FireFlowerShootAir,     File.SPM_ITEMSHOOTAIR,          -1,                       -1)
-    Character.edit_action_parameters(SPM, Action.HammerIdle,             File.SPM_HAMMERIDLE,            HAMMER,                   -1)
-    Character.edit_action_parameters(SPM, Action.HammerWalk,             File.SPM_HAMMERMOVE,            HAMMER,                   -1)
-    Character.edit_action_parameters(SPM, Action.HammerTurn,             File.SPM_HAMMERMOVE,            HAMMER,                   -1)
-    Character.edit_action_parameters(SPM, Action.HammerJumpSquat,        File.SPM_HAMMERMOVE,            HAMMER,                   -1)
-    Character.edit_action_parameters(SPM, Action.HammerAir,              File.SPM_HAMMERMOVE,            HAMMER,                   -1)
-    Character.edit_action_parameters(SPM, Action.HammerLanding,          File.SPM_HAMMERMOVE,            HAMMER,                   -1)
+    Character.edit_action_parameters(SPM, Action.HammerIdle,             File.SPM_HAMMERIDLE,            HAMMER,                   0x10000000)
+    Character.edit_action_parameters(SPM, Action.HammerWalk,             File.SPM_HAMMERMOVE,            HAMMER,                   0x10000000)
+    Character.edit_action_parameters(SPM, Action.HammerTurn,             File.SPM_HAMMERMOVE,            HAMMER,                   0x10000000)
+    Character.edit_action_parameters(SPM, Action.HammerJumpSquat,        File.SPM_HAMMERMOVE,            HAMMER,                   0x10000000)
+    Character.edit_action_parameters(SPM, Action.HammerAir,              File.SPM_HAMMERMOVE,            HAMMER,                   0x10000000)
+    Character.edit_action_parameters(SPM, Action.HammerLanding,          File.SPM_HAMMERMOVE,            HAMMER,                   0x10000000)
     Character.edit_action_parameters(SPM, Action.ShieldOn,               File.SPM_SHIELDON,              -1,                       -1)
     Character.edit_action_parameters(SPM, Action.ShieldOff,              File.SPM_SHIELDOFF,             -1,                       -1)
     Character.edit_action_parameters(SPM, Action.RollF,                  File.SPM_ROLLF,                 -1,                       -1)
@@ -164,7 +200,7 @@ scope Spiderman {
     Character.edit_action_parameters(SPM, Action.Taunt,                  File.SPM_TAUNT,                 TAUNT,                    -1)
     Character.edit_action_parameters(SPM, Action.Jab1,                   File.SPM_JAB1,                  JAB1,                     -1)
     Character.edit_action_parameters(SPM, Action.Jab2,                   File.SPM_JAB2,                  JAB2,                     -1)
-    Character.edit_action_parameters(SPM, 0xDC,                          File.SPM_ACTION_0DC,            JAB3,                      0x40000000)
+    Character.edit_action_parameters(SPM, Action.Jab3,                   File.SPM_JAB3,                  JAB3,                      0x40000000)
     Character.edit_action_parameters(SPM, 0xDD,                          File.SPM_JAB1,                  JAB1,                      0)
     Character.edit_action_parameters(SPM, 0xDE,                          File.SPM_JAB2,                  JAB2,                      0)
     Character.edit_action_parameters(SPM, Action.DashAttack,             File.SPM_DASHATTACK,            DASH_ATTACK,              -1)
@@ -190,22 +226,26 @@ scope Spiderman {
     Character.edit_action_parameters(SPM, Action.LandingAirF,            File.SPM_LANDINGAIRF,           -1,                       -1)
     Character.edit_action_parameters(SPM, Action.LandingAirB,            File.SPM_LANDINGAIRB,           -1,                       -1)
     Character.edit_action_parameters(SPM, Action.LandingAirX,            File.SPM_LANDING,               -1,                       -1)
-    Character.edit_action_parameters(SPM, 0xE0,                          File.SPM_ACTION_0E0,            ENTRY_1,                  0x40000008)  //ENTRY_1_LEFT
-	Character.edit_action_parameters(SPM, 0xE1,                          File.SPM_ACTION_0E1,            ENTRY_1,                  0x40000008)  //ENTRY_1_RIGHT
-	Character.edit_action_parameters(SPM, 0xE2,                          File.SPM_ACTION_0E2,            ENTRY_2,                  0x40000008)  //ENTRY_2_LEFT
-	Character.edit_action_parameters(SPM, 0xE3,                          File.SPM_ACTION_0E3,            ENTRY_2,                  0x40000008)  //ENTRY_2_RIGHT
-    Character.edit_action_parameters(SPM, 0xE4,                          File.SPM_ACTION_0E4,            NSP_GROUND,               -1)
-    Character.edit_action_parameters(SPM, 0xE5,                          File.SPM_ACTION_0E5,            NSP_AIR,                  -1)
-    Character.edit_action_parameters(SPM, 0xE6,                          File.SPM_ACTION_0E9,            DSP,                      -1)          //DSP_Ground
+    Character.edit_action_parameters(SPM, 0xE0,                          File.SPM_ENTRY_1_LEFT,          ENTRY_1,                  0x40000008)
+	Character.edit_action_parameters(SPM, 0xE1,                          File.SPM_ENTRY_1_RIGHT,         ENTRY_1,                  0x40000008)
+	Character.edit_action_parameters(SPM, 0xE2,                          File.SPM_ENTRY_2_LEFT,          ENTRY_2,                  0x40000008)
+	Character.edit_action_parameters(SPM, 0xE3,                          File.SPM_ENTRY_2_RIGHT,         ENTRY_2,                  0x40000008)
+    Character.edit_action_parameters(SPM, Action.WebBall,                File.SPM_NSP_GROUND,            NSP_GROUND,               -1)
+    Character.edit_action_parameters(SPM, Action.WebBallAir,             File.SPM_NSP_AIR,               NSP_AIR,                  -1)
+    Character.edit_action_parameters(SPM, Action.WebSwing,               File.SPM_DSP_AIR,               DSP,                      -1)          //DSP_Ground
     Character.edit_action_parameters(SPM, 0xE7,                          0,                              0x80000000,                0)          //DSP_Collide
     Character.edit_action_parameters(SPM, 0xE8,                          0,                              0x80000000,                0)          //DSP_Land
-    Character.edit_action_parameters(SPM, 0xE9,                          File.SPM_ACTION_0E9,            DSP,                      -1)          //DSP_Air
+    Character.edit_action_parameters(SPM, Action.WebSwingAir,            File.SPM_DSP_AIR,               DSP,                      -1)          //DSP_Air
+    //Character.edit_action_parameters(SPM, 0xEB,                          File.SPM_USP_GROUND,            USP,                      -1)          
+    //Character.edit_action_parameters(SPM, 0xEC,                          -1,                             USP_GRAB,                 -1)
+    //Character.edit_action_parameters(SPM, 0xED,                          -1,                             USP_RELEASE,              -1)
+    //Character.edit_action_parameters(SPM, 0xEE,                          File.SPM_USP_AIR,               USP,                      0x10000000)
 
-    // Modify Actions            // Action          // Staling ID   // Main ASM                 // Interrupt/Other ASM          // Movement/Physics ASM         // Collision ASM
-	Character.edit_action(SPM,   0xE4,              -1,             SpidermanNSP.main,  		-1,                             -1,                         -1)
-	Character.edit_action(SPM,   0xE5,              -1,             SpidermanNSP.main,  		-1,                             SpidermanNSP.physics_,      SpidermanNSP.air_collision_)
-    Character.edit_action(SPM,   0xE6,              -1,             -1,  		                -1,                             -1,                         SpidermanDSP.air_collision_)
-    Character.edit_action(SPM,   0xE9,              -1,             -1,                         -1,                             -1,                         SpidermanDSP.air_collision_)
+    // Modify Actions            // Action           // Staling ID   // Main ASM                 // Interrupt/Other ASM          // Movement/Physics ASM         // Collision ASM
+	Character.edit_action(SPM,   Action.WebBall,     -1,             SpidermanNSP.main,  		-1,                             -1,                         -1)
+	Character.edit_action(SPM,   Action.WebBallAir,  -1,             SpidermanNSP.main,  		-1,                             SpidermanNSP.physics_,      SpidermanNSP.air_collision_)
+    Character.edit_action(SPM,   Action.WebSwing,    -1,             -1,  		                SpidermanDSP.change_direction_, -1,                         SpidermanDSP.air_collision_)
+    Character.edit_action(SPM,   Action.WebSwingAir, -1,             -1,                        SpidermanDSP.change_direction_, -1,                         SpidermanDSP.air_collision_)
 
     // Modify Menu Action Parameters             // Action          // Animation                // Moveset Data             // Flags
     Character.edit_menu_action_parameters(SPM,   0x0,               File.SPM_IDLE,              -1,                         -1)          // CSS Idle
@@ -221,17 +261,19 @@ scope Spiderman {
 
     // Set action strings
     Character.table_patch_start(action_string, Character.id.SPM, 0x4)
-    dw  Action.CAPTAIN.action_string_table
+    dw  Action.action_string_table
     OS.patch_end()
 
     //Character.table_patch_start(ground_nsp, Character.id.SPM, 0x4)
     //dw      SpidermanNSP.ground_begin_initial_
     //OS.patch_end()
-    //Character.table_patch_start(air_dsp, Character.id.SPM, 0x4)
-    //dw      SpidermanDSP.air_initial_
-    //OS.patch_end()
+
     Character.table_patch_start(ground_dsp, Character.id.SPM, 0x4)
     dw      SpidermanDSP.ground_initial_
+    OS.patch_end()
+
+    Character.table_patch_start(air_dsp, Character.id.SPM, 0x4)
+    dw      SpidermanDSP.air_initial_
     OS.patch_end()
 
     Character.table_patch_start(rapid_jab, Character.id.SPM, 0x4)
@@ -243,7 +285,13 @@ scope Spiderman {
     //dh  0x031E
     //OS.patch_end()
 
-
+    // Use Mario's initial/grounded script.
+    Character.table_patch_start(initial_script, Character.id.SPM, 0x4)
+    dw 0x800D7DCC
+    OS.patch_end()
+    Character.table_patch_start(grounded_script, Character.id.SPM, 0x4)
+    dw 0x800DE428
+    OS.patch_end()
 
     // Remove entry script (no Blue Falcon).
     Character.table_patch_start(entry_script, Character.id.SPM, 0x4)
@@ -255,37 +303,4 @@ scope Spiderman {
 
     // Shield colors for costume matching
     Character.set_costume_shield_colors(SPM, BLUE, RED, GREEN, BLACK, BLUE, BLUE, YELLOW, WHITE)
-
-    // @ Description
-    // Spider-Man's extra actions
-    scope Action {
-        constant Jab3(0x0DC)
-        constant JabLoop(0x0DD)
-        constant JabLoopEnd(0x0DE)
-        constant WebBall(0x0E4)
-        constant WebBallAir(0x0E5)
-        constant WebSwing(0x0E6)
-        constant WebSwingCollide(0x0E7)
-        constant WebSwingAir(0x0E9)
-
-        // strings!
-        string_0x0DC:; String.insert("Jab3")
-        //string_0x0DD:; String.insert("JabLoopStart")
-        //string_0x0DE:; String.insert("JabLoop")
-        string_0x0E4:; String.insert("WebBall")
-        string_0x0E5:; String.insert("WebBallAir")
-        string_0x0E6:; String.insert("WebSwing")
-        string_0x0E7:; String.insert("WebSwingCollide")
-        string_0x0E9:; String.insert("WebSwingAir")
-
-        action_string_table:
-        dw Action.COMMON.string_jab3
-        dw 0 //Action.COMMON.string_jabloop
-        dw 0 //dw Action.COMMON.string_jabloopend
-        dw string_0x0E4
-        dw string_0x0E5
-        dw string_0x0E6
-        dw string_0x0E7
-        dw string_0x0E9
-    }
 }

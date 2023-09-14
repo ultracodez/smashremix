@@ -2506,24 +2506,24 @@
 120B Spiderman AttackAirD
 120C Spiderman LandingAirF
 120D Spiderman LandingAirB
-120E Spiderman Action_0DC
+120E Spiderman Jab3
 120F Spiderman Action_0DD
 1210 Spiderman Action_0DE
 1211 Spiderman Action_0DF
-1212 Spiderman Action_0E0
-1213 Spiderman Action_0E1
-1214 Spiderman Action_0E2
-1215 Spiderman Action_0E3
-1216 Spiderman Action_0E4
-1217 Spiderman Action_0E5
-1218 Spiderman Action_0E6
+1212 Spiderman Entry_1_Left
+1213 Spiderman Entry_1_Right
+1214 Spiderman Entry_2_Left
+1215 Spiderman Entry_2_Right
+1216 Spiderman NSP_Ground
+1217 Spiderman NSP_Air
+1218 Spiderman DSP_Ground
 1219 Spiderman Action_0E7
 121A Spiderman Action_0E8
-121B Spiderman Action_0E9
-121C Spiderman Action_0EAED
-121D Spiderman Action_0EB
-121E Spiderman Action_0EC
-121F Spiderman Action_0EE
+121B Spiderman DSP_Air
+121C Spiderman USP_Ground
+121D Spiderman USP_GrabPull
+121E Spiderman USP_GrabThrow
+121F Spiderman USP_Air
 1220 Spiderman Victory 1
 1221 Spiderman Victory 2
 1222 Spiderman Victory 3
