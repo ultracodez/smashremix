@@ -2384,4 +2384,9 @@ scope File {
     constant RYU_JUMPB(0x1199)
     constant RYU_THROWF(0x119A)
     constant RYU_THROWB(0x119B)
+    constant RYU_AIRF(0x119C)
+    constant RYU_AIRB(0x119D)
+    constant RYU_AIRU(0x119E)
+    constant RYU_AIRD(0x119F)
+    constant RYU_FSMASH(0x11A0)
 }
