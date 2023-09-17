@@ -8,6 +8,7 @@
 # Dev Info
 *.log
 *.sym
+*.lnk
 
 # Build
 build/original/*.bin

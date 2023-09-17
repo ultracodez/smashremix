@@ -2528,4 +2528,5 @@ scope File {
     constant SPM_PROJECTILE_HITBOX(0x1229)
     constant SPM_PROJECTILE_GRAPHIC(0x122A)
     constant SPM_CPU_POSE(0x122B)
+    constant SPM_USP_PULL(0x122C)
 }

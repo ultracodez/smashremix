@@ -502,159 +502,6 @@ scope SpidermanNSP {
     }	
 }
 
-scope SpidermanDSP {
-
-    // @ Description
-    // Subroutine which runs when Spider-Man initiates a grounded down special.
-    // Puts him in an aerial state and that's about it 00E6
-    scope ground_initial_: {
-        addiu   sp, sp, 0xFFE0              // ~
-        sw      ra, 0x001C(sp)              // ~
-        sw      a0, 0x0020(sp)              // original lines 1-3
-        lw      a0, 0x0084(a0)              // a0 = player struct
-        lw      t7, 0x014C(a0)              // t7 = kinetic state
-        bnez    t7, _change_action          // skip if kinetic state !grounded
-        nop
-        jal     0x800DEEC8                  // set aerial state
-        nop
-        _change_action:
-        lw      a0, 0x0020(sp)              // a0 = player object
-        sw      r0, 0x0010(sp)              // store r0 (some kind of parameter for change action)
-        ori     a1, r0, Spiderman.Action.WebSwingAir              // a1 = 0xE9 (DSP Air)
-        or      a2, r0, r0                  // a2 = float: 0.0
-        jal     0x800E6F24                  // change action
-        lui     a3, 0x3F80                  // a3 = float: 1.0
-        lw      a0, 0x0020(sp)              // ~
-        lw      a0, 0x0084(a0)              // a0 = player struct
-        sw      r0, 0x017C(a0)              // temp variable 1 = 0
-        sw      r0, 0x0180(a0)              // temp variable 2 = 0
-        ori     v1, r0, 0x0001              // ~
-        sw      v1, 0x0184(a0)              // temp variable 3 = 0x1(BEGIN)
-        // reset fall speed
-        lbu     v1, 0x018D(a0)              // v1 = fast fall flag
-        ori     t6, r0, 0x0007              // t6 = bitmask (01111111)
-        and     v1, v1, t6                  // ~
-        sb      v1, 0x018D(a0)              // disable fast fall flag
-        // freeze y position
-        lw      v1, 0x09C8(a0)              // v1 = attribute pointer
-        lw      v1, 0x0058(v1)              // v1 = gravity
-        sw      v1, 0x004C(a0)              // y velocity = gravity
-        lw      ra, 0x001C(sp)              // ~
-        addiu   sp, sp, 0x0020              // ~
-        jr      ra                          // original return logic
-        nop
-    }
-
-    // @ Description
-    // Subroutine which runs when Marth initiates aerial neutral special actions.
-    // Changes action, and sets up initial variable values.
-    // a0 - player object
-    // a1 - action id
-    scope air_initial_: {
-        addiu   sp, sp,-0x0030             // allocate stack space
-        sw      ra, 0x001C(sp)              // ~
-        sw      a0, 0x0020(sp)              // store ra, a0
-        sw      r0, 0x0010(sp)              // argument 4 = 0
-        
-        lw      a1, 0x0084(a0)              // a1 = player struct
-        lw      at, 0x0ADC(a1)              // at = down b flag
-        bnez    at, _end                    // skip if down b flag != 0
-        lli     at, OS.TRUE                 // ~
-        sw      at, 0x0ADC(a1)              // down b flag = TRUE
-        
-        lli     a1, Spiderman.Action.WebSwingAir    // a1(action id) = DSPAir
-        or      a2, r0, r0                  // a2 = float: 0.0
-        jal     0x800E6F24                  // change action
-        lui     a3, 0x3F80                  // a3 = float: 1.0
-        jal     0x800E0830                  // unknown common subroutine
-        lw      a0, 0x0020(sp)              // a0 = player object
-        lw      a0, 0x0020(sp)              // ~
-        lw      a0, 0x0084(a0)              // a0 = player struct
-        sw      r0, 0x017C(a0)              // temp variable 1 = 0
-        sw      r0, 0x0180(a0)              // temp variable 2 = 0
-        ori     v1, r0, 0x0001              // ~
-        sw      v1, 0x0184(a0)              // temp variable 3 = 0x1(BEGIN)
-        // reset fall speed
-        lbu     v1, 0x018D(a0)              // v1 = fast fall flag
-        ori     t6, r0, 0x0007              // t6 = bitmask (01111111)
-        and     v1, v1, t6                  // ~
-        sb      v1, 0x018D(a0)              // disable fast fall flag
-        // freeze y position
-        lw      v1, 0x09C8(a0)              // v1 = attribute pointer
-        lw      v1, 0x0058(v1)              // v1 = gravity
-        sw      v1, 0x004C(a0)              // y velocity = gravity
-
-        _end:
-        lw      ra, 0x001C(sp)              // load ra
-        addiu   sp, sp, 0x0030              // deallocate stack space
-        jr      ra                          // return
-        nop
-    }
-    
-    // @ Description
-    // Subroutine which allows a direction change for Spiderman's down special.
-    // Uses the moveset data command 580000XX (orignally identified as "set flag" by toomai)
-    // This command's purpose appears to be setting a temporary variable in the player struct.
-    // Variable values used by this subroutine:
-    // 0x2 = change direction
-    scope change_direction_: {
-        // 0x180 in player struct = temp variable 2
-        lw      a1, 0x0084(a0)              // a1 = player struct
-        addiu   sp, sp,-0x0010              // allocate stack space
-        sw      t0, 0x0004(sp)              // ~
-        sw      t1, 0x0008(sp)              // ~
-        sw      ra, 0x000C(sp)              // store t0, t1, ra
-        lw      t0, 0x0180(a1)              // t0 = temp variable 2
-        ori     t1, r0, 0x0002              // t1 = 0x2
-        bne     t1, t0, _end                // skip if temp variable 2 != 2
-        nop
-        jal     0x80160370                  // turn subroutine (copied from captain falcon)
-        nop
-
-        _end:
-        lw      t0, 0x0004(sp)              // ~
-        lw      t1, 0x0008(sp)              // ~
-        lw      ra, 0x000C(sp)              // load t0, t1, ra
-        addiu   sp, sp, 0x0010              // deallocate stack space
-        jr      ra                          // return
-        nop
-    }
-
-    scope air_collision_: {
-        addiu   sp, sp,-0x0018              // allocate stack space
-        sw      ra, 0x0014(sp)              // store ra
-        li      a1, air_to_ground_          // a1(transition subroutine) = air_to_ground_
-        jal     0x800DE6E4                  // common air collision subroutine (transition on landing, no ledge grab)
-        nop
-        lw      ra, 0x0014(sp)              // load ra
-        addiu   sp, sp, 0x0018              // deallocate stack space
-        jr      ra                          // return
-        nop
-    }
-
-    scope air_to_ground_: {
-        addiu   sp, sp,-0x0038              // allocate stack space
-        sw      ra, 0x001C(sp)              // store ra
-        sw      a0, 0x0038(sp)              // 0x0038(sp) = player object
-        lw      a0, 0x0084(a0)              // a0 = player struct
-        jal     0x800DEEC8                  // set airborne state (grounded is 0x800DEE98)
-        sw      a0, 0x0034(sp)              // 0x0034(sp) = player struct
-        lw      v0, 0x0034(sp)              // v0 = player struct
-        lw      a0, 0x0038(sp)              // a0 = player object
-        
-        addiu   a1, r0, Spiderman.Action.WebSwingAir              // a1 = equivalent ground action for current air action
-        _change_action:
-        lw      a2, 0x0078(a0)              // a2(starting frame) = current animation frame
-        lui     a3, 0x3F80                  // a3(frame speed multiplier) = 1.0
-        lli     t6, 0x0001                  // ~
-        jal     0x800E6F24                  // change action
-        sw      t6, 0x0010(sp)              // argument 4 = 1 (continue hitbox)
-        lw      ra, 0x001C(sp)              // load ra
-        addiu   sp, sp, 0x0038              // deallocate stack space
-        jr      ra                          // return
-        nop
-    }
-}
 scope SpidermanUSP {
     constant ATTACK_X_SPEED(0x4280)         // float32 64
     constant END_X_SPEED(0x41C0)            // float32 24
@@ -667,7 +514,7 @@ scope SpidermanUSP {
         addiu   sp, sp,-0x0028              // allocate stack space
         sw      ra, 0x0014(sp)              // ~
         sw      a0, 0x0018(sp)              // store ra, a0
-        lli     a1, Goemon.Action.DSPGround // a1(action id) = DSPGround
+        lli     a1, Spiderman.Action.USPGround // a1(action id) = DSPGround
         or      a2, r0, r0                  // a2(starting frame) = 0
         lui     a3, 0x3F80                  // a3(frame speed multiplier) = 1.0
         jal     0x800E6F24                  // change action
@@ -695,7 +542,7 @@ scope SpidermanUSP {
         addiu   sp, sp,-0x0028              // allocate stack space
         sw      ra, 0x0014(sp)              // ~
         sw      a0, 0x0018(sp)              // store ra, a0
-        lli     a1, Goemon.Action.DSPAir    // a1(action id) = DSPAir
+        lli     a1, Spiderman.Action.USPAir    // a1(action id) = DSPAir
         or      a2, r0, r0                  // a2(starting frame) = 0
         lui     a3, 0x3F80                  // a3(frame speed multiplier) = 1.0
         jal     0x800E6F24                  // change action
@@ -727,7 +574,7 @@ scope SpidermanUSP {
         sw      ra, 0x001C(sp)              // ~
         sw      a0, 0x0020(sp)              // store a0, ra
         lw      v1, 0x0084(a0)              // v1 = player struct
-        lli     a1, Goemon.Action.DSPGroundPull // a1(action id) = DSPGroundPull
+        lli     a1, Spiderman.Action.USPGroundPull // a1(action id) = DSPGroundPull
         lwc1    f2, 0x0180(v1)              // ~
         cvt.s.w f2, f2                      // ~
         mfc1    a2, f2                      // a2(starting frame) = temp variable 2
@@ -758,7 +605,7 @@ scope SpidermanUSP {
         sw      ra, 0x001C(sp)              // ~
         sw      a0, 0x0020(sp)              // store a0, ra
         lw      v1, 0x0084(a0)              // v1 = player struct
-        lli     a1, Goemon.Action.DSPAirPull // a1(action id) = DSPAirPull
+        lli     a1, Spiderman.Action.USPAirPull // a1(action id) = DSPAirPull
         lwc1    f2, 0x0180(v1)              // ~
         cvt.s.w f2, f2                      // ~
         mfc1    a2, f2                      // a2(starting frame) = temp variable 2
@@ -792,7 +639,7 @@ scope SpidermanUSP {
         sw      ra, 0x001C(sp)              // ~
         sw      a0, 0x0020(sp)              // store a0, ra
         lw      v1, 0x0084(a0)              // v1 = player struct
-        lli     a1, Goemon.Action.DSPGroundWallPull // a1(action id) = DSPGroundWallPull
+        lli     a1, Spiderman.Action.USPGroundWallPull // a1(action id) = DSPGroundWallPull
         lwc1    f2, 0x0180(v1)              // ~
         cvt.s.w f2, f2                      // ~
         mfc1    a2, f2                      // a2(starting frame) = temp variable 2
@@ -821,7 +668,7 @@ scope SpidermanUSP {
         sw      ra, 0x001C(sp)              // ~
         sw      a0, 0x0020(sp)              // store a0, ra
         lw      v1, 0x0084(a0)              // v1 = player struct
-        lli     a1, Goemon.Action.DSPAirWallPull // a1(action id) = DSPAirWallPull
+        lli     a1, Spiderman.Action.USPAirWallPull // a1(action id) = DSPAirWallPull
         lwc1    f2, 0x0180(v1)              // ~
         cvt.s.w f2, f2                      // ~
         mfc1    a2, f2                      // a2(starting frame) = temp variable 2
@@ -864,7 +711,7 @@ scope SpidermanUSP {
         lbu     t6, 0x0148(v0)              // v0 = jumps used
         beqzl   t6, pc() + 8                // if jumps used = 0...
         sb      at, 0x0148(v0)              // ...jumps used = 1
-        lli     a1, Goemon.Action.DSPAAttack // a1(action id) = DSPAAttack
+        lli     a1, Spiderman.Action.USPAAttack // a1(action id) = DSPAAttack
         or      a2, r0, r0                  // a2(starting frame) = 0
         lui     a3, 0x3F80                  // a3(frame speed multiplier) = 1.0
         jal     0x800E6F24                  // change action
@@ -906,7 +753,7 @@ scope SpidermanUSP {
         lbu     t6, 0x0148(v0)              // v0 = jumps used
         beqzl   t6, pc() + 8                // if jumps used = 0...
         sb      at, 0x0148(v0)              // ...jumps used = 1
-        lli     a1, Goemon.Action.DSPEnd    // a1(action id) = DSPEnd
+        lli     a1, Spiderman.Action.USPEnd    // a1(action id) = DSPEnd
         or      a2, r0, r0                  // a2(starting frame) = 0
         lui     a3, 0x3F80                  // a3(frame speed multiplier) = 1.0
         jal     0x800E6F24                  // change action
@@ -929,7 +776,7 @@ scope SpidermanUSP {
     }
 
     // @ Description
-    // Subroutine which helps set up the command grab for Goemon.
+    // Subroutine which helps set up the command grab for Spiderman.
     scope grab_pull_setup_: {
         addiu   sp, sp,-0x0020              // allocate stack space
         sw      ra, 0x001C(sp)              // ~
@@ -1047,7 +894,7 @@ scope SpidermanUSP {
         beqz    v0, _check_collision        // branch if collision result is not valid for direction
         nop
 
-        // if we're here, then the chain is colliding with a wall in front of Goemon, so transition to DSPGroundWallPull
+        // if we're here, then the chain is colliding with a wall in front of Spiderman, so transition to DSPGroundWallPull
         jal     ground_wall_pull_initial_   // transition to DSPGroundWallPull
         lw      a0, 0x0018(sp)              // a0 = player object
         b       _end                        // branch to end
@@ -1092,7 +939,7 @@ scope SpidermanUSP {
         beqz    v0, _check_collision        // branch if collision result is not valid for direction
         nop
 
-        // if we're here, then the chain is colliding with a wall in front of Goemon, so transition to DSPAirWallPull
+        // if we're here, then the chain is colliding with a wall in front of Spiderman, so transition to DSPAirWallPull
         jal     air_wall_pull_initial_      // transition to DSPAirWallPull
         lw      a0, 0x0018(sp)              // a0 = player object
         b       _end                        // branch to end
@@ -1254,7 +1101,7 @@ scope SpidermanUSP {
         sw      r0, 0x0004(a1)              // ~
         sw      r0, 0x0008(a1)              // clear space for x/y/z coordinates
         jal     0x800EDF24                  // returns x/y/z coordinates of the part in a0 to a1
-        lw      a0, 0x094C(v0)              // a0 = chain end joint
+        lw      a0, 0x0958(v0)              // a0 = chain end joint
 
         lw      a0, 0x0018(sp)              // a0 = player object
         lw      v0, 0x0084(a0)              // v0 = player struct
@@ -1355,7 +1202,7 @@ scope SpidermanUSP {
     }
 
     // @ Description
-    // Patch which allows Goemon's down b to collide with item hurtboxes.
+    // Patch which allows Spiderman's down b to collide with item hurtboxes.
     scope item_hurtbox_patch_: {
         OS.patch_start(0xEB0D8, 0x80170698)
         j       item_hurtbox_patch_
@@ -1365,17 +1212,17 @@ scope SpidermanUSP {
         OS.patch_end()
 
         lw      t0, 0x0008(s7)              // t0 = character id
-        lli     at, Character.id.GOEMON     // at = id.GOEMON
+        lli     at, Character.id.SPM     // at = id.Spiderman
 
-        bne     at, t0, _check_grab         // skip if character != GOEMON
+        bne     at, t0, _check_grab         // skip if character != Spiderman
         nop
 
-        // if we're here the character is Goemon
+        // if we're here the character is Spiderman
         lw      t0, 0x0024(s7)              // t0 = current action id
-        lli     at, Goemon.Action.DSPGround // at = DSPGround
-        beq     t0, at, _end                // skip grab check for Goemon DSPGround
-        lli     at, Goemon.Action.DSPAir    // at = DSPAir
-        beq     t0, at, _end                // skip grab check for Goemon DSPAir
+        lli     at, Spiderman.Action.USPGround // at = DSPGround
+        beq     t0, at, _end                // skip grab check for Spiderman DSPGround
+        lli     at, Spiderman.Action.USPAir    // at = DSPAir
+        beq     t0, at, _end                // skip grab check for Spiderman DSPAir
         nop
 
         _check_grab:
@@ -1389,6 +1236,160 @@ scope SpidermanUSP {
 
         _j_0x80170850:
         j       0x80170850                  // original branch location
+        nop
+    }
+}
+
+scope SpidermanDSP {
+
+    // @ Description
+    // Subroutine which runs when Spider-Man initiates a grounded down special.
+    // Puts him in an aerial state and that's about it 00E6
+    scope ground_initial_: {
+        addiu   sp, sp, 0xFFE0              // ~
+        sw      ra, 0x001C(sp)              // ~
+        sw      a0, 0x0020(sp)              // original lines 1-3
+        lw      a0, 0x0084(a0)              // a0 = player struct
+        lw      t7, 0x014C(a0)              // t7 = kinetic state
+        bnez    t7, _change_action          // skip if kinetic state !grounded
+        nop
+        jal     0x800DEEC8                  // set aerial state
+        nop
+        _change_action:
+        lw      a0, 0x0020(sp)              // a0 = player object
+        sw      r0, 0x0010(sp)              // store r0 (some kind of parameter for change action)
+        ori     a1, r0, Spiderman.Action.WebSwingAir              // a1 = 0xE9 (DSP Air)
+        or      a2, r0, r0                  // a2 = float: 0.0
+        jal     0x800E6F24                  // change action
+        lui     a3, 0x3F80                  // a3 = float: 1.0
+        lw      a0, 0x0020(sp)              // ~
+        lw      a0, 0x0084(a0)              // a0 = player struct
+        sw      r0, 0x017C(a0)              // temp variable 1 = 0
+        sw      r0, 0x0180(a0)              // temp variable 2 = 0
+        ori     v1, r0, 0x0001              // ~
+        sw      v1, 0x0184(a0)              // temp variable 3 = 0x1(BEGIN)
+        // reset fall speed
+        lbu     v1, 0x018D(a0)              // v1 = fast fall flag
+        ori     t6, r0, 0x0007              // t6 = bitmask (01111111)
+        and     v1, v1, t6                  // ~
+        sb      v1, 0x018D(a0)              // disable fast fall flag
+        // freeze y position
+        lw      v1, 0x09C8(a0)              // v1 = attribute pointer
+        lw      v1, 0x0058(v1)              // v1 = gravity
+        sw      v1, 0x004C(a0)              // y velocity = gravity
+        lw      ra, 0x001C(sp)              // ~
+        addiu   sp, sp, 0x0020              // ~
+        jr      ra                          // original return logic
+        nop
+    }
+
+    // @ Description
+    // Subroutine which runs when Marth initiates aerial neutral special actions.
+    // Changes action, and sets up initial variable values.
+    // a0 - player object
+    // a1 - action id
+    scope air_initial_: {
+        addiu   sp, sp,-0x0030             // allocate stack space
+        sw      ra, 0x001C(sp)              // ~
+        sw      a0, 0x0020(sp)              // store ra, a0
+        sw      r0, 0x0010(sp)              // argument 4 = 0
+        
+        lw      a1, 0x0084(a0)              // a1 = player struct
+        lw      at, 0x0ADC(a1)              // at = down b flag
+        bnez    at, _end                    // skip if down b flag != 0
+        lli     at, OS.TRUE                 // ~
+        sw      at, 0x0ADC(a1)              // down b flag = TRUE
+        
+        lli     a1, Spiderman.Action.WebSwingAir    // a1(action id) = DSPAir
+        or      a2, r0, r0                  // a2 = float: 0.0
+        jal     0x800E6F24                  // change action
+        lui     a3, 0x3F80                  // a3 = float: 1.0
+        jal     0x800E0830                  // unknown common subroutine
+        lw      a0, 0x0020(sp)              // a0 = player object
+        lw      a0, 0x0020(sp)              // ~
+        lw      a0, 0x0084(a0)              // a0 = player struct
+        sw      r0, 0x017C(a0)              // temp variable 1 = 0
+        sw      r0, 0x0180(a0)              // temp variable 2 = 0
+        ori     v1, r0, 0x0001              // ~
+        sw      v1, 0x0184(a0)              // temp variable 3 = 0x1(BEGIN)
+        // reset fall speed
+        lbu     v1, 0x018D(a0)              // v1 = fast fall flag
+        ori     t6, r0, 0x0007              // t6 = bitmask (01111111)
+        and     v1, v1, t6                  // ~
+        sb      v1, 0x018D(a0)              // disable fast fall flag
+        // freeze y position
+        lw      v1, 0x09C8(a0)              // v1 = attribute pointer
+        lw      v1, 0x0058(v1)              // v1 = gravity
+        sw      v1, 0x004C(a0)              // y velocity = gravity
+
+        _end:
+        lw      ra, 0x001C(sp)              // load ra
+        addiu   sp, sp, 0x0030              // deallocate stack space
+        jr      ra                          // return
+        nop
+    }
+    
+    // @ Description
+    // Subroutine which allows a direction change for Spiderman's down special.
+    // Uses the moveset data command 580000XX (orignally identified as "set flag" by toomai)
+    // This command's purpose appears to be setting a temporary variable in the player struct.
+    // Variable values used by this subroutine:
+    // 0x2 = change direction
+    scope change_direction_: {
+        // 0x180 in player struct = temp variable 2
+        lw      a1, 0x0084(a0)              // a1 = player struct
+        addiu   sp, sp,-0x0010              // allocate stack space
+        sw      t0, 0x0004(sp)              // ~
+        sw      t1, 0x0008(sp)              // ~
+        sw      ra, 0x000C(sp)              // store t0, t1, ra
+        lw      t0, 0x0180(a1)              // t0 = temp variable 2
+        ori     t1, r0, 0x0002              // t1 = 0x2
+        bne     t1, t0, _end                // skip if temp variable 2 != 2
+        nop
+        jal     0x80160370                  // turn subroutine (copied from captain falcon)
+        nop
+
+        _end:
+        lw      t0, 0x0004(sp)              // ~
+        lw      t1, 0x0008(sp)              // ~
+        lw      ra, 0x000C(sp)              // load t0, t1, ra
+        addiu   sp, sp, 0x0010              // deallocate stack space
+        jr      ra                          // return
+        nop
+    }
+
+    scope air_collision_: {
+        addiu   sp, sp,-0x0018              // allocate stack space
+        sw      ra, 0x0014(sp)              // store ra
+        li      a1, air_to_ground_          // a1(transition subroutine) = air_to_ground_
+        jal     0x800DE6E4                  // common air collision subroutine (transition on landing, no ledge grab)
+        nop
+        lw      ra, 0x0014(sp)              // load ra
+        addiu   sp, sp, 0x0018              // deallocate stack space
+        jr      ra                          // return
+        nop
+    }
+
+    scope air_to_ground_: {
+        addiu   sp, sp,-0x0038              // allocate stack space
+        sw      ra, 0x001C(sp)              // store ra
+        sw      a0, 0x0038(sp)              // 0x0038(sp) = player object
+        lw      a0, 0x0084(a0)              // a0 = player struct
+        jal     0x800DEEC8                  // set airborne state (grounded is 0x800DEE98)
+        sw      a0, 0x0034(sp)              // 0x0034(sp) = player struct
+        lw      v0, 0x0034(sp)              // v0 = player struct
+        lw      a0, 0x0038(sp)              // a0 = player object
+        
+        addiu   a1, r0, Spiderman.Action.WebSwingAir              // a1 = equivalent ground action for current air action
+        _change_action:
+        lw      a2, 0x0078(a0)              // a2(starting frame) = current animation frame
+        lui     a3, 0x3F80                  // a3(frame speed multiplier) = 1.0
+        lli     t6, 0x0001                  // ~
+        jal     0x800E6F24                  // change action
+        sw      t6, 0x0010(sp)              // argument 4 = 1 (continue hitbox)
+        lw      ra, 0x001C(sp)              // load ra
+        addiu   sp, sp, 0x0038              // deallocate stack space
+        jr      ra                          // return
         nop
     }
 }

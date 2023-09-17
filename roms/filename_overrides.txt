@@ -2536,6 +2536,7 @@
 1229 Spiderman Projectile Hitbox
 122A Spiderman Projectile Graphic
 122B Spiderman CPU Pose
+122C Spiderman USP Pull
 
 0611 CAPTAIN DeadU
 0611 CAPTAIN ScreenKO
