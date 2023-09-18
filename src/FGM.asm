@@ -1360,6 +1360,7 @@ scope FGM {
     add_sound(Spiderman/sounds/ANNOUNCER, SAMPLE_RATE_16000, FGM_TYPE_VOICE, 40, -1)
     add_sound(Spiderman/sounds/SFX_NSP, SAMPLE_RATE_16000, FGM_TYPE_VOICE, 0, -1)
     add_sound(Spiderman/sounds/SFX_THREAD, SAMPLE_RATE_16000, FGM_TYPE_VOICE, 0, -1)
+    add_sound(Spiderman/sounds/SFX_WEBTHROW, SAMPLE_RATE_16000, FGM_TYPE_VOICE, 0, -1)
     
     // This is always last
     write_sounds()

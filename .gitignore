@@ -8,7 +8,10 @@
 # Dev Info
 *.log
 *.sym
+
+# Obsolete
 *.lnk
+*.bak
 
 # Build
 build/original/*.bin
