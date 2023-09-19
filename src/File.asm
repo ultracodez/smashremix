@@ -2389,4 +2389,7 @@ scope File {
     constant RYU_AIRU(0x119E)
     constant RYU_AIRD(0x119F)
     constant RYU_FSMASH(0x11A0)
+    constant RYU_SHORYKEN_H(0x11A1)
+    constant RYU_TATSU_GND_M(0x11A2)
+    constant RYU_TATSU_GND_H(0x11A3)
 }
