@@ -216,6 +216,7 @@ scope CharacterSelect {
     dw  0x5A50 + 0x200                      // 0x42 - PEPPY
     dw  0xA310 + 0x200                      // 0x43 - SLIPPY
 	dw  0x19200 + 0x200                     // 0x44 - SPM
+    dw  0x19200 + 0x200                     // 0x45 - SPM3
     // ADD NEW CHARACTERS HERE
 
     // REMIX POLYGONS
@@ -338,6 +339,7 @@ scope CharacterSelect {
     add_alt_req_list(Character.id.PEPPY, req/PEPPY_MODEL)
     add_alt_req_list(Character.id.SLIPPY, req/SLIPPY_MODEL)
 	add_alt_req_list(Character.id.SPM, req/SPM_MODEL)
+    add_alt_req_list(Character.id.SPM3, req/SPM_MODEL)
 
     // POLYGONS
     add_alt_req_list(Character.id.NWARIO, req/NWARIO_MODEL)
@@ -2233,6 +2235,7 @@ scope CharacterSelect {
         constant PEPPY(0x000249E8 + 0x10)
         constant SLIPPY(0x00025AA8 + 0x10)
 		constant SPM(0x00027C28 + 0x10)
+        constant SPM3(0x00027C28 + 0x10)
         constant CLASSIC(0x00026B68 + 0x10)
         // j
         constant JMARIO(0x00001078)
@@ -2536,6 +2539,7 @@ scope CharacterSelect {
         constant PEPPY(0x0001FFF8)
         constant SLIPPY(0x0001FB20)
 		constant SPM(0x00001838)
+        constant SPM3(0x00001838)
         // POLYGONS
         constant NWARIO(0x0001CB28)
         constant NLUCAS(0x0001D008)
@@ -5047,6 +5051,7 @@ scope CharacterSelect {
     add_to_css(Character.id.PEPPY,  FGM.announcer.names.PEPPY,          1.50,         0x00010004, STARFOX,      name_texture.PEPPY,          portrait_offsets.PEPPY,          15)
     add_to_css(Character.id.SLIPPY, FGM.announcer.names.SLIPPY,         1.50,         0x00010004, STARFOX,      name_texture.SLIPPY,         portrait_offsets.SLIPPY,         18)
 	add_to_css(Character.id.SPM,    FGM.announcer.names.SPIDERMAN,      1.50,         0x00010001, MVC,          name_texture.SPM,            portrait_offsets.SPM,            -1)
+    add_to_css(Character.id.SPM3,   FGM.announcer.names.SPIDERMAN3,     1.50,         0x00010001, MVC,          name_texture.SPM,            portrait_offsets.SPM,            29)
 
     // ADD NEW CHARACTERS HERE
 

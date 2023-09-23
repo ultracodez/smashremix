@@ -3060,6 +3060,7 @@ scope TwelveCharBattle {
     add_defeat_parameters(0x2B1,                        defeated_moveset_fox_link,  0)          // 0x42 - PEPPY
     add_defeat_parameters(0x2B1,                        defeated_moveset_fox_link,  0)          // 0x43 - SLIPPY
 	add_defeat_parameters(0x617,                        defeated_moveset_captain,   0)          // 0x44 - SPM
+    add_defeat_parameters(0x617,                        defeated_moveset_captain,   0)          // 0x45 - SPM3
     // ADD NEW CHARACTERS HERE
 
     // REMIX POLYGONS

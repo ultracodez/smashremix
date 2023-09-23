@@ -2183,6 +2183,7 @@ scope SinglePlayer {
     dh File.PEPPY_SLIPPY_VICTORY_IMAGE_BOTTOM               // PEPPY
     dh File.PEPPY_SLIPPY_VICTORY_IMAGE_BOTTOM               // SLIPPY
 	dh File.SPM_VICTORY_IMAGE_BOTTOM                        // SPM
+    dh File.SPM_VICTORY_IMAGE_BOTTOM                        // SPM3
     // ADD NEW CHARACTERS HERE
 
     // ADD FOR REMIX POLYGONS HERE
@@ -2554,6 +2555,7 @@ scope SinglePlayer {
     add_to_single_player(Character.id.PEPPY,   name_texture.PEPPY,   name_delay.PEPPY)
     add_to_single_player(Character.id.SLIPPY,  name_texture.SLIPPY,  name_delay.SLIPPY)
 	add_to_single_player(Character.id.SPM,     name_texture.JMARIO,  name_delay.SPM)
+    add_to_single_player(Character.id.SPM3,    name_texture.JMARIO,  name_delay.SPM)
 
 	// REMIX POLYGONS    character id          name texture          name delay
     add_to_single_player(Character.id.NWARIO,  name_texture.NWARIO,  name_delay.NWARIO)

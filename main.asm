@@ -232,7 +232,8 @@ include "src/Slippy/Slippy.asm"
 // SPM
 include "src/Spiderman/SpidermanSpecial.asm"
 include "src/Spiderman/Spiderman.asm"
-
+// SPM3
+include "src/Spiderman3/Spiderman3.asm"
 // KIRBY
 include "src/Kirby/Kirby.asm"
 include "src/KirbyHats.asm"

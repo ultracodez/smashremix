@@ -12,7 +12,7 @@ include "OS.asm"
 
 scope Character {
     // number of character slots to add
-    constant ADD_CHARACTERS(50)
+    constant ADD_CHARACTERS(51)
     // start and end offset for the main character struct table (RAM 0x80116E10)
     constant STRUCT_TABLE(0x92610)
     variable STRUCT_TABLE_END(STRUCT_TABLE + 0x6C)
@@ -3271,6 +3271,8 @@ scope Character {
     define_character(SLIPPY, FOX, File.SLIPPY_MAIN, 0x0D0, 0, File.SLIPPY_CHARACTER, 0x13A, File.SLIPPY_LASER_HITBOX, File.SLIPPY_REFLECT_GFX, 0x0A1, File.SLIPPY_LASER_GRAPHIC, 0x4AC, 0x0, OS.TRUE, OS.TRUE, Stages.id.BTT_FALCO, Stages.id.BTP_FALCO, Stages.id.BTT_FALCO, Stages.id.BTP_FALCO, sound_type.U, variant_type.SPECIAL)
     // 0x44 - SPM
     define_character(SPM, CAPTAIN, File.SPM_MAIN, 0x0EB, 0, File.SPM_CHARACTER, 0x14E, File.SPM_PROJECTILE_HITBOX, 0x15E, 0x14D, File.SPM_PROJECTILE_GRAPHIC, 0x4E0, 9, OS.TRUE, OS.FALSE, Stages.id.BTT_FALCON, Stages.id.BTP_FALCON, Stages.id.BTT_GND, Stages.id.BTP_GND, sound_type.U, variant_type.NA)
+    // 0x45 - SPM3
+    define_character(SPM3, CAPTAIN, File.SPM_MAIN, 0x0EB, 0, File.SPM_CHARACTER, 0x14E, File.SPM_PROJECTILE_HITBOX, 0x15E, 0x14D, File.SPM_PROJECTILE_GRAPHIC, 0x4E0, 9, OS.TRUE, OS.FALSE, Stages.id.BTT_FALCON, Stages.id.BTP_FALCON, Stages.id.BTT_GND, Stages.id.BTP_GND, sound_type.U, variant_type.NA)
 
     // ADD NEW CHARACTERS HERE
 

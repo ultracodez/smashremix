@@ -6194,6 +6194,7 @@ scope SinglePlayerModes: {
         constant DEDEDE(0x00001C88 + 0x10)
         constant GOEMON(0x00001D68 + 0x10)
 		constant SPM(0x00000BE8 + 0x10)
+        constant SPM3(0x00000BE8 + 0x10)
 
     }
 
@@ -6269,6 +6270,7 @@ scope SinglePlayerModes: {
     dw icon_offsets.PEPPY                    // Peppy Hare
     dw icon_offsets.SLIPPY                   // Slippy Toad
 	dw icon_offsets.SPM                      // Spider-Man
+    dw icon_offsets.SPM                      // Spider-Man 3
 
     // ADD NEW CHARACTERS HERE
 

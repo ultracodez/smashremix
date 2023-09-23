@@ -353,7 +353,7 @@ scope Spiderman {
     db      Character.id.NONE   // D-Pad Up Slot
     db      Character.id.NONE   // D-Pad Down Slot
     db      Character.id.NONE   // D-Pad Left Slot
-    db      Character.id.NONE   // D-Pad Right Slot
+    db      Character.id.SPM3   // D-Pad Right Slot
     OS.patch_end()
 
     // Set crowd chant FGM.

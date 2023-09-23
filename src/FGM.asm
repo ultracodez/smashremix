@@ -1362,6 +1362,22 @@ scope FGM {
     add_sound(Spiderman/sounds/SFX_THREAD, SAMPLE_RATE_16000, FGM_TYPE_VOICE, 0, -1)
     add_sound(Spiderman/sounds/SFX_WEBTHROW, SAMPLE_RATE_16000, FGM_TYPE_VOICE, 0, -1)
     add_sound(Spiderman/sounds/SFX_NSP_HIT, SAMPLE_RATE_16000, FGM_TYPE_VOICE, 0, -1)
+    add_sound(Spiderman3/sounds/ATK1, SAMPLE_RATE_16000, FGM_TYPE_VOICE, 0, -1)
+    add_sound(Spiderman3/sounds/ATK2, SAMPLE_RATE_16000, FGM_TYPE_VOICE, 0, -1)
+    add_sound(Spiderman3/sounds/ATK3, SAMPLE_RATE_16000, FGM_TYPE_VOICE, 0, -1)
+    add_sound(Spiderman3/sounds/HAVINFUN, SAMPLE_RATE_16000, FGM_TYPE_VOICE, 0, -1)
+    add_sound(Spiderman3/sounds/DEATH, SAMPLE_RATE_16000, FGM_TYPE_VOICE, 0, -1)
+    add_sound(Spiderman3/sounds/DMG1, SAMPLE_RATE_16000, FGM_TYPE_VOICE, 0, -1)
+    add_sound(Spiderman3/sounds/DMG2, SAMPLE_RATE_16000, FGM_TYPE_VOICE, 0, -1)
+    add_sound(Spiderman3/sounds/SPIDERCAN, SAMPLE_RATE_16000, FGM_TYPE_VOICE, 0, -1)
+    add_sound(Spiderman3/sounds/JJBIGBUCKS, SAMPLE_RATE_16000, FGM_TYPE_VOICE, 0, -1)
+    add_sound(Spiderman3/sounds/GETREADY, SAMPLE_RATE_16000, FGM_TYPE_VOICE, 0, -1)
+    add_sound(Spiderman3/sounds/BUTTWOOPIN, SAMPLE_RATE_16000, FGM_TYPE_VOICE, 0, -1)
+    add_sound(Spiderman3/sounds/TAUNT, SAMPLE_RATE_16000, FGM_TYPE_VOICE, 0, -1)
+    add_sound(Spiderman3/sounds/WEBBALL, SAMPLE_RATE_16000, FGM_TYPE_VOICE, 0, -1)
+    add_sound(Spiderman3/sounds/WEBSWING, SAMPLE_RATE_16000, FGM_TYPE_VOICE, 0, -1)
+    add_sound(Spiderman3/sounds/WEBTHROW, SAMPLE_RATE_16000, FGM_TYPE_VOICE, 0, -1)
+    add_sound(Spiderman3/sounds/ANNOUNCER, SAMPLE_RATE_16000, FGM_TYPE_VOICE, 40, -1)
     
     // This is always last
     write_sounds()
@@ -1493,6 +1509,7 @@ scope FGM {
             constant NFALCO(1235)
             constant NGANONDORF(1236)
             constant SPIDERMAN(1299)
+            constant SPIDERMAN3(1319)
         }
 
         scope css {

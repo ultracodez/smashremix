@@ -930,6 +930,7 @@ scope Costumes {
         db 0x05                             // Peppy
         db 0x05                             // Slippy
 		db 0x07                             // Spiderman
+        db 0x07                             // Spiderman MvC3
 
         // Polygons
         db 0x05                             // Polygon Wario
