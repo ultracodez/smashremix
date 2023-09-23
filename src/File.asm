@@ -2392,4 +2392,6 @@ scope File {
     constant RYU_SHORYKEN_H(0x11A1)
     constant RYU_TATSU_GND_M(0x11A2)
     constant RYU_TATSU_GND_H(0x11A3)
+    constant RYU_PROJECTILE_GRAPHIC(0x11A4)
+    constant RYU_PROJECTILE_HITBOX(0x11A5)
 }
