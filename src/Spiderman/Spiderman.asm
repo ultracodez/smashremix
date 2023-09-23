@@ -42,7 +42,6 @@ scope Spiderman {
     USP_ATTACK:; Moveset.THROW_DATA(USP_ULTIMATETHROW_DATA); insert "moveset/USP_ATTACK.bin"
     insert USP_THROW_DATA, "moveset/USP_THROW_DATA.bin"
     USP:; Moveset.THROW_DATA(USP_THROW_DATA); insert "moveset/USP.bin"
-    USP_PULL:; Moveset.THROW_DATA(USP_THROW_DATA); insert "moveset/USP_PULL.bin"
 
     // @ Description
     // Spider-Man's extra actions

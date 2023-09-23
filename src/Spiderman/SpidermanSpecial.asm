@@ -102,9 +102,13 @@ scope SpidermanNSP {
         lui     t2, 0x3f80              // load 1(fp) into f2
         addiu   at, r0, 0x0001
         mtc1    r0, f4
-        sw      t2, 0x029C(v1)           // save 1(fp) to projectile struct free space
+        sw      t2, 0x029C(v1)          // save 1(fp) to projectile struct free space
         lw      t3, 0x0000(s0)
         sw      t3, 0x0268(v1)
+        //new code here
+        lli     t3, 0x0517               // new hit fgm = NSP_HIT
+        sh      t3, 0x0146(v1)          // overwrite hit fgm
+        //end new code
    
         OS.copy_segment(0xE3268, 0x2C)   
         lw      t6, 0x002C(sp)
