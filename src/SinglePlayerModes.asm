@@ -2656,10 +2656,10 @@ scope SinglePlayerModes: {
     db  Stages.id.GLACIAL               // Stage Option 1
     db  Stages.id.GLACIAL               // Stage Option 2
     db  Stages.id.GLACIAL               // Stage Option 3
-    dw  SinglePlayer.name_texture.GOEMON + 0x10    // name texture
+    dw  SinglePlayer.name_texture.SPM + 0x10    // name texture
     dw  0x00000513                      // Announcer Call
     dw  0x00006F80                      // Model Scale
-    dw  0x00014FC0                      // Progress Icon
+    dw  0x00016EB0 + 0x10               // Progress Icon
     
     //  Falco match settings
     falco_match_setting:
@@ -6193,8 +6193,8 @@ scope SinglePlayerModes: {
         constant MARINA(0x00001BA8 + 0x10)
         constant DEDEDE(0x00001C88 + 0x10)
         constant GOEMON(0x00001D68 + 0x10)
-		constant SPM(0x00000BE8 + 0x10)
-        constant SPM3(0x00000BE8 + 0x10)
+		constant SPM(0x00001FF8 + 0x10)
+        constant SPM3(0x00001FF8 + 0x10)
 
     }
 

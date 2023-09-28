@@ -1548,7 +1548,7 @@ scope SinglePlayer {
         constant GOEMON(0x000096B8)
         constant PEPPY(0x000099A8)
         constant SLIPPY(0x00009830)
-		constant SPM(0x00000128)
+		constant SPM(0x0000AAB0)
 
         // Duo Teams
         constant STARFOX(0x00006238)
@@ -2554,8 +2554,8 @@ scope SinglePlayer {
     add_to_single_player(Character.id.GOEMON,  name_texture.GOEMON,  name_delay.GOEMON)
     add_to_single_player(Character.id.PEPPY,   name_texture.PEPPY,   name_delay.PEPPY)
     add_to_single_player(Character.id.SLIPPY,  name_texture.SLIPPY,  name_delay.SLIPPY)
-	add_to_single_player(Character.id.SPM,     name_texture.JMARIO,  name_delay.SPM)
-    add_to_single_player(Character.id.SPM3,    name_texture.JMARIO,  name_delay.SPM)
+	add_to_single_player(Character.id.SPM,     name_texture.SPM,  name_delay.SPM)
+    add_to_single_player(Character.id.SPM3,    name_texture.SPM,  name_delay.SPM)
 
 	// REMIX POLYGONS    character id          name texture          name delay
     add_to_single_player(Character.id.NWARIO,  name_texture.NWARIO,  name_delay.NWARIO)

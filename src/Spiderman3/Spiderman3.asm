@@ -335,7 +335,7 @@ scope Spiderman3 {
     Character.set_default_costumes(Character.id.SPM3, 0, 1, 2, 3, 0, 4, 2)
 
     // Shield colors for costume matching
-    Character.set_costume_shield_colors(SPM3, BLUE, RED, GREEN, BLACK, BLUE, BLUE, YELLOW, WHITE)
+    Character.set_costume_shield_colors(SPM3, RED, CYAN, GREEN, BLACK, BLUE, BLUE, YELLOW, WHITE)
 
     // @ Description
     // Patch which swaps Spider-Man FGM for the 0x3800XXXX (play voice FGM) moveset command

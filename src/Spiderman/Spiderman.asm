@@ -378,5 +378,5 @@ scope Spiderman {
     Character.set_default_costumes(Character.id.SPM, 0, 1, 2, 3, 0, 4, 2)
 
     // Shield colors for costume matching
-    Character.set_costume_shield_colors(SPM, BLUE, RED, GREEN, BLACK, BLUE, BLUE, YELLOW, WHITE)
+    Character.set_costume_shield_colors(SPM, RED, CYAN, GREEN, BLACK, BLUE, BLUE, YELLOW, WHITE)
 }

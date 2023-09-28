@@ -2293,6 +2293,7 @@ scope CharacterSelect {
         constant GOEMON(30)
         constant WAVERACE(31)
         constant QUEST64(32)
+        constant SPIDERMAN(33)
 
         scope offset {
             constant NONE(0)
@@ -2328,6 +2329,7 @@ scope CharacterSelect {
             constant GOEMON(0x0000BEF8)
             constant WAVERACE(0x0000C558)
             constant QUEST64(0x0000CBB0)
+            constant SPIDERMAN(0x0000D208)
         }
 
         // @ Description
@@ -2399,6 +2401,8 @@ scope CharacterSelect {
             constant Y_WAVERACE(0x41A00000)
             constant X_QUEST64(0x40200000)
             constant Y_QUEST64(0x419C0000)
+            constant X_SPIDERMAN(0x40A00000)
+            constant Y_SPIDERMAN(0x41A00000)
         }
 
         table:
@@ -2437,6 +2441,7 @@ scope CharacterSelect {
         dw offset.GOEMON,           position.X_GOEMON,           position.Y_GOEMON
         dw offset.WAVERACE,         position.X_WAVERACE,         position.Y_WAVERACE
         dw offset.QUEST64,          position.X_QUEST64,          position.Y_QUEST64
+        dw offset.SPIDERMAN,        position.X_SPIDERMAN,        position.Y_SPIDERMAN
     }
 
     // @ Description
@@ -2538,8 +2543,8 @@ scope CharacterSelect {
         constant GOEMON(0x0001F228)
         constant PEPPY(0x0001FFF8)
         constant SLIPPY(0x0001FB20)
-		constant SPM(0x00001838)
-        constant SPM3(0x00001838)
+		constant SPM(0x00021358)
+        constant SPM3(0x00021358)
         // POLYGONS
         constant NWARIO(0x0001CB28)
         constant NLUCAS(0x0001D008)
@@ -3599,7 +3604,7 @@ scope CharacterSelect {
     }
 
     // @ Description
-    // Offsets in CSS Images file
+    // Offsets in CSS Images file 0x0A06
     scope VARIANT_ICON_OFFSET {
         constant POLYGON(0x13A8)
         constant E(0x03B8)
@@ -5050,7 +5055,7 @@ scope CharacterSelect {
     add_to_css(Character.id.GOEMON, FGM.announcer.names.GOEMON,         1.50,         0x00010001, GOEMON,       name_texture.GOEMON,         portrait_offsets.GOEMON,         -1)
     add_to_css(Character.id.PEPPY,  FGM.announcer.names.PEPPY,          1.50,         0x00010004, STARFOX,      name_texture.PEPPY,          portrait_offsets.PEPPY,          15)
     add_to_css(Character.id.SLIPPY, FGM.announcer.names.SLIPPY,         1.50,         0x00010004, STARFOX,      name_texture.SLIPPY,         portrait_offsets.SLIPPY,         18)
-	add_to_css(Character.id.SPM,    FGM.announcer.names.SPIDERMAN,      1.50,         0x00010001, MVC,          name_texture.SPM,            portrait_offsets.SPM,            -1)
+	add_to_css(Character.id.SPM,    FGM.announcer.names.SPIDERMAN,      1.50,         0x00010001, SPIDERMAN,    name_texture.SPM,            portrait_offsets.SPM,            -1)
     add_to_css(Character.id.SPM3,   FGM.announcer.names.SPIDERMAN3,     1.50,         0x00010001, MVC,          name_texture.SPM,            portrait_offsets.SPM,            29)
 
     // ADD NEW CHARACTERS HERE
