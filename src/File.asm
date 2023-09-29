@@ -2394,4 +2394,8 @@ scope File {
     constant RYU_TATSU_GND_H(0x11A3)
     constant RYU_PROJECTILE_GRAPHIC(0x11A4)
     constant RYU_PROJECTILE_HITBOX(0x11A5)
+    constant RYU_USMASH(0x11A6)
+    constant RYU_JAB_1(0x11A7)
+    constant RYU_JAB_2(0x11A8)
+    constant RYU_JAB_3(0x11A9)
 }
