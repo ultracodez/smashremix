@@ -2398,4 +2398,5 @@ scope File {
     constant RYU_JAB_1(0x11A7)
     constant RYU_JAB_2(0x11A8)
     constant RYU_JAB_3(0x11A9)
+    constant RYU_DASH_ATTACK(0x11AA)
 }
