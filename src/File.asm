@@ -2403,4 +2403,5 @@ scope File {
     constant RYU_AIRJUMPF(0x11AC)
     constant RYU_AIRJUMPB(0x11AD)
     constant RYU_AIRFALL(0x11AE)
+    constant RYU_FALLSPECIAL(0x11AF)
 }
