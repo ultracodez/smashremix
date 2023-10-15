@@ -500,7 +500,7 @@ scope SpidermanUSP {
 
     constant AIR_ACCELERATION(0x3C88)       // current setting - float32 0.0166
     constant AIR_SPEED(0x41B0)              // current setting - float32 22
-    constant AIR_Y_SPEED(0x4280)            // current setting - float32 64
+    constant AIR_Y_SPEED(0x4200)            // current setting - float32 32
     constant AIR_X_SPEED(0x4120)            // current setting - float32 10
     constant BEGIN(0x1)
     constant BEGIN_MOVE(0x2)
@@ -518,7 +518,7 @@ scope SpidermanUSP {
         jal     0x800E6F24                  // change action
         sw      r0, 0x0010(sp)              // argument 4 = 0
         lw      a0, 0x0018(sp)              // a0 = player object
-        li      a1, air_pull_initial_       // a1 = air_pull_initial_
+        li      a1, ground_pull_initial_       // a1 = air_pull_initial_
         jal     0x8015E310                  // command grab setup (yoshi)
         lw      a0, 0x0084(a0)              // a0 = player struct
         jal     0x800E0830                  // unknown common subroutine
@@ -567,6 +567,38 @@ scope SpidermanUSP {
         _end:
         lw      ra, 0x0014(sp)              // load ra
         addiu   sp, sp, 0x0028              // deallocate stack space
+        jr      ra                          // return
+        nop
+    }
+    
+    // @ Description
+    // Initial subroutine for DSPGroundPull.
+    scope ground_pull_initial_: {
+        addiu   sp, sp,-0x0020              // allocate stack space
+        sw      ra, 0x001C(sp)              // ~
+        sw      a0, 0x0020(sp)              // store a0, ra
+        lw      v1, 0x0084(a0)              // v1 = player struct
+        lli     a1, Spiderman.Action.USPGroundPull // a1(action id) = DSPGroundPull
+        or      a2, r0, r0                  // a2(starting frame) = 0
+        lwc1    f2, 0x0180(v1)              // ~
+        cvt.s.w f2, f2                      // ~
+        mfc1    a2, f2                      // a2(starting frame) = temp variable 2
+        lli     t6, 0x0002                  // ~
+        sw      t6, 0x0010(sp)              // argument 4 = 0x0002
+        jal     0x800E6F24                  // change action
+        lui     a3, 0x3F80                  // a3(frame speed multiplier) = 1.0
+        jal     0x800E0830                  // unknown common subroutine
+        lw      a0, 0x0020(sp)              // a0 = player object
+        jal     grab_pull_setup_            // additional command grab setup
+        lw      a0, 0x0020(sp)              // a0 = player object
+        lw      a0, 0x0020(sp)              // ~
+        lw      a0, 0x0084(a0)              // a0 = player struct
+        sw      r0, 0x017C(a0)              // temp variable 1 = 0
+        sw      r0, 0x0180(a0)              // temp variable 2 = 0
+        sw      r0, 0x0184(a0)              // temp variable 3 = 0
+        FGM.play(COLLISION_SFX)             // play collision sfx
+        lw      ra, 0x001C(sp)              // load ra
+        addiu   sp, sp, 0x0020              // deallocate stack space
         jr      ra                          // return
         nop
     }
@@ -639,8 +671,34 @@ scope SpidermanUSP {
 
     // @ Description
     // Initial subroutine for DSPAAttack.
+    scope attack_ground_initial_: {
+        addiu   sp, sp,-0x0028              // allocate stack space
+        sw      ra, 0x0014(sp)              // store ra
+		sw      a0, 0x0018(sp)              // 0x0018(a0) = player object
+
+        lw      v0, 0x0084(a0)              // v0 = player struct
+        lli     at, 0x0001                  // ~
+        sw      at, 0x014C(v0)              // kinetic state = airborne
+        lli     a1, Spiderman.Action.USPGAttack // a1(action id) = DSPGAttack
+        or      a2, r0, r0                  // a2(starting frame) = 0
+        lui     a3, 0x3F80                  // a3(frame speed multiplier) = 1.0
+        jal     0x800E6F24                  // change action
+        sw      r0, 0x0010(sp)              // argument 4 = 0
+        jal     0x800E0830                  // unknown common subroutine
+        lw      a0, 0x0018(sp)              // a0 = player object
+        lw      a0, 0x0018(sp)              // ~
+        lw      a0, 0x0084(a0)              // a0 = player struct
+        sw      r0, 0x0048(a0)              // x velocity = 0
+        sw      r0, 0x004C(a0)              // y velocity = 0
+        lw      ra, 0x0014(sp)              // load ra
+        jr      ra                          // return
+        addiu   sp, sp, 0x0028              // deallocate stack space
+    }
+
+    // @ Description
+    // Initial subroutine for DSPAAttack.
     // DISABLED: Transition to Idle instead if B is not held
-    scope attack_initial_: {
+    scope attack_air_initial_: {
         addiu   sp, sp,-0x0028              // allocate stack space
         sw      ra, 0x0014(sp)              // store ra
         // lw      v0, 0x0084(a0)              // v0 = player struct
@@ -652,11 +710,13 @@ scope SpidermanUSP {
         lw      v0, 0x0084(a0)              // v0 = player struct
         lli     at, 0x0001                  // ~
         sw      at, 0x014C(v0)              // kinetic state = aerial
+        
         // Reset Jumps
         lli     t6, 0x0001                  // t6 = 1 jump
         sb      t6, 0x0148(v0)              // jumps used = 1
         lli     at, OS.TRUE                 // ~
         sb      at, 0x0ADD(v0)              // temp flag = TRUE
+
         lli     a1, Spiderman.Action.USPAAttack // a1(action id) = DSPAAttack
         or      a2, r0, r0                  // a2(starting frame) = 0
         lui     a3, 0x3F80                  // a3(frame speed multiplier) = 1.0
@@ -682,11 +742,13 @@ scope SpidermanUSP {
         lw      v0, 0x0084(a0)              // v0 = player struct
         lli     at, 0x0001                  // ~
         sw      at, 0x014C(v0)              // kinetic state = aerial
+
         // Reset Jumps
         lli     t6, 0x0001                  // t6 = 1 jump
         sb      t6, 0x0148(v0)              // jumps used = 1
         lli     at, OS.TRUE                 // ~
         sb      at, 0x0ADD(v0)              // temp flag = TRUE
+
         lli     a1, Spiderman.Action.USPEnd    // a1(action id) = DSPEnd
         or      a2, r0, r0                  // a2(starting frame) = 0
         lui     a3, 0x3F80                  // a3(frame speed multiplier) = 1.0
@@ -759,39 +821,33 @@ scope SpidermanUSP {
     // @ Description
     // Main function for DSPGroundPull and DSPAirPull.
     // Based on 0x8014A0C0, which is the main function for throws.
-    scope pull_main_: {
+
+    scope ground_pull_main_: {
         // Copy the first 67 lines of subroutine 0x8014A0C0
-        //OS.copy_segment(0xC4B00, 0x10C)
+        OS.copy_segment(0xC4B00, 0x10C)
 
-        //jal     attack_initial_             // transition to DSPAttack
-        //lw      a0, 0x0020(sp)              // a0 = player object
-        //lw      ra, 0x001C(sp)              // load ra
-
-        //_end:
-        //lw      s0, 0x0018(sp)              // load s0
-        //addiu   sp, sp, 0x0020              // deallocate stack space
-        //jr      ra                          // return
-        //nop
-        addiu   sp, sp,-0x0028              // allocate stack space
-        sw      ra, 0x0014(sp)              // store ra
-
-        lw      v0, 0x0084(a0)              // v0 = player struct
-        sw      v0, 0x0018(sp)              // 0x0018(sp) = player struct
-
-        _check_idle:
-        // checks the current animation frame to see if we've reached end of the animation
-        mtc1    r0, f6                      // ~
-        lwc1    f8, 0x0078(a0)              // ~
-        c.le.s  f8, f6                      // ~
-        nop
-        bc1fl   _end                        // skip if animation end has not been reached
-        nop
-        jal     attack_initial_                // transition to DSPEnd
-        nop
+        jal     attack_ground_initial_             // transition to DSPAttack
+        lw      a0, 0x0020(sp)              // a0 = player object
+        lw      ra, 0x001C(sp)              // load ra
 
         _end:
-        lw      ra, 0x0014(sp)              // load ra
-        addiu   sp, sp, 0x0028              // deallocate stack space
+        lw      s0, 0x0018(sp)              // load s0
+        addiu   sp, sp, 0x0020              // deallocate stack space
+        jr      ra                          // return
+        nop
+    }
+
+    scope air_pull_main_: {
+        // Copy the first 67 lines of subroutine 0x8014A0C0
+        OS.copy_segment(0xC4B00, 0x10C)
+
+        jal     attack_air_initial_             // transition to DSPAttack
+        lw      a0, 0x0020(sp)              // a0 = player object
+        lw      ra, 0x001C(sp)              // load ra
+
+        _end:
+        lw      s0, 0x0018(sp)              // load s0
+        addiu   sp, sp, 0x0020              // deallocate stack space
         jr      ra                          // return
         nop
     }
@@ -866,7 +922,7 @@ scope SpidermanUSP {
     }
 
     // @ Description
-    // Subroutine which allows a direction change for Spiderman's down special.
+    // Subroutine which allows a direction change for Spiderman's up special.
     // Uses the moveset data command 540000XX
     // This command's purpose appears to be setting a temporary variable in the player struct.
     // Variable values used by this subroutine:
@@ -1333,13 +1389,15 @@ scope SpidermanUSP {
         lli     v0, 0x0002                  // v0 = 0x2 (right collision)
 
         _check_floor:
-        jal     0x800DD578                  // detect floor collision
-        or      a0, s1, r0                  // a0 = ecb info
-        bnez    v0, _end                    // branch if floor collision = true
-        lli     v0, 0x0003                  // v0 = 0x3 (floor collision)
+        //jal     0x800DD578                  // detect floor collision
+        //or      a0, s1, r0                  // a0 = ecb info
+
+        //bnez    v0, _end                    // branch if floor collision = true
+        //lli     v0, 0x0003                  // v0 = 0x3 (floor collision)
 
         jal     0x800DCF58
         or      a0, s1, r0                  // a0 = ecb info
+
         bnez    v0, _end                    // branch if ceiling collision = true
         lli     v0, 0x0004                  // v0 = 0x4 (ceiling collision)
 
@@ -1355,7 +1413,7 @@ scope SpidermanUSP {
     }
 
     // @ Description
-    // Patch which allows Spiderman's down b to collide with item hurtboxes.
+    // Patch which allows Spiderman's up b to collide with item hurtboxes.
     scope item_hurtbox_patch_: {
         OS.patch_start(0xEB0D8, 0x80170698)
         j       item_hurtbox_patch_

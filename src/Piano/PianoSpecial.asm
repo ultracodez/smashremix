@@ -1060,6 +1060,10 @@ scope PianoDSP {
         beq     t7, t6, _piano              // branch if id = PIANO
         ori     t6, r0, Character.id.MARINA // t6 = id.MARINA
         beq     t7, t6, _marina             // branch if id = MARINA
+        ori     t6, r0, Character.id.SPM    // t6 = id.SPM
+        beq     t7, t6, _marina             // branch if id = SPM
+        ori     t6, r0, Character.id.SPM3   // t6 = id.SPM3
+        beq     t7, t6, _marina             // branch if id = SPM3
         ori     t8, r0, Character.id.JKIRBY // t8 = id.JKIRBY
         beq     t7, t8, _kirby              // branch if id = JKIRBY
         ori     t8, r0, Character.id.KIRBY  // t8 = id.KIRBY

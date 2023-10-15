@@ -2653,9 +2653,9 @@ scope SinglePlayerModes: {
     // Spider-Man match settings
     dw  0x00000000                      // flag
     db  Character.id.SPM                // Character ID
-    db  Stages.id.GLACIAL               // Stage Option 1
-    db  Stages.id.GLACIAL               // Stage Option 2
-    db  Stages.id.GLACIAL               // Stage Option 3
+    db  Stages.id.SAFFRON_DL               // Stage Option 1
+    db  Stages.id.SAFFRON_DL               // Stage Option 2
+    db  Stages.id.SAFFRON_DL               // Stage Option 3
     dw  SinglePlayer.name_texture.SPM + 0x10    // name texture
     dw  0x00000513                      // Announcer Call
     dw  0x00006F80                      // Model Scale
@@ -5237,6 +5237,7 @@ scope SinglePlayerModes: {
     add_team_parameters(File.GOEMON_TEAM_POSE,        team_moveset_ness,      0)          // 0x41 - GOEMON
     add_team_parameters(0x2B1,                        team_moveset_fox_link,  0)          // 0x42 - PEPPY
     add_team_parameters(0x2B1,                        team_moveset_fox_link,  0)          // 0x43 - SLIPPY
+    add_team_parameters(0x617,                        team_moveset_captain,   0)          // 0x44 - SPM
     // ADD NEW CHARACTERS HERE
 
 	// REMIX POLYGONS

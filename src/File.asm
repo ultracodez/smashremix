@@ -2513,8 +2513,8 @@ scope File {
     constant SPM_ACTION_0E8(0x121A)
     constant SPM_DSP_AIR(0x121B)
     constant SPM_USP_GROUND(0x121C)
-    constant SPM_USP_GRABPULL(0x121D)
-    constant SPM_USP_GRABTHROW(0x121E)
+    constant SPM_USP_AIR_GRABPULL(0x121D)
+    constant SPM_USP_AIR_GRABTHROW(0x121E)
     constant SPM_USP_AIR(0x121F)
     constant SPM_VICTORY_1(0x1220)
     constant SPM_VICTORY_2(0x1221)
@@ -2529,4 +2529,7 @@ scope File {
     constant SPM_PROJECTILE_GRAPHIC(0x122A)
     constant SPM_CPU_POSE(0x122B)
     constant SPM_USP_WALLEND(0x122C)
+    constant SPM_USP_GROUND_GRABPULL(0x122D)
+    constant SPM_USP_GROUND_GRABTHROW(0x122E)
+    constant SPM_SHIELD_POSE(0x122F)
 }

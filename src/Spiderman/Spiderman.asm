@@ -30,18 +30,22 @@ scope Spiderman {
     insert JAB3_LOOP_START, "moveset/JAB3_LOOP_START.bin"
     insert NEUTRAL_AERIAL, "moveset/NEUTRAL_AERIAL.bin"
     insert TAUNT, "moveset/TAUNT.bin"
+    insert TAUNT3, "moveset/TAUNT_3.bin"
     insert UP_AERIAL, "moveset/UP_AERIAL.bin"
     insert UP_SMASH, "moveset/UP_SMASH.bin"
     insert UP_TILT, "moveset/UP_TILT.bin"
     insert SHIELD, "moveset/SHIELD.bin"
     insert NSP_GROUND,"moveset/NSP_GROUND.bin"
     insert NSP_AIR,"moveset/NSP_AIR.bin"
+    insert JUMP1, "moveset/JUMP1.bin"
     insert JUMP2, "moveset/JUMP2.bin"
     insert DSP, "moveset/DSP.bin"
-    insert USP_ULTIMATETHROW_DATA, "moveset/USP_ULTIMATETHROW_DATA.bin"
-    USP_ATTACK:; Moveset.THROW_DATA(USP_ULTIMATETHROW_DATA); insert "moveset/USP_ATTACK.bin"
     insert USP_THROW_DATA, "moveset/USP_THROW_DATA.bin"
-    USP:; Moveset.THROW_DATA(USP_THROW_DATA); insert "moveset/USP.bin"
+    USP_AIR_THROW:; Moveset.THROW_DATA(USP_THROW_DATA); insert "moveset/USP_AIR_THROW.bin"
+    USP_GROUND_THROW:; Moveset.THROW_DATA(USP_THROW_DATA); insert "moveset/USP_GROUND_THROW.bin"
+    insert USP_RELEASE_DATA, "moveset/USP_RELEASE_DATA.bin"
+    USP:; Moveset.THROW_DATA(USP_RELEASE_DATA); insert "moveset/USP.bin"
+    USP_PULL:; Moveset.THROW_DATA(USP_RELEASE_DATA); insert "moveset/USP_PULL.bin"
 
     // @ Description
     // Spider-Man's extra actions
@@ -67,10 +71,12 @@ scope Spiderman {
         //constant ?(0x0EE)
         constant WebGlide(0x0EF)
         constant WebGlideAir(0x0F0)
-        constant WebGlidePull(0x0F1)
+        constant WebGlideAirPull(0x0F1)
         constant WebGlideWallPull(0x0F2)
         constant UltimateWebThrow(0x0F3)
         constant WebGlideEnd(0x0F4)
+        constant WebGlideGroundPull(0x0F5)
+        constant WebGlideGroundThrow(0x0F6)
 
         // strings!
         string_0x0DC:; String.insert("Jab3")
@@ -94,10 +100,12 @@ scope Spiderman {
         // string_0x0EE;: String.insert("?")
         string_0x0EF:; String.insert("WebGlide")
         string_0x0F0:; String.insert("WebGlideAir")
-        string_0x0F1:; String.insert("WebGlidePull")
+        string_0x0F1:; String.insert("WebGlideAirPull")
         string_0x0F2:; String.insert("WebGlideWallPull")
         string_0x0F3:; String.insert("UltimateWebThrow")
         string_0x0F4:; String.insert("WebGlideEnd")
+        string_0x0F5:; String.insert("WebGlideGroundPull")
+        string_0x0F6:; String.insert("WebGlideGroundThrow")
 
         action_string_table:
         dw Action.COMMON.string_jab3
@@ -125,6 +133,8 @@ scope Spiderman {
         dw string_0x0F2
         dw string_0x0F3
         dw string_0x0F4
+        dw string_0x0F5
+        dw string_0x0F6
     }
     
     // Modify Action Parameters           // Action                      // Animation                    // Moveset Data           // Flags
@@ -144,8 +154,8 @@ scope Spiderman {
     Character.edit_action_parameters(SPM, Action.TurnRun,                File.SPM_TURNRUN,               -1,                       -1)
     Character.edit_action_parameters(SPM, Action.JumpSquat,              File.SPM_LANDING,               -1,                       -1)
     Character.edit_action_parameters(SPM, Action.ShieldJumpSquat,        File.SPM_LANDING,               -1,                       -1)
-    Character.edit_action_parameters(SPM, Action.JumpF,                  File.SPM_JUMPF,                 -1,                       -1)
-    Character.edit_action_parameters(SPM, Action.JumpB,                  File.SPM_JUMPB,                 -1,                       -1)
+    Character.edit_action_parameters(SPM, Action.JumpF,                  File.SPM_JUMPF,                 JUMP1,                    -1)
+    Character.edit_action_parameters(SPM, Action.JumpB,                  File.SPM_JUMPB,                 JUMP1,                    -1)
     Character.edit_action_parameters(SPM, Action.JumpAerialF,            File.SPM_JUMPAERIALF,           JUMP2,                    -1)
     Character.edit_action_parameters(SPM, Action.JumpAerialB,            File.SPM_JUMPAERIALB,           JUMP2,                    -1)
     Character.edit_action_parameters(SPM, Action.Fall,                   File.SPM_FALL,                  -1,                       -1)
@@ -157,8 +167,8 @@ scope Spiderman {
     Character.edit_action_parameters(SPM, Action.LandingHeavy,           File.SPM_LANDING,               -1,                       -1)
     Character.edit_action_parameters(SPM, Action.Pass,                   File.SPM_PLATDROP,              -1,                       -1)
     Character.edit_action_parameters(SPM, Action.ShieldDrop,             File.SPM_PLATDROP,              -1,                       -1)
-    Character.edit_action_parameters(SPM, Action.Teeter,                 File.SPM_TEETER,                -1,                       -1)
-    Character.edit_action_parameters(SPM, Action.TeeterStart,            File.SPM_TEETERSTART,           -1,                       -1)
+    Character.edit_action_parameters(SPM, Action.Teeter,                 File.SPM_TEETER,                0x80000000,               -1)
+    Character.edit_action_parameters(SPM, Action.TeeterStart,            File.SPM_TEETERSTART,           0x80000000,               -1)
     Character.edit_action_parameters(SPM, Action.FallSpecial,            File.SPM_FALLSPECIAL,           -1,                       -1)
     Character.edit_action_parameters(SPM, Action.LandingSpecial,         File.SPM_LANDING,               -1,                       -1)
     Character.edit_action_parameters(SPM, Action.Tornado,                File.SPM_TUMBLE,                -1,                       -1)
@@ -234,8 +244,8 @@ scope Spiderman {
     Character.edit_action_parameters(SPM, Action.HammerJumpSquat,        File.SPM_HAMMERMOVE,            -1,                       -1)
     Character.edit_action_parameters(SPM, Action.HammerAir,              File.SPM_HAMMERMOVE,            -1,                       -1)
     Character.edit_action_parameters(SPM, Action.HammerLanding,          File.SPM_HAMMERMOVE,            -1,                       -1)
-    Character.edit_action_parameters(SPM, Action.ShieldOn,               -1,                             SHIELD,                   -1)
-    Character.edit_action_parameters(SPM, Action.ShieldOff,              -1,                             SHIELD,                   -1)
+    Character.edit_action_parameters(SPM, Action.ShieldOn,               File.SPM_SHIELDON,              SHIELD,                   -1)
+    Character.edit_action_parameters(SPM, Action.ShieldOff,              File.SPM_SHIELDOFF,             SHIELD,                   -1)
     Character.edit_action_parameters(SPM, Action.RollF,                  File.SPM_ROLLF,                 -1,                       -1)
     Character.edit_action_parameters(SPM, Action.RollB,                  File.SPM_ROLLB,                 -1,                       -1)
     Character.edit_action_parameters(SPM, Action.StunStartD,             File.SPM_DOWNSTANDD,            -1,                       -1)
@@ -300,20 +310,24 @@ scope Spiderman {
     Character.edit_action(SPM,   Action.WebSwing,               -1,             -1,  		                  SpidermanDSP.change_direction_, SpidermanDSP.ground_physics_, SpidermanDSP.ground_collision_)
     Character.edit_action(SPM,   Action.WebSwingAir,            -1,             -1,                           SpidermanDSP.change_direction_, -1,                           SpidermanDSP.air_collision_)
 
-    // Add Action Parameters             // Action Name      // Base Action  // Animation             // Moveset Data        // Flags
-    Character.add_new_action_params(SPM, USPGround,          -1,             File.SPM_USP_GROUND,     USP,                   0x10000000)
-    Character.add_new_action_params(SPM, USPAir,             -1,             File.SPM_USP_AIR,        USP,                   0x10000000)
-    Character.add_new_action_params(SPM, USPAirPull,         -1,             File.SPM_USP_GRABPULL,   GRAB_PULL,             0x50000000)
-    Character.add_new_action_params(SPM, USPAAttack,         -1,             File.SPM_USP_GRABTHROW,  USP_ATTACK,            0x10000000)
-    Character.add_new_action_params(SPM, USPEnd,             -1,             File.SPM_USP_WALLEND,    0x80000000,            0x00000000) //temp anim
+    // Add Action Parameters             // Action Name      // Base Action  // Animation                   // Moveset Data        // Flags
+    Character.add_new_action_params(SPM, USPGround,          -1,             File.SPM_USP_GROUND,           USP,                   0x10000000)
+    Character.add_new_action_params(SPM, USPAir,             -1,             File.SPM_USP_AIR,              USP,                   0x10000000)
+    Character.add_new_action_params(SPM, USPAirPull,         -1,             File.SPM_USP_AIR_GRABPULL,     USP_PULL,              0x50000000)
+    Character.add_new_action_params(SPM, USPAAttack,         -1,             File.SPM_USP_AIR_GRABTHROW,    USP_AIR_THROW,         0x10000000)
+    Character.add_new_action_params(SPM, USPEnd,             -1,             File.SPM_USP_WALLEND,          0x80000000,            0x00000000)
+    Character.add_new_action_params(SPM, USPGroundPull,      -1,             File.SPM_USP_GROUND_GRABPULL,  USP_PULL,              0x10000000)
+    Character.add_new_action_params(SPM, USPGAttack,         -1,             File.SPM_USP_GROUND_GRABTHROW, USP_GROUND_THROW,      0x50000000)
 
     // Add Actions                // Action Name     // Base Action  //Parameters                    // Staling ID   // Main ASM                        // Interrupt/Other ASM          // Movement/Physics ASM             // Collision ASM
-    Character.add_new_action(SPM, USPGround,         -1,             ActionParams.USPGround,         0x11,           SpidermanUSP.main_,                SpidermanUSP.change_direction_, 0x800D8BB4,                         SpidermanUSP.ground_collision_)
-    Character.add_new_action(SPM, USPAir,            -1,             ActionParams.USPAir,            0x11,           SpidermanUSP.main_,                SpidermanUSP.change_direction_, SpidermanUSP.air_physics_,          SpidermanUSP.air_collision_)
-    Character.add_new_action(SPM, USPAirPull,        -1,             ActionParams.USPAirPull,        0x11,           SpidermanUSP.pull_main_,           0,                              0x800D93E4,                         SpidermanUSP.shared_air_collision_)
+    Character.add_new_action(SPM, USPGround,         -1,             ActionParams.USPGround,         0x11,           SpidermanUSP.main_,                0,                              0x800D8BB4,                         SpidermanUSP.ground_collision_)
+    Character.add_new_action(SPM, USPAir,            -1,             ActionParams.USPAir,            0x11,           SpidermanUSP.main_,                0,                              SpidermanUSP.air_physics_,          SpidermanUSP.air_collision_)
+    Character.add_new_action(SPM, USPAirPull,        -1,             ActionParams.USPAirPull,        0x11,           SpidermanUSP.air_pull_main_,       0,                              0x800D93E4,                         SpidermanUSP.shared_air_collision_)
     Character.add_new_action(SPM, USPAirWallPull,    -1,             ActionParams.USPAirPull,        0x11,           SpidermanUSP.wall_pull_main_,      0,                              0x800D93E4,                         SpidermanUSP.shared_air_collision_)
     Character.add_new_action(SPM, USPAAttack,        -1,             ActionParams.USPAAttack,        0x11,           0x8014A0C0,                        0,                              SpidermanUSP.throw_air_physics_,    SpidermanUSP.throw_air_collision_)
     Character.add_new_action(SPM, USPEnd,            -1,             ActionParams.USPEnd,            0x11,           0x800D94E8,                        0,                              0x800D9160,                         0x800DE99C)
+    Character.add_new_action(SPM, USPGroundPull,     -1,             ActionParams.USPGroundPull,     0x11,           SpidermanUSP.ground_pull_main_,    0,                              0x800D8BB4,                         SpidermanUSP.shared_ground_collision_)
+    Character.add_new_action(SPM, USPGAttack,        -1,             ActionParams.USPGAttack,        0x11,           0x8014A0C0,                        0,                              0x800D93E4,                         SpidermanUSP.throw_air_collision_)
 
     // Modify Menu Action Parameters             // Action          // Animation                // Moveset Data             // Flags
     Character.edit_menu_action_parameters(SPM,   0x0,               File.SPM_IDLE,              -1,                         -1)          // CSS Idle

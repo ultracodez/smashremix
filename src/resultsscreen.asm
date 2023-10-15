@@ -359,6 +359,7 @@ scope ResultsScreen {
         constant SONIC(0xA1B8)
         constant MISCHIEF_MAKERS(0xAD18)
         constant GOEMON(0xB888)
+        //constant SPIDERMAN(figure this out)
     }
 
     // @ Description
@@ -383,6 +384,7 @@ scope ResultsScreen {
         constant SONIC(0xA2C0)
         constant MISCHIEF_MAKERS(0xAE20)
         constant GOEMON(0xB990)
+        //constant SPIDERMAN(FZERO)
     }
 
     // @ Description
@@ -407,6 +409,7 @@ scope ResultsScreen {
         constant SONIC(0xA318)
         constant MISCHIEF_MAKERS(0xAE78)
         constant GOEMON(0xB9E8)
+        //constant SPIDERMAN(POKEMON)
     }
 
     // @ Description

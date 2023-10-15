@@ -215,8 +215,8 @@ scope CharacterSelect {
     dw  0x12EA0 + 0x1BE0 + 0x200            // 0x41 - GOEMON
     dw  0x5A50 + 0x200                      // 0x42 - PEPPY
     dw  0xA310 + 0x200                      // 0x43 - SLIPPY
-	dw  0x19200 + 0x200                     // 0x44 - SPM
-    dw  0x19200 + 0x200                     // 0x45 - SPM3
+	dw  0x14B68 + 0x200                     // 0x44 - SPM
+    dw  0x14B68 + 0x200                     // 0x45 - SPM3
     // ADD NEW CHARACTERS HERE
 
     // REMIX POLYGONS

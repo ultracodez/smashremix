@@ -2521,8 +2521,8 @@
 121A Spiderman Action_0E8
 121B Spiderman DSP_Air
 121C Spiderman USP_Ground
-121D Spiderman USP_GrabPull
-121E Spiderman USP_GrabThrow
+121D Spiderman USP_Air_GrabPull
+121E Spiderman USP_Air_GrabThrow
 121F Spiderman USP_Air
 1220 Spiderman Victory 1
 1221 Spiderman Victory 2
@@ -2537,6 +2537,9 @@
 122A Spiderman Projectile Graphic
 122B Spiderman CPU Pose
 122C Spiderman USP_WallEnd
+122D Spiderman USP_Ground_GrabPull
+122E Spiderman USP_Ground_GrabThrow
+122F Spiderman Shield Pose
 
 0611 CAPTAIN DeadU
 0611 CAPTAIN ScreenKO
