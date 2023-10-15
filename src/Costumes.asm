@@ -931,6 +931,7 @@ scope Costumes {
         db 0x05                             // Peppy
         db 0x05                             // Slippy
         db 0x05                             // Ryu
+        db 0x05                             // Ken
 
         // Polygons
         db 0x05                             // Polygon Wario

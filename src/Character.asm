@@ -22,7 +22,7 @@ scope Character {
     constant SHARED_ACTION_ARRAY(0xA45D8)
 
     // total number of character slots (note 0x1B and 0x1C will be unused)
-    constant NUM_CHARACTERS(27 + 2 + ADD_CHARACTERS)
+    constant NUM_CHARACTERS(28 + 2 + ADD_CHARACTERS)
 	variable NUM_REMIX_FIGHTERS(0)	// Will be updated by define_character
 	variable NUM_POLYGONS(0)	    // ~
     ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -3301,7 +3301,8 @@ scope Character {
     define_character(SLIPPY, FOX, File.SLIPPY_MAIN, 0x0D0, 0, File.SLIPPY_CHARACTER, 0x13A, File.SLIPPY_LASER_HITBOX, File.SLIPPY_REFLECT_GFX, 0x0A1, File.SLIPPY_LASER_GRAPHIC, 0x4AC, 0x0, OS.TRUE, OS.TRUE, Stages.id.BTT_FALCO, Stages.id.BTP_FALCO, Stages.id.BTT_FALCO, Stages.id.BTP_FALCO, sound_type.U, variant_type.SPECIAL)
     // 0x44 - RYU
     define_character(RYU, CAPTAIN, File.RYU_MAIN, 0x0EB, 0, File.RYU_CHARACTER, 0x14E, File.RYU_PROJECTILE_HITBOX, 0x15E, 0x14D, File.RYU_PROJECTILE_GRAPHIC, 0x488, 30, OS.TRUE, OS.TRUE, Stages.id.BTT_GND, Stages.id.BTP_GND, Stages.id.BTT_FALCON, Stages.id.BTP_YOSHI, sound_type.SF, variant_type.NA)
-    // define_character(RYU, CAPTAIN, File.SHEIK_MAIN, 0x0EB, 0, File.SHEIK_CHARACTER, 0x14E, 0, 0x15E, 0x14D, 0, 0x4B0, 0x5, OS.TRUE, OS.TRUE, Stages.id.BTT_GND, Stages.id.BTP_GND, Stages.id.BTT_FALCON, Stages.id.BTP_YOSHI, sound_type.U, variant_type.NA)
+    // 0x45 - KEN
+    define_character(KEN, CAPTAIN, File.KEN_MAIN, 0x0EB, 0, File.KEN_CHARACTER, 0x14E, File.RYU_PROJECTILE_HITBOX, 0x15E, 0x14D, File.RYU_PROJECTILE_GRAPHIC, 0x488, 30, OS.TRUE, OS.TRUE, Stages.id.BTT_GND, Stages.id.BTP_GND, Stages.id.BTT_FALCON, Stages.id.BTP_YOSHI, sound_type.SF, variant_type.NA)
 
     // ADD NEW CHARACTERS HERE
 
