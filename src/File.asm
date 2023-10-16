@@ -2409,4 +2409,9 @@ scope File {
     constant KEN_CHARACTER(0x11B2)
     constant KEN_AIRN(0x11B3)
     constant KEN_AIRU(0x11B4)
+    constant KEN_FAR_JAB(0x11B5)
+    constant KEN_COMMAND_KICK_FINISHER(0x11B6)
+    constant KEN_TATSU_L(0x11B7)
+    constant KEN_TATSU_M(0x11B8)
+    constant KEN_TATSU_H(0x11B9)
 }
