@@ -3302,7 +3302,7 @@ scope Character {
     // 0x44 - RYU
     define_character(RYU, CAPTAIN, File.RYU_MAIN, 0x0EB, 0, File.RYU_CHARACTER, 0x14E, File.RYU_PROJECTILE_HITBOX, 0x15E, 0x14D, File.RYU_PROJECTILE_GRAPHIC, 0x488, 30, OS.TRUE, OS.TRUE, Stages.id.BTT_GND, Stages.id.BTP_GND, Stages.id.BTT_FALCON, Stages.id.BTP_YOSHI, sound_type.SF, variant_type.NA)
     // 0x45 - KEN
-    define_character(KEN, CAPTAIN, File.KEN_MAIN, 0x0EB, 0, File.KEN_CHARACTER, 0x14E, File.RYU_PROJECTILE_HITBOX, 0x15E, 0x14D, File.RYU_PROJECTILE_GRAPHIC, 0x488, 30, OS.TRUE, OS.TRUE, Stages.id.BTT_GND, Stages.id.BTP_GND, Stages.id.BTT_FALCON, Stages.id.BTP_YOSHI, sound_type.SF, variant_type.NA)
+    define_character(KEN, CAPTAIN, File.KEN_MAIN, 0x0EB, 0, File.KEN_CHARACTER, 0x14E, File.KEN_PROJECTILE_HITBOX, 0x15E, 0x14D, File.KEN_PROJECTILE_GRAPHIC, 0x488, 30, OS.TRUE, OS.TRUE, Stages.id.BTT_GND, Stages.id.BTP_GND, Stages.id.BTT_FALCON, Stages.id.BTP_YOSHI, sound_type.SF, variant_type.NA)
 
     // ADD NEW CHARACTERS HERE
 
