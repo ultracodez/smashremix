@@ -2414,4 +2414,5 @@ scope File {
     constant KEN_TATSU_L(0x11B7)
     constant KEN_TATSU_M(0x11B8)
     constant KEN_TATSU_H(0x11B9)
+    constant KEN_COMMAND_KICK(0x11BA)
 }
