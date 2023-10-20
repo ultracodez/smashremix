@@ -2417,4 +2417,8 @@ scope File {
     constant KEN_COMMAND_KICK(0x11BA)
     constant KEN_PROJECTILE_GRAPHIC(0x11BB)
     constant KEN_PROJECTILE_HITBOX(0x11BC)
+    constant KEN_HARD_FTILT(0x11BD)
+    constant RYU_CROUCH_START(0x11BE)
+    constant RYU_CROUCH_IDLE(0x11BF)
+    constant RYU_CROUCH_END(0x11C0)
 }
