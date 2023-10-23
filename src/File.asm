@@ -2421,4 +2421,6 @@ scope File {
     constant RYU_CROUCH_START(0x11BE)
     constant RYU_CROUCH_IDLE(0x11BF)
     constant RYU_CROUCH_END(0x11C0)
+    constant KEN_THROWB(0x11C1)
+    constant KEN_FSMASH(0x11C2)
 }
