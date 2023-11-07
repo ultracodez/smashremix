@@ -1496,6 +1496,12 @@ scope Spawn {
     float32  2407,  0634
 
     // BB - Melrode
+    float32 -1767,  0514
+    float32  1767,  0514
+    float32 -0568,  0514
+    float32  0568,  0514
+
+    // BC - Suzaku Castle
     float32 -1767,  0832
     float32  1767,  0832
     float32 -0568,  1421
@@ -2633,6 +2639,12 @@ scope Spawn {
     float32  1767,  0832
     float32 -0568,  1421
     float32  0568,  1421
+
+    // BC - Suzaku Castle
+    float32 -1767,  0514
+    float32  1767,  0514
+    float32 -0568,  0514
+    float32  0568,  0514
 
 }
 

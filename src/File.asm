@@ -2429,4 +2429,7 @@ scope File {
     constant RYU_WIN_1(0x11C6)
     constant RYU_TAUNT(0x11C7)
     constant KEN_TAUNT(0x11C8)
+    constant SUZAKU_CASTLE_HEADER(0x11C9)
+    constant SUZAKU_CASTLE_STAGE(0x11CA)
+    constant SUZAKU_CASTLE_BG(0x11CB)
 }

@@ -211,8 +211,9 @@ scope Stages {
         constant BTP_GOEMON(0xB9)
         constant TWILIGHT_CITY(0xBA)
         constant MELRODE(0xBB)
+        constant SUZAKU_CASTLE(0xBC)
 
-        constant MAX_STAGE_ID(0xBB)
+        constant MAX_STAGE_ID(0xBC)
 
         // not an actual id, some arbitary number Sakurai picked(?)
         constant RANDOM(0xDE)
@@ -438,6 +439,7 @@ scope Stages {
         constant BTP_GOEMON(0x111C)
         constant TWILIGHT_CITY(0x1124)
         constant MELRODE(0x1135)
+        constant SUZAKU_CASTLE(0x11C9)
     }
 
     scope function {
@@ -2541,7 +2543,7 @@ scope Stages {
     db id.EDO                               // 47
     db id.TWILIGHT_CITY                     // 47
     db id.MELRODE                           // 47
-    db id.RANDOM                            // 47
+    db id.SUZAKU_CASTLE
     db id.RANDOM                            // 47
     db id.RANDOM                            // 47
 
@@ -2855,6 +2857,7 @@ scope Stages {
     dw OS.NULL                              // Goemon BTP
     dw Hazards.twilight_city_setup          // Twilight City
     dw function.CLONE                       // Melrode
+    dw OS.NULL                              // Suzaku Castle
 
     // @ Description
     // Offsets to image footer struct for stage icons sorted by stage id
@@ -3047,6 +3050,7 @@ scope Stages {
     dw 0x0000A578                           // BTP Goemon
     dw 0x00034E70                           // Twilight City
     dw 0x00035828                           // Melrode
+    dw 0x00035828                           // Suzaku Castle
 
     icon_offset_random:
     dw 0x00009BB8                           // Random
@@ -3270,6 +3274,7 @@ scope Stages {
     float32 0.5                         // BTP Goemon
     float32 0.25                        // Twilight City
     float32 0.5                         // Melrode
+    float32 0.5                         // Suzaku Castle
 
     // @ Description
     // This holds pointers to position arrays for positioning stage previews.
@@ -3467,6 +3472,7 @@ scope Stages {
     db id.SECTOR_Z                      // Goemon BTP
     db id.SECTOR_Z                      // Twilight City
     db id.YOSHIS_ISLAND                 // Melrode
+    db id.SECTOR_Z                      // Suzaku Castle
     OS.align(4)
 
     stage_file_table:
@@ -3659,6 +3665,7 @@ scope Stages {
     dw header.BTP_GOEMON,             type.BTP
     dw header.TWILIGHT_CITY,          type.PEACHS_CASTLE
     dw header.MELRODE,                type.CLONE
+    dw header.SUZAKU_CASTLE,          type.SECTOR_Z
 
     class_table:
     constant class_table_origin(origin())
@@ -4479,6 +4486,7 @@ scope Stages {
     add_stage(btp_goemon, "Break the Targets", -1, {MIDI.id.TARGET_TEST}, {MIDI.id.TARGET_TEST}, OS.FALSE, HAZARDS_ON_MOVEMENT_ON, OS.FALSE, OS.FALSE, class.BTP, 0x00006810, 0x00006948, -1, -1, -1, 0x05, 0x05, 0x05, default_blue_shell_rate, default_lightning_rate, default_item_rate, default_item_rate,  NONE, Hazards.type.NONE)
     add_stage(twilight_city, "Twilight City", {MIDI.id.TWILIGHT_CITY}, {MIDI.id.SOUTHERNISLAND}, {MIDI.id.MARINE_FORTRESS}, OS.FALSE, HAZARDS_ON_MOVEMENT_ON, OS.TRUE, OS.TRUE, class.BATTLE, -1, -1, -1, -1, -1, 0x05, 0x05, 0x05, default_blue_shell_rate, default_lightning_rate, default_item_rate, default_item_rate,  WAVERACE, Hazards.type.MOVEMENT)
     add_stage(melrode, "Melrode", {MIDI.id.QUEST64_BATTLE}, {MIDI.id.DECISIVE}, {MIDI.id.DECISIVE}, OS.FALSE, HAZARDS_ON_MOVEMENT_ON, OS.TRUE, OS.TRUE, class.BATTLE, -1, -1, -1, -1, -1, 0x05, 0x05, 0x05, default_blue_shell_rate, default_lightning_rate, default_item_rate, default_item_rate,  QUEST64, Hazards.type.NONE)
+    add_stage(suzaku_castle, "Suzaku Castle", -1, {MIDI.id.RYU_STAGE}, {MIDI.id.KEN_STAGE}, OS.FALSE, HAZARDS_ON_MOVEMENT_ON, OS.FALSE, OS.TRUE, class.BATTLE, -1, -1, -1, id.DREAM_LAND, variant_type.OMEGA, 0x05, 0x05, 0x05, default_blue_shell_rate, default_lightning_rate, default_item_rate, default_item_rate,  KIRBY, Hazards.type.NONE)
 
     map 0, 0, 256 // restore string mappings
 

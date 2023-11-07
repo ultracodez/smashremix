@@ -6,7 +6,7 @@
 scope KirbyHats {
     // @ Description
     // Number of new "hats" added
-    variable new_hats(22)
+    variable new_hats(24)
 
     // @ Description
     // Used in add_hat to adjust offset
