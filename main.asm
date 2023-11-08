@@ -233,6 +233,9 @@ include "src/Slippy/Slippy.asm"
 // RYU
 include "src/Ryu/RyuSpecial.asm"
 include "src/Ryu/Ryu.asm"
+// KEN
+include "src/Ken/KenSpecial.asm"
+include "src/Ken/Ken.asm"
 
 // KIRBY
 include "src/Kirby/Kirby.asm"
