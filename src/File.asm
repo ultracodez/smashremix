@@ -2432,4 +2432,9 @@ scope File {
     constant SUZAKU_CASTLE_HEADER(0x11C9)
     constant SUZAKU_CASTLE_STAGE(0x11CA)
     constant SUZAKU_CASTLE_BG(0x11CB)
+    constant RYU_DAMAGE_H1(0x11CC)
+    constant RYU_DAMAGE_H2(0x11CD)
+    constant RYU_DAMAGE_H3(0x11CE)
+    constant RYU_RUN(0x11CF)
+    constant RYU_RUN_BRAKE(0x11D0)
 }
