@@ -2439,4 +2439,5 @@ scope File {
     constant RYU_RUN_BRAKE(0x11D0)
     constant RYU_1P_POSE(0x11D1)
     constant KEN_1P_POSE(0x11D2)
+    constant RYU_DAMAGE_FLY_HI(0x11D3)
 }
