@@ -236,6 +236,7 @@ scope MIDI {
     add_game(waverace, "Wave Race 64")
     add_game(quest64, "Quest 64")
     add_game(ogrebattle64, "Ogre Battle 64: Person of Lordly Caliber")
+    add_game(sf2t, "Street Fighter II: Turbo")
     OS.align(4)
 
     // insert custom midi files
@@ -439,6 +440,9 @@ scope MIDI {
     insert_midi(BATTLEFIELDV2, OS.TRUE, OS.TRUE, "Battlefield Ver. 2", brawl)
     insert_midi(BOB, OS.TRUE, OS.TRUE, "Bob-omb Battlefield", sm64)
     insert_midi(AREA6, OS.TRUE, OS.TRUE, "Area 6", starfox64)
+    insert_midi(RYU_STAGE, OS.TRUE, OS.TRUE, "Ryu Stage", sf2t)
+    insert_midi(KEN_STAGE, OS.TRUE, OS.TRUE, "Ken Stage", sf2t)
+    insert_victory_midi(RYU_VICTORY)
     pushvar origin, base
 
     // Extend Sound Test Music numbers so we can test in game easier

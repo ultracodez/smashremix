@@ -215,6 +215,8 @@ scope CharacterSelect {
     dw  0x12EA0 + 0x1BE0 + 0x200            // 0x41 - GOEMON
     dw  0x5A50 + 0x200                      // 0x42 - PEPPY
     dw  0xA310 + 0x200                      // 0x43 - SLIPPY
+    dw  0xB8B0 + 0x200                     // 0x44 - RYU
+    dw  0x23658 + 0x200                     // 0x45 - KEN
     // ADD NEW CHARACTERS HERE
 
     // REMIX POLYGONS
@@ -336,6 +338,8 @@ scope CharacterSelect {
     add_alt_req_list(Character.id.GOEMON, req/GOEMON_MODEL)
     add_alt_req_list(Character.id.PEPPY, req/PEPPY_MODEL)
     add_alt_req_list(Character.id.SLIPPY, req/SLIPPY_MODEL)
+    add_alt_req_list(Character.id.RYU, req/RYU_MODEL)
+    add_alt_req_list(Character.id.KEN, req/KEN_MODEL)
 
     // POLYGONS
     add_alt_req_list(Character.id.NWARIO, req/NWARIO_MODEL)
@@ -2231,6 +2235,8 @@ scope CharacterSelect {
         constant PEPPY(0x000249E8 + 0x10)
         constant SLIPPY(0x00025AA8 + 0x10)
         constant CLASSIC(0x00026B68 + 0x10)
+        constant RYU(0x00001078)
+        constant KEN(0x00005378)
         // j
         constant JMARIO(0x00001078)
         constant JFOX(0x00002138)
@@ -2617,7 +2623,7 @@ scope CharacterSelect {
         define slot_15(KIRBY)
         define slot_16(FOX)
         define slot_17(PIKACHU)
-        define slot_18(JIGGLYPUFF)
+        define slot_18(KEN) // JIGGLYPUFF
         define slot_19(FALCO)
         define slot_20(SHEIK)
 
@@ -2631,7 +2637,7 @@ scope CharacterSelect {
         define slot_27(CONKER)
         define slot_28(MTWO)
         define slot_29(MARTH)
-        define slot_30(NONE)
+        define slot_30(RYU)
     }
 
     // @ Description
@@ -4956,6 +4962,8 @@ scope CharacterSelect {
     add_to_css(Character.id.GOEMON, FGM.announcer.names.GOEMON,         1.50,         0x00010001, GOEMON,       name_texture.GOEMON,         portrait_offsets.GOEMON,         -1)
     add_to_css(Character.id.PEPPY,  FGM.announcer.names.PEPPY,          1.50,         0x00010004, STARFOX,      name_texture.PEPPY,          portrait_offsets.PEPPY,          15)
     add_to_css(Character.id.SLIPPY, FGM.announcer.names.SLIPPY,         1.50,         0x00010004, STARFOX,      name_texture.SLIPPY,         portrait_offsets.SLIPPY,         18)
+    add_to_css(Character.id.RYU,    FGM.announcer.names.MARIO,          1.50,         0x00010001, ZELDA,        name_texture.MARIO,          portrait_offsets.MARIO,          -1)
+    add_to_css(Character.id.KEN,    FGM.announcer.names.LUIGI,          1.50,         0x00010001, ZELDA,        name_texture.LUIGI,          portrait_offsets.LUIGI,          -1)
     // ADD NEW CHARACTERS HERE
 
     // REMIX POLYGONS

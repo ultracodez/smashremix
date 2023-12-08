@@ -12,7 +12,7 @@ include "OS.asm"
 
 scope Character {
     // number of character slots to add
-    constant ADD_CHARACTERS(49)
+    constant ADD_CHARACTERS(50)
     // start and end offset for the main character struct table (RAM 0x80116E10)
     constant STRUCT_TABLE(0x92610)
     variable STRUCT_TABLE_END(STRUCT_TABLE + 0x6C)
@@ -22,7 +22,7 @@ scope Character {
     constant SHARED_ACTION_ARRAY(0xA45D8)
 
     // total number of character slots (note 0x1B and 0x1C will be unused)
-    constant NUM_CHARACTERS(27 + 2 + ADD_CHARACTERS)
+    constant NUM_CHARACTERS(28 + 2 + ADD_CHARACTERS)
 	variable NUM_REMIX_FIGHTERS(0)	// Will be updated by define_character
 	variable NUM_POLYGONS(0)	    // ~
     ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -2327,6 +2327,7 @@ scope Character {
     scope sound_type {
         constant U(0x0)
         constant J(0x1)
+        constant SF(0x2)
         OS.align(16)
         table:
         constant TABLE_ORIGIN(origin())
@@ -2365,8 +2366,9 @@ scope Character {
     // Holds the fgm_ids for J hitboxes
     scope sound_type_J: {
         constant ORIGINAL_TABLE(0xA4500)
+
         OS.align(16)
-        table:
+        tableJ:
         constant TABLE_ORIGIN(origin())
         // copy ORIGINAL_TABLE
         OS.copy_segment(ORIGINAL_TABLE, 48)
@@ -2380,6 +2382,23 @@ scope Character {
         dh      FGM.hit.J_KICK_S             // Kick S
         dh      FGM.hit.J_KICK_M             // Kick M
         dh      FGM.hit.J_KICK_L             // Kick L
+        pullvar origin, base
+
+        OS.align(16)
+        tableSF:
+        constant TABLE_SF_ORIGIN(origin())
+        // copy ORIGINAL_TABLE
+        OS.copy_segment(ORIGINAL_TABLE, 48)
+        OS.align(4)
+        // update fgm_ids for J sounds
+        pushvar base, origin
+        origin  TABLE_SF_ORIGIN
+        dh      0x518            // Punch S
+        dh      0x519            // Punch M
+        dh      0x51A            // Punch L
+        dh      0x503             // Kick S
+        dh      0x504             // Kick M
+        dh      0x505             // Kick L
         pullvar origin, base
 
         scope apply_sound_type_: {
@@ -2404,9 +2423,20 @@ scope Character {
             lbu     t3, 0x0000(t3)              // t3 = sound_type
             addiu   a0, r0, sound_type.U        // a0 = sound_type.U
             beq     t3, a0, _original           // if sound_type is U, then use original sounds
+            addiu   a0, r0, sound_type.SF        // a0 = sound_type.U
+            beq     t3, a0, _sf_sounds           // if sound_type is U, then use original sounds
             nop                                 // else use J table
+            b _j_sounds_on
+            nop
+
+            _sf_sounds:
+            li      a0, sound_type_J.tableSF      // a0 = address of sound_type_J table
+            addiu   a0, a0, -0x8D00             // a0 = adjusted address of sound_type_J table (later on is lhu a0, 0x8D00(a0))
+            b       _end                        // skip to end
+            nop
+
             _j_sounds_on:
-            li      a0, sound_type_J.table      // a0 = address of sound_type_J table
+            li      a0, sound_type_J.tableJ      // a0 = address of sound_type_J table
             addiu   a0, a0, -0x8D00             // a0 = adjusted address of sound_type_J table (later on is lhu a0, 0x8D00(a0))
             b       _end                        // skip to end
             nop
@@ -3269,6 +3299,10 @@ scope Character {
     define_character(PEPPY, FOX, File.PEPPY_MAIN, 0x0D0, 0, File.PEPPY_CHARACTER, 0x13A, File.PEPPY_LASER_HITBOX, 0x15A, 0x0A1, File.PEPPY_LASER_GFX, 0x474, 0x0, OS.TRUE, OS.TRUE, Stages.id.BTT_FOX, Stages.id.BTP_FOX, Stages.id.BTT_FOX, Stages.id.BTP_FOX, sound_type.U, variant_type.SPECIAL)
     // 0x43 - SLIPPY
     define_character(SLIPPY, FOX, File.SLIPPY_MAIN, 0x0D0, 0, File.SLIPPY_CHARACTER, 0x13A, File.SLIPPY_LASER_HITBOX, File.SLIPPY_REFLECT_GFX, 0x0A1, File.SLIPPY_LASER_GRAPHIC, 0x4AC, 0x0, OS.TRUE, OS.TRUE, Stages.id.BTT_FALCO, Stages.id.BTP_FALCO, Stages.id.BTT_FALCO, Stages.id.BTP_FALCO, sound_type.U, variant_type.SPECIAL)
+    // 0x44 - RYU
+    define_character(RYU, CAPTAIN, File.RYU_MAIN, 0x0EB, 0, File.RYU_CHARACTER, 0x14E, File.RYU_PROJECTILE_HITBOX, 0x15E, 0x14D, File.RYU_PROJECTILE_GRAPHIC, 0x3F0, 30, OS.TRUE, OS.TRUE, Stages.id.BTT_GND, Stages.id.BTP_GND, Stages.id.BTT_FALCON, Stages.id.BTP_YOSHI, sound_type.SF, variant_type.NA)
+    // 0x45 - KEN
+    define_character(KEN, CAPTAIN, File.KEN_MAIN, 0x0EB, 0, File.KEN_CHARACTER, 0x14E, File.KEN_PROJECTILE_HITBOX, 0x15E, 0x14D, File.KEN_PROJECTILE_GRAPHIC, 0x488, 30, OS.TRUE, OS.TRUE, Stages.id.BTT_GND, Stages.id.BTP_GND, Stages.id.BTT_FALCON, Stages.id.BTP_YOSHI, sound_type.SF, variant_type.NA)
 
     // ADD NEW CHARACTERS HERE
 

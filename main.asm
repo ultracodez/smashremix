@@ -58,6 +58,7 @@ include "src/VsStats.asm"
 include "src/Widescreen.asm"
 include "src/AA.asm"
 include "src/Japan.asm"
+include "src/FGC.asm"
 include "src/FPS.asm"
 include "src/SinglePlayer.asm"
 include "src/Skeleton.asm"
@@ -229,6 +230,12 @@ include "src/Peppy/Peppy.asm"
 // SLIPPY
 include "src/Slippy/SlippySpecial.asm"
 include "src/Slippy/Slippy.asm"
+// RYU
+include "src/Ryu/RyuSpecial.asm"
+include "src/Ryu/Ryu.asm"
+// KEN
+include "src/Ken/KenSpecial.asm"
+include "src/Ken/Ken.asm"
 
 // KIRBY
 include "src/Kirby/Kirby.asm"

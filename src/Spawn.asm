@@ -1496,10 +1496,16 @@ scope Spawn {
     float32  2407,  0634
 
     // BB - Melrode
-    float32 -1767,  0832
-    float32  1767,  0832
-    float32 -0568,  1421
-    float32  0568,  1421
+    float32 -1767,  0514
+    float32  1767,  0514
+    float32 -0568,  0514
+    float32  0568,  0514
+
+    // BC - Suzaku Castle
+    float32 -2500,  0000
+    float32  2500,  0000
+    float32 -1000,  0000
+    float32  1000,  0000
 
     neutral_table:
     // 00 - Peach's Castle
@@ -2633,6 +2639,12 @@ scope Spawn {
     float32  1767,  0832
     float32 -0568,  1421
     float32  0568,  1421
+
+    // BC - Suzaku Castle
+    float32 -2500,  0000
+    float32  2500,  0000
+    float32 -1000,  0000
+    float32  1000,  0000
 
 }
 
