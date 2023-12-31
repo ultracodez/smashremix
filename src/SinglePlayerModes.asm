@@ -2649,17 +2649,6 @@ scope SinglePlayerModes: {
     dw  0x000004C4                      // Announcer Call
     dw  0x00006F80                      // Model Scale
     dw  0x00016500                      // Progress Icon
-
-    // Spider-Man match settings
-    dw  0x00000000                      // flag
-    db  Character.id.SPM                // Character ID
-    db  Stages.id.SAFFRON_DL               // Stage Option 1
-    db  Stages.id.SAFFRON_DL               // Stage Option 2
-    db  Stages.id.SAFFRON_DL               // Stage Option 3
-    dw  SinglePlayer.name_texture.SPM + 0x10    // name texture
-    dw  0x00000513                      // Announcer Call
-    dw  0x00006F80                      // Model Scale
-    dw  0x00016EB0 + 0x10               // Progress Icon
     
     //  Falco match settings
     falco_match_setting:
@@ -2684,6 +2673,17 @@ scope SinglePlayerModes: {
     dw  0x000002EC                      // Announcer Call
     dw  0x00006F80                      // Model Scale
     dw  0x00015100                      // Progress Icon
+
+    // Spider-Man match settings
+    dw  0x00000000                      // flag
+    db  Character.id.SPM                // Character ID
+    db  Stages.id.SAFFRON_DL               // Stage Option 1
+    db  Stages.id.SAFFRON_DL               // Stage Option 2
+    db  Stages.id.SAFFRON_DL               // Stage Option 3
+    dw  SinglePlayer.name_texture.SPM + 0x10    // name texture
+    dw  0x00000513                      // Announcer Call
+    dw  0x00006F80                      // Model Scale
+    dw  0x00016EB0 + 0x10               // Progress Icon
 
     // Add entry here if a new variant.type.NA character is added UPDATE
 
@@ -5420,7 +5420,7 @@ scope SinglePlayerModes: {
 
 // ALLSTAR
 
-// Total characters: 30
+// Total characters: 26
     // @ Description
     // Randomly generates a list of characters and stages for the matches
     // This only gets run after a player presses start on the 1p CSS screen
@@ -6149,7 +6149,7 @@ scope SinglePlayerModes: {
    }
 
     // @ Description
-    // Offsets to the icon image footers in the Stock Icons file.
+    // Offsets to the icon image footers in the Stock Icons file 0x0D8B.
     // The size of each block is 0xE0, so Mario's flash would be at icon_offsets.MARIO + 0xE0 for example.
     scope icon_offsets: {
         // original
@@ -6194,8 +6194,6 @@ scope SinglePlayerModes: {
         constant MARINA(0x00001BA8 + 0x10)
         constant DEDEDE(0x00001C88 + 0x10)
         constant GOEMON(0x00001D68 + 0x10)
-		constant SPM(0x00001FF8 + 0x10)
-        constant SPM3(0x00001FF8 + 0x10)
 
     }
 
@@ -6270,9 +6268,8 @@ scope SinglePlayerModes: {
     dw icon_offsets.GOEMON                   // Goemon
     dw icon_offsets.PEPPY                    // Peppy Hare
     dw icon_offsets.SLIPPY                   // Slippy Toad
-	dw icon_offsets.SPM                      // Spider-Man
-    dw icon_offsets.SPM                      // Spider-Man 3
-
+	dw icon_offsets.POLY                     // Spider-Man
+    dw icon_offsets.POLY                     // Spider-Man 3
     // ADD NEW CHARACTERS HERE
 
     // REMIX POLYGONS

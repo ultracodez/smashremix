@@ -494,7 +494,7 @@ scope SpidermanNSP {
 
 scope SpidermanUSP {
     constant END_X_SPEED(0x41C0)            // float32 24
-    constant END_Y_SPEED(0x4280)            // float32 64
+    constant END_Y_SPEED(0x42C0)            // float32 96
     constant COLLISION_SFX(0x13)            // grab fgm
     constant THROW_GRAVITY(0x4000)          // current setting - float32 2
 
@@ -540,6 +540,7 @@ scope SpidermanUSP {
         addiu   sp, sp,-0x0028              // allocate stack space
         sw      ra, 0x0014(sp)              // ~
         sw      a0, 0x0018(sp)              // store ra, a0
+        sw      r0, 0x0010(sp)              // argument 4 = 0
 
         lw      a1, 0x0084(a0)              // a1 = player struct
         lbu     at, 0x0ADD(a1)              // at = temp flag, used as USP's ammo
@@ -560,7 +561,10 @@ scope SpidermanUSP {
         lw      a0, 0x0084(a0)              // ~
         sw      r0, 0x017C(a0)              // temp variable 1 = 0
         sw      r0, 0x0180(a0)              // temp variable 2 = 0
+        //ori     v1, r0, 0x0001              // ~
         sw      r0, 0x0184(a0)              // temp variable 3 = 0
+        // reset fall speed
+        lbu     v1, 0x018D(a0)              // v1 = fast fall flag
         ori     t6, r0, 0x0007              // t6 = bitmask (01111111)
         and     v1, v1, t6                  // ~
         sb      v1, 0x018D(a0)              // disable fast fall flag
@@ -580,7 +584,7 @@ scope SpidermanUSP {
         lw      v1, 0x0084(a0)              // v1 = player struct
         lli     a1, Spiderman.Action.USPGroundPull // a1(action id) = DSPGroundPull
         or      a2, r0, r0                  // a2(starting frame) = 0
-        lwc1    f2, 0x0180(v1)              // ~
+        lwc1    f2, 0x017C(v1)              // ~
         cvt.s.w f2, f2                      // ~
         mfc1    a2, f2                      // a2(starting frame) = temp variable 2
         lli     t6, 0x0002                  // ~
@@ -611,7 +615,7 @@ scope SpidermanUSP {
         sw      a0, 0x0020(sp)              // store a0, ra
         lw      v1, 0x0084(a0)              // v1 = player struct
         lli     a1, Spiderman.Action.USPAirPull // a1(action id) = DSPAirPull
-        lwc1    f2, 0x0180(v1)              // ~
+        lwc1    f2, 0x017C(v1)              // ~
         cvt.s.w f2, f2                      // ~
         mfc1    a2, f2                      // a2(starting frame) = temp variable 2
         lli     t6, 0x0002                  // ~
@@ -645,7 +649,7 @@ scope SpidermanUSP {
         sw      a0, 0x0020(sp)              // store a0, ra
         lw      v1, 0x0084(a0)              // v1 = player struct
         lli     a1, Spiderman.Action.USPAirWallPull // a1(action id) = DSPAirWallPull
-        lwc1    f2, 0x0180(v1)              // ~
+        lwc1    f2, 0x017C(v1)              // ~
         cvt.s.w f2, f2                      // ~
         mfc1    a2, f2                      // a2(starting frame) = temp variable 2
         lli     t6, 0x0002                  // ~
@@ -789,16 +793,16 @@ scope SpidermanUSP {
     }
 
     // @ Description
-    // Main function for DSPGround and DSPAir
+    // Main function for USPGround and USPAir
     scope main_: {
         addiu   sp, sp,-0x0018              // allocate stack space
         sw      ra, 0x0014(sp)              // store ra
 
         lw      t5, 0x0084(a0)              // t5 = player struct
-        lw      t6, 0x0180(t5)              // t6 = starting frame (temp variable 2)
+        lw      t6, 0x017C(t5)              // t6 = starting frame (temp variable 2)
         beqz    t6, _check_idle             // skip if starting frame = 0
         addiu   t6, t6,-0x0001              // t6 = decrement starting frame
-        sw      t6, 0x0180(t5)              // store updated starting frame
+        sw      t6, 0x017C(t5)              // store updated starting frame
 
         _check_idle:
         // checks the current animation frame to see if we've reached end of the animation
@@ -887,7 +891,7 @@ scope SpidermanUSP {
         sw      ra, 0x0014(sp)              // ~
         sw      a0, 0x0018(sp)              // store ra, a0
         lw      s0, 0x0084(a0)              // s0 = player struct
-        lw      t6, 0x017C(s0)              // t6 = temp variable 1
+        lw      t6, 0x0180(s0)              // t6 = temp variable 1
         beqz    t6, _end                    // skip if temp variable 1 = 0
         nop
 
@@ -934,9 +938,9 @@ scope SpidermanUSP {
         sw      t0, 0x0004(sp)              // ~
         sw      t1, 0x0008(sp)              // ~
         sw      ra, 0x000C(sp)              // store t0, t1, ra
-        lw      t0, 0x017C(a1)              // t0 = temp variable 1
-        ori     t1, r0, 0x0002              // t1 = 0x2
-        bne     t1, t0, _end                // skip if temp variable 2 != 2
+        lw      t0, 0x0180(a1)              // t0 = temp variable 1
+        ori     t1, r0, 0x0001              // t1 = 0x2
+        bne     t1, t0, _end                // skip if temp variable 2 != 1
         nop
         jal     0x80160370                  // turn subroutine (copied from captain falcon)
         nop
@@ -974,7 +978,7 @@ scope SpidermanUSP {
         bnez    v0, _check_begin            // modified original branch
         nop
         li      t8, 0x800D8FA8              // t8 = subroutine which disallows air control
-        lw      t0, 0x017C(s0)              // t0 = temp variable 3
+        lw      t0, 0x0184(s0)              // t0 = temp variable 3
         ori     t1, r0, MOVE                // t1 = MOVE
         bne     t0, t1, _apply_air_physics  // branch if temp variable 3 != MOVE
         nop
@@ -989,7 +993,7 @@ scope SpidermanUSP {
         or      a1, s1, r0                  // a1 = attributes pointer
 
         _check_begin:
-        lw      t0, 0x017C(s0)              // t0 = temp variable 1
+        lw      t0, 0x0184(s0)              // t0 = temp variable 1
         ori     t1, r0, BEGIN               // t1 = BEGIN
         bne     t0, t1, _check_begin_move   // skip if temp variable 1 != BEGIN
         // reset fall speed
@@ -1008,7 +1012,7 @@ scope SpidermanUSP {
         
 
         _check_begin_move:
-        lw      t0, 0x017C(s0)              // t0 = temp variable 1
+        lw      t0, 0x0184(s0)              // t0 = temp variable 1
         ori     t1, r0, BEGIN_MOVE          // t1 = BEGIN_MOVE
         bne     t0, t1, _end                // skip if temp variable 1 != BEGIN_MOVE
         nop
@@ -1021,7 +1025,7 @@ scope SpidermanUSP {
         cvt.s.w f0, f0                      // f0 = direction
         mul.s   f2, f0, f2                  // f2 = x velocity * direction
         ori     t0, r0, MOVE                // t0 = MOVE
-        sw      t0, 0x017C(s0)              // temp variable 3 = MOVE
+        sw      t0, 0x0184(s0)              // temp variable 3 = MOVE
         swc1    f2, 0x0048(s0)              // store x velocity
         sw      t1, 0x004C(s0)              // store y velocity
 

@@ -591,6 +591,23 @@ scope Credits {
     add_name("Pringles", "Trailer Directing,|Cinematic Animation, |Trailer Editing", remix)
     add_name("HeronNobody", "Graphics, Cinematic|Animation", remix)
 
+    add_title("Spider-Man Mod")
+    add_name("UltIMa647", "Director, Programming|Animation, Moveset|Announcer", none)
+    add_name("OniFox", "Textures|Primary Playtester", none)
+    add_name("Psi-Hate", "Github Manager|Primary Playtester", none)
+    add_name("RubysCarbuncle", "Primary Playtester", none)
+    add_name("Der Fahn", "Primary Playtester", none)
+    add_name("Malon Rose", "Primary Playtester", none)
+    add_name("Unesag", "Primary Playtester", none)
+    add_name("Good King Linky", "Primary Playtester", none)
+    add_name("Pringles", "Announcer Filter", remix)
+    add_name("Smash Remix Discord Server", "Playtesting|Various Support|ty for the help :pray:", remix)
+
+    add_title("Spider-Man Sources")
+    add_name("Spider-Man", "Neversoft|September 1, 2000", none)
+    add_name("Marvel Super Heroes vs. Street Fighter", "Capcom|June 25, 1997", none)
+    add_name("Marvel vs. Capcom 3", "Capcom, Eighting|February 15, 2011", none)
+    add_name("Marvel vs. Capcom: Infinite", "Capcom|September 19, 2017", none)
 
     // The strings and tables for the Remix credits will be in an external file...
     // This constant will help with that.
