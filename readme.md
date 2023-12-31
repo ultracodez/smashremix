@@ -1,5 +1,39 @@
-# Smash Remix
+# Smash Remix (Spider-Man Edition)
 *A Super Smash Bros. 64 Mod Organized by The_Smashfather*
+*Spider-Man mod created by UltIMa647*
+
+# Spider-Man Overview
+This is a modded version of Smash-Remix that adds Spider-Man as a brand new character. This project is not affiliated with Smash Remix or the team behind it.
+He has his own character slot, and has a completely unique moveset based on the MvC series along with several unique moves exclusive to the mod.
+Although the mod isn't fully complete, it is at a point where I'm satisifed with opening it to the public.
+Thank you to the Smash Remix dev team and Discord server for help on the project, it wouldn't have been finished without them <3
+If you find any bugs or issues (that aren't listed below), please contact me @UltIMa647 on Twitter.
+
+# Spider-Man Credits
+- UltIMa647: Director, Programming, Animation, Moveset, Announcer
+- OniFox: Textures, Primary Playtester
+- Psi-Hate: Github Manager, Primary Playtester
+- RubysCarbuncle: Primary Playtester
+- Der Fahn: Primary Playtester
+- Malon Rose: Primary Playtester
+- Unesag: Primary Playtester
+- Good King Linky: Primary Playtester
+- Pringles: Announcer Filter
+- Smash Remix Discord Server: Playtesting, Various Support, ty for the help :pray:
+
+# Spider-Man Asset Sources
+- Spider-Man (Neversoft, September 1, 2000)
+- Marvel Super Heroes vs. Street Fighter (Capcom, June 25, 1997)
+- Marvel vs. Capcom 3 (Capcom, Eighting, February 15, 2011)
+- Marvel vs. Capcom Infinite: (Capcom, September 19, 2017)
+
+# Known Bugs/Issues (Spider-Man)
+- Hammer doesn't show web.
+- DSP still shows 1 frame of flames
+- All Star Mode crashes (will wait until next official Remix update before fixing)
+- Shield Pose is unfinished
+- Spider-Man does not have a Kirby Hat, Bonus Stages, or a unique Victory Theme
+- Victory screen still has a tendency to crash on console
 
 ## Building
 ### THIS IS ONLY FOR THOSE INTERESTED IN THE SOURCE CODE OF THE MOD. PLEASE DOWNLOAD THE RELEASE VERSION BY CLICKING THE RELEASE TAB.
