@@ -4,9 +4,13 @@
 
 # Spider-Man Overview
 This is a modded version of Smash-Remix that adds Spider-Man as a brand new character. This project is not affiliated with Smash Remix or the team behind it.
+
 He has his own character slot, and has a completely unique moveset based on the MvC series along with several unique moves exclusive to the mod.
+
 Although the mod isn't fully complete, it is at a point where I'm satisifed with opening it to the public.
+
 Thank you to the Smash Remix dev team and Discord server for help on the project, it wouldn't have been finished without them <3
+
 If you find any bugs or issues (that aren't listed below), please contact me @UltIMa647 on Twitter.
 
 # Spider-Man Credits
