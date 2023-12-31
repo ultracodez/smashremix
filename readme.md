@@ -34,10 +34,12 @@ If you find any bugs or issues (that aren't listed below), please contact me @Ul
 
 # Known Bugs/Issues (Spider-Man)
 - Hammer doesn't show web.
+- Spider-Man uses Sonic's victory theme
 - DSP still shows 1 frame of flames
 - All Star Mode crashes (will wait until next official Remix update before fixing)
 - Shield Pose is unfinished
 - Spider-Man does not have a Kirby Hat, Bonus Stages, or a unique Victory Theme
+- Mario shows up in Remix Mode sometimes
 - Victory screen still has a tendency to crash on console
 
 ## Building
