@@ -18,3 +18,4 @@ build/original/*.bin
 build/original/*.vpk
 build/original/*.txt
 *.zip
+original_remixog.xdelta
