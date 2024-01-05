@@ -30,7 +30,6 @@ scope Spiderman {
     insert JAB3_LOOP_START, "moveset/JAB3_LOOP_START.bin"
     insert NEUTRAL_AERIAL, "moveset/NEUTRAL_AERIAL.bin"
     insert TAUNT, "moveset/TAUNT.bin"
-    insert TAUNT3, "moveset/TAUNT_3.bin"
     insert UP_AERIAL, "moveset/UP_AERIAL.bin"
     insert UP_SMASH, "moveset/UP_SMASH.bin"
     insert UP_TILT, "moveset/UP_TILT.bin"
@@ -372,10 +371,10 @@ scope Spiderman {
     //db      Character.id.SPM3   // D-Pad Right Slot
     //OS.patch_end()
 
-    // Set crowd chant FGM.
-    //Character.table_patch_start(crowd_chant_fgm, Character.id.SPM, 0x2)
-    //dh  0x031E
-    //OS.patch_end()
+    // Set crowd chant FGM to none
+    Character.table_patch_start(crowd_chant_fgm, Character.id.DRAGONKING, 0x2)
+    dh  0x02B7
+    OS.patch_end()
 
     // Use Mario's initial/grounded script.
     Character.table_patch_start(initial_script, Character.id.SPM, 0x4)
@@ -392,7 +391,13 @@ scope Spiderman {
 
     // Set default costumes
     Character.set_default_costumes(Character.id.SPM, 0, 1, 2, 3, 0, 4, 2)
+    Teams.add_team_costume(YELLOW, SPM, 0x6)
 
     // Shield colors for costume matching
     Character.set_costume_shield_colors(SPM, RED, CYAN, GREEN, BLACK, BLUE, BLUE, YELLOW, WHITE)
+
+    // Set Kirby star damage
+    Character.table_patch_start(kirby_inhale_struct, 0x8, Character.id.DRAGONKING, 0xC)
+    dw Character.kirby_inhale_struct.star_damage.FALCON
+    OS.patch_end()
 }

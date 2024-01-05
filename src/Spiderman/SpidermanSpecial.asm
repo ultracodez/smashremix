@@ -106,7 +106,7 @@ scope SpidermanNSP {
         lw      t3, 0x0000(s0)
         sw      t3, 0x0268(v1)
         //new code here
-        lli     t3, 0x0517               // new hit fgm = NSP_HIT
+        lli     t3, 0x058F               // new hit fgm = NSP_HIT
         sh      t3, 0x0146(v1)          // overwrite hit fgm
         //end new code
    

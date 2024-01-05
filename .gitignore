@@ -9,13 +9,12 @@
 *.log
 *.sym
 
-# Obsolete
-*.lnk
-*.bak
-
 # Build
 build/original/*.bin
 build/original/*.vpk
 build/original/*.txt
-*.zip
-original_remixog.xdelta
+
+# /roms
+/roms/*
+!/roms/filename_overrides.txt
+!/roms/Place legally acquired rom titled ssb.rom here.txt
