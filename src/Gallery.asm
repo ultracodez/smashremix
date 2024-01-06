@@ -64,6 +64,7 @@ scope Gallery {
         constant SLIPPY_PEPPY(0x1E)
         constant EBI(0x1F)
         constant REMIX(0x20)
+        constant SPM(0x21)
     }
 
     // @ Description
@@ -102,6 +103,7 @@ scope Gallery {
     dw bgm_slippy_peppy                     // Slippy & Peppy
     dw bgm_ebi                              // Ebisumaru
     dw bgm_remix                            // You Are Proud
+    dw bgm_spiderman                        // Spider-Man
 
     bgm_mario:
     dh 15                                   // number of BGM
@@ -366,12 +368,20 @@ scope Gallery {
     dh {MIDI.id.CREDITS_BRAWL}
     dh {MIDI.id.GALLERY}
     dh {MIDI.id.TARGET_TEST}
+
+    bgm_spiderman:
+    dh 4                                    // number of BGM
+    dh {MIDI.id.SPIDERMAN_THEME}
+    dh {MIDI.id.CAPTAINAMERICA_THEME}
+    dh {MIDI.id.GLACIAL}
+    dh {MIDI.id.CLOCKTOWER}
+
     OS.align(4)
 
     // @ Description
     // table which holds the character id for a given Gallery index
     id_table:
-    constant id_table.SIZE(33)
+    constant id_table.SIZE(34)
     db Character.id.MARIO
     db Character.id.DK
     db Character.id.LINK
@@ -405,6 +415,7 @@ scope Gallery {
     db Character.id.SLIPPY
     db Character.id.EBI
     db Character.id.BOSS
+    db Character.id.SPM
     OS.align(4)
 
     // @ Description

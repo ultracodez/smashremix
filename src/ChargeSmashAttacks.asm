@@ -377,9 +377,9 @@
         db 0        // unused
 
         entry_spiderman:
-        db 7        // forward
+        db 20        // forward
         db 2        // up
-        db 4        // down
+        db 2        // down
         db 0        // unused
 
         frame_table:

@@ -3068,15 +3068,15 @@ scope SinglePlayerModes: {
     dw  0x00016EB0 + 0x10               // Progress Icon
 
     // Spider-Man match settings
-    dw  0x00000000                      // flag
-    db  Character.id.SPM                // Character ID
-    db  Stages.id.SAFFRON_DL               // Stage Option 1
-    db  Stages.id.CORNERIACITY             // Stage Option 2
-    db  Stages.id.SAFFRON_DL               // Stage Option 3
-    dw  SinglePlayer.name_texture.SPM + 0x10    // name texture
-    dw  0x00000513                      // Announcer Call
-    dw  0x00006F80                      // Model Scale
-    dw  0x00016EB0 + 0x10               // Progress Icon
+    //dw  0x00000000                      // flag
+    //db  Character.id.SPM                // Character ID
+    //db  Stages.id.SAFFRON_DL               // Stage Option 1
+    //db  Stages.id.SAFFRON_DL               // Stage Option 2
+    //db  Stages.id.SAFFRON_DL               // Stage Option 3
+    //dw  SinglePlayer.name_texture.SPM + 0x10    // name texture
+    //dw  0x00000513                      // Announcer Call
+    //dw  0x00006F80                      // Model Scale
+    //dw  0x000173A0 + 0x10               // Progress Icon
 
     // Add entry here if a new variant.type.NA character is added UPDATE
 
@@ -6135,6 +6135,7 @@ scope SinglePlayerModes: {
     add_duo_parameters(0x1D4,                        duo_moveset_luigi,     0)          // 0x45 - MLUIGI
     add_duo_parameters(File.EBISUMARU_DUO_POSE,      duo_moveset_ebisumaru, 0)          // 0x46 - EBISUMARU
     add_duo_parameters(0x617,                        duo_moveset_captain,   0)          // 0x47 - DRAGONKING
+    add_duo_parameters(0x617,                        duo_moveset_captain,   0)          // 0x48 - SPM
 
     // ADD NEW CHARACTERS HERE
 
@@ -6889,7 +6890,7 @@ scope SinglePlayerModes: {
    }
 
     // @ Description
-    // Offsets to the icon image footers in the Stock Icons file.
+    // Offsets to the icon image footers in the Stock Icons file 0x0D8B.
     // The size of each block is 0xE0.
     scope icon_offsets: {
         // original
@@ -6937,7 +6938,7 @@ scope SinglePlayerModes: {
         constant DEDEDE(0x00001C88 + 0x10)
         constant GOEMON(0x00001D68 + 0x10)
         constant BANJO(0x00001FF8 + 0x10)
-        constant SPM(0x00000BE8 + 0x10)
+        constant SPM(0x00002378 + 0x10)
     }
 
     // @ Description

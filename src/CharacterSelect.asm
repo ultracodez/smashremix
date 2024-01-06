@@ -2272,7 +2272,7 @@ scope CharacterSelect {
     fill (selection_action_table + (Character.NUM_CHARACTERS * 0x4)) - pc()
 
     // @ Description
-    // Offsets to the portrait image footers in the Character Portraits file.
+    // Offsets to the portrait image footers in the Character Portraits file 0A05.
     // It is assumed that the white flash version of the portraits are immediately following the corresponding normal portrait.
     // The size of each block is 0x860, so Mario's flash would be at portrait_offsets.MARIO + 0x860 for example.
     scope portrait_offsets: {
@@ -2352,7 +2352,8 @@ scope CharacterSelect {
         constant DEDEDE(0x00022878)
         constant GOEMON(0x00023938)
         constant BANJO(0x00026B68 + 0x10)
-        constant SPM(0x00001078)
+        constant SPM(0x0002AE50 + 0x10)
+        //constant SP3(0x0002BF00 + 0x10)
         // j
         constant JMARIO(0x00001078)
         constant JFOX(0x00002138)
@@ -2413,6 +2414,7 @@ scope CharacterSelect {
         constant SHANTAE(34)
         constant DOOM(35)
         constant SNOWBOARDKIDS(36)
+        constant SPM(37)
 
         scope offset {
             constant NONE(0)
@@ -2452,6 +2454,7 @@ scope CharacterSelect {
             constant SHANTAE(0x0000D860)
             constant DOOM(0x0000DEB8)
             constant SNOWBOARDKIDS(0xE510)
+            constant SPM(0x0000EB58 + 0x10)
         }
 
         // @ Description
@@ -2531,6 +2534,8 @@ scope CharacterSelect {
             constant Y_DOOM(0x419C0000)
             constant X_SNOWBOARDKIDS(0x40000000)
             constant Y_SNOWBOARDKIDS(0x419C0000)
+            constant X_SPM(0x3F800000)
+            constant Y_SPM(0x41A00000)
         }
 
         table:
@@ -2573,6 +2578,7 @@ scope CharacterSelect {
         dw offset.SHANTAE,          position.X_SHANTAE,          position.Y_SHANTAE
         dw offset.DOOM,             position.X_DOOM,             position.Y_DOOM
         dw offset.SNOWBOARDKIDS,    position.X_SNOWBOARDKIDS,    position.Y_SNOWBOARDKIDS
+        dw offset.SPM,              position.X_SPM,              position.Y_SPM
     }
 
     // @ Description
@@ -2678,7 +2684,7 @@ scope CharacterSelect {
         constant BANJO(0x00021CF8 + 0x10)
         constant MLUIGI(0x00021358)
         constant DRAGONKING(0x00023A28 + 0x10)
-        constant SPM(0x00001838)
+        constant SPM(0x000251B8 + 0x10)
         constant EPUFF(0x00024CE0 + 0x10)
         // POLYGONS
         constant NWARIO(0x0001CB28)
@@ -4122,6 +4128,7 @@ scope CharacterSelect {
         constant MLUIGI(0x2A88 + 0x10)
         constant EBI(0x2B60 + 0x10)
         constant DRAGONKING(0x2C38 + 0x10)
+        constant SP3(0x2D10 + 0x10)
     }
 
     // @ Description
@@ -4183,6 +4190,9 @@ scope CharacterSelect {
         lli     t2, Character.id.EBI
         beql    a1, t2, _draw_icon          // If EBI, then draw EBI stock icon
         addiu   a1, at, VARIANT_ICON_OFFSET.EBI // a1 = EBI footer struct
+        //lli     t2, Character.id.SP3
+        //beql    a1, t2, _draw_icon          // If SP3, then draw SP3 stock icon
+        //addiu   a1, at, VARIANT_ICON_OFFSET.SP3 // a1 = SP3 footer struct
         lli     t2, Character.id.GBOWSER
         beql    a1, t2, _draw_icon          // If GBOWSER, then draw GBOWSER stock icon
         addiu   a1, at, VARIANT_ICON_OFFSET.GBOWSER // a1 = GBOWSER footer struct
@@ -5573,7 +5583,8 @@ scope CharacterSelect {
     add_to_css(Character.id.MLUIGI, FGM.announcer.names.MLUIGI,         1.50,         0x00010001, MARIO_BROS,   name_texture.MLUIGI,         portrait_offsets.METALLUIGI,      3)
     add_to_css(Character.id.EBI,    FGM.announcer.names.EBI,            1.50,         0x00010001, GOEMON,       name_texture.EBI,            portrait_offsets.EBI,            25)
     add_to_css(Character.id.DRAGONKING, FGM.announcer.names.DRAGONKING, 1.50,         0x00010002, SMASH,        name_texture.DRAGONKING,     portrait_offsets.DRAGONKING,      8)
-    add_to_css(Character.id.SPM,    FGM.announcer.names.SPM,            1.50,         0x00010001, SMASH,        name_texture.SPM,            portrait_offsets.SPM,            -1)
+    add_to_css(Character.id.SPM,    FGM.announcer.names.SPM,            1.50,         0x00010001, SPM,          name_texture.SPM,            portrait_offsets.SPM,            -1)
+    //add_to_css(Character.id.SP3,    FGM.announcer.names.SPM,            1.50,         0x00010001, MVC,          name_texture.SPM,            portrait_offsets.SP3,            0)
     // ADD NEW CHARACTERS HERE
 
     // REMIX POLYGONS

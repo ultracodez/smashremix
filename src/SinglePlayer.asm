@@ -1664,7 +1664,7 @@ scope SinglePlayer {
         constant MLUIGI(0x0000AAB0)
         constant EBI(0x0000AF80)
         constant DRAGONKING(0x0000B4B0)
-        constant SPM(0x0000B4B0)
+        constant SPM(0x0000C1A8)
 
         // Duo Teams
         constant STARFOX(0x00006238)

@@ -2746,37 +2746,38 @@ scope Training {
         constant MLUIGI(JMARIO + 0x17)
         constant EBI(JMARIO + 0x18)
         constant DRAGONKING(JMARIO + 0x19)
-        constant SANDBAG(JMARIO + 0x1A)
-		constant NMARIO(JMARIO + 0x1B)
-        constant NFOX(JMARIO + 0x1C)
-        constant NDONKEY(JMARIO + 0x1D)
-        constant NSAMUS(JMARIO + 0x1E)
-        constant NLUIGI(JMARIO + 0x1F)
-        constant NLINK(JMARIO + 0x20)
-        constant NYOSHI(JMARIO + 0x21)
-        constant NCAPTAIN(JMARIO + 0x22)
-        constant NKIRBY(JMARIO + 0x23)
-        constant NPIKACHU(JMARIO + 0x24)
-        constant NJIGGLY(JMARIO + 0x25)
-        constant NNESS(JMARIO + 0x26)
-        constant NFALCO(JMARIO + 0x27)
-        constant NGND(JMARIO + 0x28)
-        constant NYLINK(JMARIO + 0x29)
-        constant NDRM(JMARIO + 0x2A)
-        constant NDSAMUS(JMARIO + 0x2B)
-        constant NWARIO(JMARIO + 0x2C)
-        constant NLUCAS(JMARIO + 0x2D)
-        constant NBOWSER(JMARIO + 0x2E)
-        constant NWOLF(JMARIO + 0x2F)
-        constant NCONKER(JMARIO + 0x30)
-        constant NMTWO(JMARIO + 0x31)
-        constant NMARTH(JMARIO + 0x32)
-        constant NSONIC(JMARIO + 0x33)
-        constant NSHEIK(JMARIO + 0x34)
-        constant NMARINA(JMARIO + 0x35)
-        constant NDEDEDE(JMARIO + 0x36)
-        constant NGOEMON(JMARIO + 0x37)
-        constant NBANJO(JMARIO + 0x38)
+        constant SPM(JMARIO + 0x1A)
+        constant SANDBAG(JMARIO + 0x1B)
+		constant NMARIO(JMARIO + 0x1C)
+        constant NFOX(JMARIO + 0x1D)
+        constant NDONKEY(JMARIO + 0x1E)
+        constant NSAMUS(JMARIO + 0x1F)
+        constant NLUIGI(JMARIO + 0x20)
+        constant NLINK(JMARIO + 0x21)
+        constant NYOSHI(JMARIO + 0x22)
+        constant NCAPTAIN(JMARIO + 0x23)
+        constant NKIRBY(JMARIO + 0x24)
+        constant NPIKACHU(JMARIO + 0x25)
+        constant NJIGGLY(JMARIO + 0x26)
+        constant NNESS(JMARIO + 0x27)
+        constant NFALCO(JMARIO + 0x28)
+        constant NGND(JMARIO + 0x29)
+        constant NYLINK(JMARIO + 0x2A)
+        constant NDRM(JMARIO + 0x2B)
+        constant NDSAMUS(JMARIO + 0x2C)
+        constant NWARIO(JMARIO + 0x2D)
+        constant NLUCAS(JMARIO + 0x2E)
+        constant NBOWSER(JMARIO + 0x2F)
+        constant NWOLF(JMARIO + 0x30)
+        constant NCONKER(JMARIO + 0x31)
+        constant NMTWO(JMARIO + 0x32)
+        constant NMARTH(JMARIO + 0x33)
+        constant NSONIC(JMARIO + 0x34)
+        constant NSHEIK(JMARIO + 0x35)
+        constant NMARINA(JMARIO + 0x36)
+        constant NDEDEDE(JMARIO + 0x37)
+        constant NGOEMON(JMARIO + 0x38)
+        constant NBANJO(JMARIO + 0x39)
     }
 
 
@@ -2841,6 +2842,7 @@ scope Training {
     db Character.id.MLUIGI
     db Character.id.EBI
     db Character.id.DRAGONKING
+    db Character.id.SPM
     db Character.id.SANDBAG
     db Character.id.NMARIO
     db Character.id.NFOX
@@ -2946,6 +2948,7 @@ scope Training {
     db id.MLUIGI
     db id.EBI
     db id.DRAGONKING
+    db id.SPM
 	// ADD NEW CHARACTERS Here
 
 	// REMIX POLYGONS

@@ -18,3 +18,17 @@ build/original/*.txt
 /roms/*
 !/roms/filename_overrides.txt
 !/roms/Place legally acquired rom titled ssb.rom here.txt
+build/utils/0A05.bin
+build/utils/0A05_1.4.0.bin
+build/utils/0A05_CSSIcons.bin
+build/utils/Icon_RemixFlame.bmp
+build/utils/Icon_RemixFlame_SPM.bmp
+build/utils/Icon_RemixFlame_SPM.png
+build/utils/Icon_RemixFlame_SPM3.bmp
+build/utils/Icon_RemixFlash.bmp
+build/utils/Icon_RemixFlash_SPM.bmp
+build/utils/Icon_RemixFlash_SPM3.bmp
+build/utils/t/Icon_RemixFlame_SPM.bmp
+build/utils/t/Icon_RemixFlash_SPM.bmp
+build/utils/0A05.bin
+build/utils/0A05 - BACKUP.bin
