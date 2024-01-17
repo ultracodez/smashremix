@@ -365,7 +365,7 @@ scope FGM {
 
         predictors_moved:
         global variable predictors_moved_origin(origin())
-        variable SPACE_REQUIRED((new_sample_count - 0x280) * 0x4) // need a word for each new sample that overflows
+        variable SPACE_REQUIRED((new_sample_count - 0x288) * 0x4) // need a word for each new sample that overflows
         variable total_predictors_size(0)
         define n(1)
         while total_predictors_size < SPACE_REQUIRED {
@@ -786,19 +786,25 @@ scope FGM {
         origin  predictors_moved_origin
         variable predictors_origin(origin())
         variable start(PREDICTORS)
+        variable predictor_pc(pc() - PREDICTOR_PC)
         while {x} < {predictor_blocks} {
             origin  predictors_origin
-            variable predictor_pc(pc())
             insert  "../roms/original.z64", start, PREDICTOR_SIZE_{x}
             variable start(start + PREDICTOR_SIZE_{x})
-            variable new_offset(predictor_pc - PREDICTOR_PC + predictor_curr_pointer_info_{x})
+            variable new_offset(predictor_pc + predictor_curr_pointer_info_{x})
             variable predictors_origin(origin())
 
             // now fix the pointer to the predictors
             origin  PARAMETERS_MAP + 0x8 + (({x} - 1) * 0x10)
             dw      new_offset
             // now fix the pointer inside the predictors
-            origin  predictors_origin - 0x8
+            origin  predictors_origin - 0xC
+            // if there are loop params, need to update the pointer
+            if PREDICTOR_SIZE_{x} > 0xA8 {
+                dw      new_offset - 0x30
+            } else {
+                dw 0
+            }
             dw      new_offset + 0x18 - PREDICTOR_SIZE_{x}
             evaluate x({x} + 1)
         }
@@ -1559,6 +1565,7 @@ scope FGM {
     add_sound(EPuff/sounds/STUN, SAMPLE_RATE_32000, FGM_TYPE_VOICE, 0, -1)
     add_sound(EPuff/sounds/CHANT, SAMPLE_RATE_16000, FGM_TYPE_CHANT, 0, 291)
     add_fgm(Pummeluff Sleep Snore, EPuff/sounds/REST_SNORE_fgm_microcode, 0x15, 0x486, -1, -1, 0x3F0)
+
     add_sound(Spiderman/sounds/ATK1, SAMPLE_RATE_16000, FGM_TYPE_VOICE, 0, -1)
     add_sound(Spiderman/sounds/ATK2, SAMPLE_RATE_16000, FGM_TYPE_VOICE, 0, -1)
     add_sound(Spiderman/sounds/ATK3, SAMPLE_RATE_16000, FGM_TYPE_VOICE, 0, -1)
@@ -1580,6 +1587,24 @@ scope FGM {
     add_sound(Spiderman/sounds/SFX_THREAD, SAMPLE_RATE_16000, FGM_TYPE_VOICE, 0, -1)
     add_sound(Spiderman/sounds/SFX_WEBTHROW, SAMPLE_RATE_16000, FGM_TYPE_VOICE, 0, -1)
     add_sound(Spiderman/sounds/SFX_NSP_HIT, SAMPLE_RATE_16000, FGM_TYPE_VOICE, 0, -1)
+
+    add_sound(Spiderman3/sounds/ATK1, SAMPLE_RATE_16000, FGM_TYPE_VOICE, 0, -1)
+    add_sound(Spiderman3/sounds/ATK2, SAMPLE_RATE_16000, FGM_TYPE_VOICE, 0, -1)
+    add_sound(Spiderman3/sounds/ATK3, SAMPLE_RATE_16000, FGM_TYPE_VOICE, 0, -1)
+    add_sound(Spiderman3/sounds/HAVINFUN, SAMPLE_RATE_16000, FGM_TYPE_VOICE, 0, -1)
+    add_sound(Spiderman3/sounds/DEATH, SAMPLE_RATE_16000, FGM_TYPE_VOICE, 0, -1)
+    add_sound(Spiderman3/sounds/DMG1, SAMPLE_RATE_16000, FGM_TYPE_VOICE, 0, -1)
+    add_sound(Spiderman3/sounds/DMG2, SAMPLE_RATE_16000, FGM_TYPE_VOICE, 0, -1)
+    add_sound(Spiderman3/sounds/SPIDERCAN, SAMPLE_RATE_16000, FGM_TYPE_VOICE, 0, -1)
+    add_sound(Spiderman3/sounds/JJBIGBUCKS, SAMPLE_RATE_16000, FGM_TYPE_VOICE, 0, -1)
+    add_sound(Spiderman3/sounds/GETREADY, SAMPLE_RATE_16000, FGM_TYPE_VOICE, 0, -1)
+    add_sound(Spiderman3/sounds/BUTTWOOPIN, SAMPLE_RATE_16000, FGM_TYPE_VOICE, 0, -1)
+    add_sound(Spiderman3/sounds/TAUNT, SAMPLE_RATE_16000, FGM_TYPE_VOICE, 0, -1)
+    add_sound(Spiderman3/sounds/WEBBALL, SAMPLE_RATE_16000, FGM_TYPE_VOICE, 0, -1)
+    add_sound(Spiderman3/sounds/WEBSWING, SAMPLE_RATE_16000, FGM_TYPE_VOICE, 0, -1)
+    add_sound(Spiderman3/sounds/WEBTHROW, SAMPLE_RATE_16000, FGM_TYPE_VOICE, 0, -1)
+    add_sound(Spiderman3/sounds/ANNOUNCER, SAMPLE_RATE_16000, FGM_TYPE_VOICE, 40, -1)
+    add_sound(NSpiderman/sounds/ANNOUNCER, SAMPLE_RATE_16000, FGM_TYPE_VOICE, 40, -1)
 
     // This is always last
     write_sounds()
@@ -1762,6 +1787,8 @@ scope FGM {
             constant NBANJO(1381)
             constant EPUFF(1388)
             constant SPM(1419)
+            constant SP3(1439)
+            constant NSPM(1440)
         }
 
         scope css {

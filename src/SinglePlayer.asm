@@ -1697,6 +1697,7 @@ scope SinglePlayer {
         constant NDEDEDE(0x0000B6E8)
         constant NGOEMON(0x0000B928)
         constant NBANJO(0x0000BB08)
+        constant NSPM(0x0000C6D8)
 
         // TODO: update J names
         constant JSAMUS(0x00004268)
@@ -1711,6 +1712,7 @@ scope SinglePlayer {
         constant JPIKA(0x00004868)
         constant JKIRBY(0x00003F08)
         constant JYOSHI(0x00003C08)
+        //constant JSPM(0x0000C3E0)
         // TODO: update E names
         constant ESAMUS(0x00005048)
         constant ELINK(0x000038A8)
@@ -1879,6 +1881,7 @@ scope SinglePlayer {
         constant NGOEMON(POLYGON + GOEMON)
         constant NBANJO(POLYGON + BANJO)
         constant NYLINK(POLYGON + YLINK)
+        constant NSPM(POLYGON + SPM)
         constant GDONKEY(0x00000024 + DONKEY_KONG)
         constant GND(0x00000046)
         constant FALCO(0x00000032)
@@ -2369,6 +2372,8 @@ scope SinglePlayer {
     dh File.EBI_VICTORY_IMAGE_BOTTOM                        // EBISUMARU
     dh File.SINGLEPLAYER_VICTORY_IMAGE_BOTTOM               // DRAGON KING
     dh File.SPM_VICTORY_IMAGE_BOTTOM                        // SPM
+    dh File.SPM_VICTORY_IMAGE_BOTTOM                        // SP3
+    //dh File.SINGLEPLAYER_VICTORY_IMAGE_BOTTOM               // JSPM
 
     // ADD NEW CHARACTERS HERE
 
@@ -2742,7 +2747,8 @@ scope SinglePlayer {
     add_to_single_player(Character.id.MLUIGI,     name_texture.MLUIGI,     name_delay.MLUIGI)
     add_to_single_player(Character.id.EBI,        name_texture.EBI,        name_delay.EBI)
     add_to_single_player(Character.id.DRAGONKING, name_texture.DRAGONKING, name_delay.DRAGONKING)
-    add_to_single_player(Character.id.SPM,        name_texture.SPM,  name_delay.SPM)
+    add_to_single_player(Character.id.SPM,        name_texture.SPM,        name_delay.SPM)
+    add_to_single_player(Character.id.SP3,        name_texture.SPM,        name_delay.SPM)
 
     // REMIX POLYGONS    character id          name texture          name delay
     add_to_single_player(Character.id.NWARIO,  name_texture.NWARIO,  name_delay.NWARIO)
@@ -2763,6 +2769,7 @@ scope SinglePlayer {
     add_to_single_player(Character.id.NCONKER, name_texture.NCONKER, name_delay.NCONKER)
     add_to_single_player(Character.id.NGOEMON, name_texture.NGOEMON, name_delay.NGOEMON)
     add_to_single_player(Character.id.NBANJO,  name_texture.NBANJO,  name_delay.NBANJO)
+    add_to_single_player(Character.id.NSPM,    name_texture.NSPM,    name_delay.NSPM)
 
     // J CHARS           character id          name texture          name delay
     add_to_single_player(Character.id.JSAMUS,  name_texture.JSAMUS,  name_delay.JSAMUS)
@@ -2777,6 +2784,7 @@ scope SinglePlayer {
     add_to_single_player(Character.id.JPIKA,   name_texture.JPIKA,   name_delay.JPIKA)
     add_to_single_player(Character.id.JKIRBY,  name_texture.JKIRBY,  name_delay.JKIRBY)
     add_to_single_player(Character.id.JYOSHI,  name_texture.JYOSHI,  name_delay.JYOSHI)
+    //add_to_single_player(Character.id.JSPM,        name_texture.JSPM,        name_delay.SPM)
 
     // E CHARS           character id          name texture          name delay
     add_to_single_player(Character.id.ESAMUS,  name_texture.ESAMUS,  name_delay.ESAMUS)

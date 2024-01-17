@@ -3068,15 +3068,16 @@ scope SinglePlayerModes: {
     dw  0x00016EB0 + 0x10               // Progress Icon
 
     // Spider-Man match settings
-    //dw  0x00000000                      // flag
-    //db  Character.id.SPM                // Character ID
-    //db  Stages.id.SAFFRON_DL               // Stage Option 1
-    //db  Stages.id.SAFFRON_DL               // Stage Option 2
-    //db  Stages.id.SAFFRON_DL               // Stage Option 3
-    //dw  SinglePlayer.name_texture.SPM + 0x10    // name texture
-    //dw  0x00000513                      // Announcer Call
-    //dw  0x00006F80                      // Model Scale
-    //dw  0x000173A0 + 0x10               // Progress Icon
+    spiderman_match_setting:
+    dw  0x00000000                      // flag
+    db  Character.id.SPM              // Character ID
+    db  Stages.id.SPIRALM               // Stage Option 1
+    db  Stages.id.MADMM                 // Stage Option 2
+    db  Stages.id.FROSTY                // Stage Option 3
+    dw  SinglePlayer.name_texture.SPM + 0x10    // name texture
+    dw  0x0000059F                      // Announcer Call
+    dw  0x00006F80                      // Model Scale
+    dw  0x00016EB0 + 0x10               // Progress Icon
 
     // Add entry here if a new variant.type.NA character is added UPDATE
 
@@ -3832,6 +3833,7 @@ scope SinglePlayerModes: {
     dw Character.id.NGOEMON                 // Polygon Goemon
     dw Character.id.NCONKER                 // Polygon Conker
     dw Character.id.NBANJO                  // Polygon Banjo
+    dw Character.id.NSPM                    // Polygon Spiderman
 
     // @ Description
     // Changes polygon match selection to be Remix Polygons
@@ -5947,7 +5949,8 @@ scope SinglePlayerModes: {
     add_team_parameters(0x222,                        team_moveset_luigi,     0)          // 0x45 - METAL LUIGI
     add_team_parameters(File.GOEMON_TEAM_POSE,        team_moveset_ness,      0)          // 0x46 - EBI
     add_team_parameters(0x617,                        team_moveset_captain,   0)          // 0x47 - DRAGONKING
-    add_team_parameters(0x617,                        team_moveset_captain,   0)          // 0x48 - SPM
+    add_team_parameters(File.SHEIK_TEAM_POSE,         team_moveset_captain,   0)          // 0x48 - SPM
+    add_team_parameters(File.SHEIK_TEAM_POSE,         team_moveset_captain,   0)          // 0x49 - SP3
     // ADD NEW CHARACTERS HERE
 
 	// REMIX POLYGONS
@@ -6135,7 +6138,8 @@ scope SinglePlayerModes: {
     add_duo_parameters(0x1D4,                        duo_moveset_luigi,     0)          // 0x45 - MLUIGI
     add_duo_parameters(File.EBISUMARU_DUO_POSE,      duo_moveset_ebisumaru, 0)          // 0x46 - EBISUMARU
     add_duo_parameters(0x617,                        duo_moveset_captain,   0)          // 0x47 - DRAGONKING
-    add_duo_parameters(0x617,                        duo_moveset_captain,   0)          // 0x48 - SPM
+    add_duo_parameters(File.SHEIK_DUO_POSE,          duo_moveset_captain,   0)          // 0x48 - SPM
+    add_duo_parameters(File.SHEIK_DUO_POSE,          duo_moveset_captain,   0)          // 0x49 - SP3
 
     // ADD NEW CHARACTERS HERE
 
@@ -6158,6 +6162,7 @@ scope SinglePlayerModes: {
     add_duo_parameters(File.GOEMON_TEAM_POSE,        0x80000000,             0)          // - NGOEMON
     add_duo_parameters(File.CONKER_TEAM_POSE,        0x80000000,             0)          // - NCONKER
     add_duo_parameters(File.BANJO_TEAM_POSE,         0x80000000,             0)          // - NBANJO
+    add_duo_parameters(File.SHEIK_TEAM_POSE,         0x80000000,             0)          // - NSPM
 
 // ALLSTAR
 
@@ -6196,7 +6201,7 @@ scope SinglePlayerModes: {
         li      t0, match_begin_flag
         sw      r0, 0x0000(t0)              // clear match begin flag
 
-        addiu   t0, r0, 0x001D              // slot countdown (currently 28 character slots to fill), UPDATE when new character added
+        addiu   t0, r0, 0x001E              // slot countdown (currently 28 character slots to fill), UPDATE when new character added
         addiu   t1, r0, 0x0018              // jump multiplier for match pool
         li      t5, match_pool              // load match pool address
         li      t7, allstar_character_order // load character slots address
@@ -6205,7 +6210,7 @@ scope SinglePlayerModes: {
 
         _assignment_loop:
         jal     Global.get_random_int_      // generate number based on total number of character pool
-        addiu   a0, r0, 0x001E              // place current number of character pool in a0, UPDATE when new character added
+        addiu   a0, r0, 0x001F              // place current number of character pool in a0, UPDATE when new character added
 
         // get character ID
         mult    v0, t1                      // random number multiplied by jump multiplier
@@ -6245,7 +6250,7 @@ scope SinglePlayerModes: {
         sw      t6, 0x0004(sp)              // save slot spacer
         bnez    t0, _assignment_loop
         addiu   t0, t0, -0x0001
-        addiu   t0, r0, 0x001D              // total character count, UPDATE
+        addiu   t0, r0, 0x001E              // total character count, UPDATE
 
         _clear_loop:
         sw      r0, 0x0000(t5)              // clear character flag 1
@@ -7017,6 +7022,7 @@ scope SinglePlayerModes: {
     dw icon_offsets.EBI                      // Ebisumaru
     dw icon_offsets.DRAGONKING               // Dragon King
     dw icon_offsets.SPM                      // Spider-Man
+    dw icon_offsets.SPM                      // Spider-Man UMvC3
     // ADD NEW CHARACTERS HERE
 
     // REMIX POLYGONS
@@ -7028,6 +7034,7 @@ scope SinglePlayerModes: {
     dw icon_offsets.POLY                     // Polygon Sonic
     dw icon_offsets.POLY                     // Polygon Sheik
     dw icon_offsets.POLY                     // Polygon Marina
+    dw icon_offsets.POLY                     // Polygon Spiderman
 
     // @ Description
     // This establishes Rest Area functions such as portraits and heart spawns
@@ -7286,9 +7293,9 @@ scope SinglePlayerModes: {
     // @ Description
     // This establishes Rest Area functions such as portraits and heart spawns
     // UPDATE when character added
-    constant DOUBLE_STAGE_AMOUNT(0x8)       // amount of character progress to have 1v2
+    constant DOUBLE_STAGE_AMOUNT(0x9)       // amount of character progress to have 1v2
     constant TRIPLE_STAGE_AMOUNT(0x13)      // amount of character progress to have 1v3
-    constant FINAL_STAGE_AMOUNT(0x1D)       // amount of character progress to have yoshi team style battle
+    constant FINAL_STAGE_AMOUNT(0x1E)       // amount of character progress to have yoshi team style battle
 
     scope rest_area_routine: {
         lui     t7, 0x800A

@@ -2858,4 +2858,9 @@ scope File {
     constant SPM_USP_GROUND_GRABPULL(0x1373)
     constant SPM_USP_GROUND_GRABTHROW(0x1374)
     constant SPM_SHIELD_POSE(0x1375)
+    constant SP3_MAIN(0x1376)
+    constant NSPM_MAIN(0x1377)
+    constant NSPM_CHARACTER(0x1378)
+    constant JSPM_MAIN(0x1379)
+    constant JSPM_CHARACTER(0x137A)
  }

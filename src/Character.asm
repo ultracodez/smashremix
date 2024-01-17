@@ -12,7 +12,7 @@ include "OS.asm"
 
 scope Character {
     // number of character slots to add
-    constant ADD_CHARACTERS(62)
+    constant ADD_CHARACTERS(64)
     // start and end offset for the main character struct table (RAM 0x80116E10)
     constant STRUCT_TABLE(0x92610)
     variable STRUCT_TABLE_END(STRUCT_TABLE + 0x6C)
@@ -3298,6 +3298,10 @@ scope Character {
     define_character(DRAGONKING, CAPTAIN, File.DRAGONKING_MAIN, 0x0EB, 0, File.DRAGONKING_CHARACTER, File.DRAGONKING_SHIELD_POSE, 0, 0x15B, 0x14D, 0, 0x488, 5, OS.TRUE, OS.TRUE, Stages.id.BTT_FALCON, Stages.id.BTP_FALCON, Stages.id.BTT_GND, Stages.id.BTP_GND, sound_type.J, variant_type.SPECIAL)
     // 0x48 - SPM
     define_character(SPM, CAPTAIN, File.SPM_MAIN, 0x0EB, 0, File.SPM_CHARACTER, File.SPM_SHIELD_POSE, File.SPM_PROJECTILE_HITBOX, 0x15E, 0x14D, File.SPM_PROJECTILE_GRAPHIC, 0x508, 9, OS.TRUE, OS.FALSE, Stages.id.BTT_FALCON, Stages.id.BTP_FALCON, Stages.id.BTT_GND, Stages.id.BTP_GND, sound_type.U, variant_type.NA)
+    // 0x49 - SP3
+    define_character(SP3, CAPTAIN, File.SP3_MAIN, 0x0EB, 0, File.SPM_CHARACTER, File.SPM_SHIELD_POSE, File.SPM_PROJECTILE_HITBOX, 0x15E, 0x14D, File.SPM_PROJECTILE_GRAPHIC, 0x508, 9, OS.TRUE, OS.FALSE, Stages.id.BTT_FALCON, Stages.id.BTP_FALCON, Stages.id.BTT_GND, Stages.id.BTP_GND, sound_type.U, variant_type.SPECIAL)
+    // 0x4A - JSPM
+    //define_character(JSPM, CAPTAIN, File.JSPM_MAIN, 0x0EB, 0, File.JSPM_CHARACTER, 0x14E, File.SPM_PROJECTILE_HITBOX, 0x15E, 0x14D, File.SPM_PROJECTILE_GRAPHIC, 0x438, 9, OS.TRUE, OS.FALSE, Stages.id.BTT_FALCON, Stages.id.BTP_FALCON, Stages.id.BTT_GND, Stages.id.BTP_GND, sound_type.J, variant_type.J)
     // ADD NEW CHARACTERS HERE
 
     // REMIX POLYGONS
@@ -3337,6 +3341,8 @@ scope Character {
     define_character(NCONKER, FOX, File.NCONKER_MAIN, 0x0D0, 0, File.NCONKER_CHARACTER, File.CONKER_SHIELD_POSE, File.CONKER_NUT_PROJECTILE_HITBOX, File.CONKER_GRENADE_PROJECTILE_HITBOX, File.GREGS_HAND, File.CONKER_NUT_PROJECTILE_GRAPHIC, 0x3FC, 6, OS.TRUE, OS.FALSE, Stages.id.BTT_STG1, Stages.id.BTP_POLY, Stages.id.BTT_STG1, Stages.id.BTP_POLY, sound_type.U, variant_type.POLYGON)
     // NBANJO
     define_character(NBANJO, CAPTAIN, File.NBANJO_MAIN, 0x0EB, 0, File.NBANJO_CHARACTER, 0x14C, File.BANJO_SHIELD_POSE, 0x15E, File.BANJO_ENTRY_EFFECTS, File.KAZOOIE_EGG_INFO, 0x4A8, 0x5, OS.TRUE, OS.FALSE, Stages.id.BTT_STG1, Stages.id.BTP_POLY, Stages.id.BTT_STG1, Stages.id.BTP_POLY, sound_type.U, variant_type.POLYGON)
+    // NSPM
+    define_character(NSPM, CAPTAIN, File.NSPM_MAIN, 0x0EB, 0, File.NSPM_CHARACTER, File.SPM_SHIELD_POSE, File.SPM_PROJECTILE_HITBOX, 0x15E, 0x14D, File.SPM_PROJECTILE_GRAPHIC, 0x2B4, 9, OS.TRUE, OS.FALSE, Stages.id.BTT_STG1, Stages.id.BTP_POLY, Stages.id.BTT_STG1, Stages.id.BTP_POLY, sound_type.U, variant_type.POLYGON)
 
     print "========================================================================== \n"
     print "# Remix Fighters = "; print "0x"; OS.print_hex(NUM_REMIX_FIGHTERS); print " \n";

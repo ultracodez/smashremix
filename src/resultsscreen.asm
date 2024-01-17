@@ -718,7 +718,9 @@ scope ResultsScreen {
     add_to_results_screen(Character.id.MLUIGI,   FGM.announcer.names.MLUIGI,                 MARIO_BROS,      Character.id.MARIO,   185,     METAL LUIGI,     20,     0.65,      0x0C)
     add_to_results_screen(Character.id.EBI,      FGM.announcer.names.EBI,                    GOEMON,          Character.id.CAPTAIN, 180,     EBISUMARU,       20,     0.65,      {MIDI.id.GOEMON_VICTORY})
     add_to_results_screen(Character.id.DRAGONKING, FGM.announcer.names.DRAGONKING,           SMASH,           Character.id.CAPTAIN, 170,     D.1KING,         30,     1,         {MIDI.id.DKING_VICTORY})
-    add_to_results_screen(Character.id.SPM,      FGM.announcer.names.SPM,                    SMASH,           Character.id.SPM,     185,     SPIDERMAN,       30,     0.65,      {MIDI.id.SONIC_VICTORY}) //{MIDI.id.SPIDERMAN_VICTORY})
+    add_to_results_screen(Character.id.SPM,      FGM.announcer.names.SPM,                    SMASH,           Character.id.CAPTAIN, 180,     SPIDERMAN,       20,     0.65,      {MIDI.id.SONIC_VICTORY})
+    add_to_results_screen(Character.id.SP3,      FGM.announcer.names.SP3,                    SMASH,           Character.id.CAPTAIN, 180,     SPIDERMAN,       20,     0.65,      {MIDI.id.SONIC_VICTORY})
+    //add_to_results_screen(Character.id.JSPM,      FGM.announcer.names.SPM,                   SMASH,           Character.id.CAPTAIN, 185,     J SPIDERMAN,     20,     0.55,      {MIDI.id.SONIC_VICTORY})
     // ADD NEW CHARACTERS HERE
 
     // REMIX POLYGONS
@@ -740,5 +742,5 @@ scope ResultsScreen {
     add_to_results_screen(Character.id.NGOEMON,  FGM.announcer.names.NGOEMON,                SMASH,           Character.id.MARIO,   185,     POLY GOEMON,     20,     0.52,      0x0B)
     add_to_results_screen(Character.id.NCONKER,  FGM.announcer.names.NCONKER,                SMASH,           Character.id.FOX,     180,     POLY CONKER,     20,     0.55,      0x0B)
     add_to_results_screen(Character.id.NBANJO,   FGM.announcer.names.NBANJO,                 SMASH,           Character.id.CAPTAIN, 185,     POLY BANJO,      20,     0.6,       0x0B)
-}
+    add_to_results_screen(Character.id.NSPM,     FGM.announcer.names.NSPM,                   SMASH,           Character.id.CAPTAIN, 185,     POLY SPIDERMAN,  20,     0.45,      0x0B)
 }

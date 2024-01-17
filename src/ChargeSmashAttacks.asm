@@ -382,6 +382,12 @@
         db 2        // down
         db 0        // unused
 
+        //entry_jspiderman:
+        //db 20        // forward
+        //db 2        // up
+        //db 2        // down
+        //db 0        // unused
+
         frame_table:
         // vanilla fighters
         dw entry_mario  // mario
@@ -460,6 +466,8 @@
         dw entry_ebisumaru  // EBI
         dw entry_dragonking // DRAGON KING
         dw entry_spiderman  // SPM
+        dw entry_spiderman  // SP3
+        //dw entry_jspiderman  // JSPM
 
         // remix polygons
         dw entry_wario
@@ -480,4 +488,5 @@
         dw entry_goemon
         dw entry_conker
         dw entry_banjo
+        dw entry_spiderman
 }

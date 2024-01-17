@@ -2535,6 +2535,7 @@ scope Training {
     string_ngoemon:; char_Px11:; db "Poly Goemon", 0x00
     string_nconker:; char_Px0A:; db "Poly Conker", 0x00
     string_nbanjo:; char_Px12:; db "Poly Banjo", 0x00
+    string_nspiderman:; char_Px13:; db "Poly Spider-Man", 0x00
     string_gdk:; char_0x1A:; db "Giant DK", 0x00
     //char_0x1B:; db "NONE", 0x00
     //char_0x1C:; db "NONE", 0x00
@@ -2554,6 +2555,7 @@ scope Training {
     string_jmario:; char_0x2A:; db "J Mario", 0x00
     string_jluigi:; char_0x2B:; db "J Luigi", 0x00
     string_jdk:; char_0x2C:; db "J DK", 0x00
+    //string_jspiderman:; char_0x4A:; db "J Spider-Man", 0x00
     string_epikachu:; char_0x2D:; db "E Pikachu", 0x00
     string_purin:; char_0x2E:; db "Purin", 0x00
     string_pummeluff:; char_0x2F:; db "Pummeluff", 0x00
@@ -2582,6 +2584,7 @@ scope Training {
     string_ebi:; char_0x46:; db "Ebisumaru", 0x00
     string_dragonking:; char_0x47:; db "Dragon King", 0x00
     string_spiderman:; char_0x48:; db "Spider-Man", 0x00
+    string_spiderman3:; char_0x49:; db "UMvC3 Spider-Man", 0x00
     OS.align(4)
 
     string_table_char:
@@ -2616,6 +2619,7 @@ scope Training {
     dw char_0x40            // DEDEDE
     dw char_0x41            // GOEMON
     dw char_0x44            // BANJO
+    dw char_0x48            // SPM
 
     dw char_0x2A            // J MARIO
     dw char_0x29            // J FOX
@@ -2629,6 +2633,7 @@ scope Training {
     dw char_0x32            // J PIKA
     dw char_0x2E            // PURIN
     dw char_0x25            // J NESS
+    //dw char_0x4A            // J SPM
 
     dw char_0x33            // E SAMUS
     dw char_0x23            // E LINK
@@ -2645,7 +2650,7 @@ scope Training {
     dw char_0x45            // METAL LUIGI
     dw char_0x46            // EBISUMARU
     dw char_0x47            // DRAGONKING
-    dw char_0x48            // SPM
+    dw char_0x49            // SP3
     dw char_0x3C            // SANDBAG
     dw char_0x0E            // POLYGON MARIO
     dw char_0x0F            // POLYGON FOX
@@ -2677,6 +2682,7 @@ scope Training {
     dw char_Px10            // POLYGON DEDEDE
     dw char_Px11            // POLYGON GOEMON
     dw char_Px12            // POLYGON BANJO
+    dw char_Px13            // POLYGON SPM
 
     // @ Description
     // Training character id is really the order they are displayed in
@@ -2715,10 +2721,11 @@ scope Training {
         constant DEDEDE(0x1B)
         constant GOEMON(0x1C)
         constant BANJO(0x1D)
+        constant SPM(0x1E)
 
         // Increment JMARIO after adding more characters above
         // j characters
-        constant JMARIO(0x1E)
+        constant JMARIO(0x1F)
         constant JFOX(JMARIO + 0x01)
         constant JDK(JMARIO + 0x02)
         constant JSAMUS(JMARIO + 0x03)
@@ -2746,7 +2753,7 @@ scope Training {
         constant MLUIGI(JMARIO + 0x17)
         constant EBI(JMARIO + 0x18)
         constant DRAGONKING(JMARIO + 0x19)
-        constant SPM(JMARIO + 0x1A)
+        constant SP3(JMARIO + 0x1A)
         constant SANDBAG(JMARIO + 0x1B)
 		constant NMARIO(JMARIO + 0x1C)
         constant NFOX(JMARIO + 0x1D)
@@ -2778,6 +2785,8 @@ scope Training {
         constant NDEDEDE(JMARIO + 0x37)
         constant NGOEMON(JMARIO + 0x38)
         constant NBANJO(JMARIO + 0x39)
+        constant NSPM(JMARIO + 0x3A)
+        //constant JSPM(JMARIO + 0x3B)
     }
 
 
@@ -2813,6 +2822,7 @@ scope Training {
     db Character.id.DEDEDE
     db Character.id.GOEMON
     db Character.id.BANJO
+    db Character.id.SPM
 
     db Character.id.JMARIO
     db Character.id.JFOX
@@ -2826,6 +2836,7 @@ scope Training {
     db Character.id.JPIKA
     db Character.id.JPUFF
     db Character.id.JNESS
+    //db Character.id.JSPM
 
     db Character.id.ESAMUS
     db Character.id.ELINK
@@ -2842,7 +2853,7 @@ scope Training {
     db Character.id.MLUIGI
     db Character.id.EBI
     db Character.id.DRAGONKING
-    db Character.id.SPM
+    db Character.id.SP3
     db Character.id.SANDBAG
     db Character.id.NMARIO
     db Character.id.NFOX
@@ -2874,6 +2885,7 @@ scope Training {
     db Character.id.NDEDEDE
     db Character.id.NGOEMON
     db Character.id.NBANJO
+    db Character.id.NSPM
 
     char_id_to_entry_id:
     db id.MARIO
@@ -2949,6 +2961,8 @@ scope Training {
     db id.EBI
     db id.DRAGONKING
     db id.SPM
+    db id.SP3
+    //db id.JSPM
 	// ADD NEW CHARACTERS Here
 
 	// REMIX POLYGONS
@@ -2970,6 +2984,7 @@ scope Training {
     db id.NGOEMON
     db id.NCONKER
     db id.NBANJO
+    db id.NSPM
 
     // @ Description
     // Spawn Position Strings

@@ -220,7 +220,8 @@ scope CharacterSelect {
     dw  0x3500 + 0x200                      // 0x45 - METAL LUIGI
     dw  0xCEE0 + 0x200                      // 0x46 - EBISUMARU
     dw  0x58D0 + 0x200                      // 0x47 - DRAGONKING
-    dw  0x14B68 + 0x200                     // 0x48 - SPM
+    dw  0x149C8 + 0x200                     // 0x48 - SPM
+    //dw  0xE7D0 + 0x200                     // 0x50 - JSPM
     // ADD NEW CHARACTERS HERE
 
     // REMIX POLYGONS
@@ -242,6 +243,7 @@ scope CharacterSelect {
     dw  0x62A0 + 0x200                      // NGOEMON
     dw  0x70E8 + 0x200                      // NCONKER
     dw  0x7700 + 0x200                      // NBANJO
+    dw  0x59E8 + 0x200                      // NSPM
 
     // @ Description
     // Holds the ROM offset of an alternate req list, used by get_alternate_req_list_
@@ -355,6 +357,8 @@ scope CharacterSelect {
     add_alt_req_list(Character.id.EBI, req/EBI_MODEL)
     add_alt_req_list(Character.id.DRAGONKING, req/DRAGONKING_MODEL)
     add_alt_req_list(Character.id.SPM, req/SPM_MODEL)
+    add_alt_req_list(Character.id.SP3, req/SPM_MODEL)
+    //add_alt_req_list(Character.id.JSPM, req/JSPM_MODEL)
 
     // POLYGONS
     add_alt_req_list(Character.id.NWARIO, req/NWARIO_MODEL)
@@ -375,6 +379,7 @@ scope CharacterSelect {
     add_alt_req_list(Character.id.NGOEMON, req/NGOEMON_MODEL)
     add_alt_req_list(Character.id.NCONKER, req/NCONKER_MODEL)
     add_alt_req_list(Character.id.NBANJO, req/NBANJO_MODEL)
+    //add_alt_req_list(Character.id.NSPM, req/NSPM_MODEL) //crashing for some reason?
     OS.align(4)
 
     // @ Description
@@ -2321,6 +2326,7 @@ scope CharacterSelect {
         constant NGOEMON(0x00023938)
         constant NCONKER(0x0001B338)
         constant NBANJO(0x00026B68 + 0x10)
+        constant NSPM(0x0002AE50 + 0x10)
         // special
         constant METAL(0x00015F78)
         constant GDONKEY(0x00017038)
@@ -2353,7 +2359,8 @@ scope CharacterSelect {
         constant GOEMON(0x00023938)
         constant BANJO(0x00026B68 + 0x10)
         constant SPM(0x0002AE50 + 0x10)
-        //constant SP3(0x0002BF00 + 0x10)
+        constant SP3(0x0002BF00 + 0x10)
+        //constant JSPM(0x0002CFB0 + 0x10)
         // j
         constant JMARIO(0x00001078)
         constant JFOX(0x00002138)
@@ -2686,6 +2693,7 @@ scope CharacterSelect {
         constant DRAGONKING(0x00023A28 + 0x10)
         constant SPM(0x000251B8 + 0x10)
         constant EPUFF(0x00024CE0 + 0x10)
+        //constant JSPM(0x00025B68 + 0x10)
         // POLYGONS
         constant NWARIO(0x0001CB28)
         constant NLUCAS(0x0001D008)
@@ -2705,6 +2713,7 @@ scope CharacterSelect {
         constant NGOEMON(0x000243E0 + 0x10)
         constant NCONKER(0x00023F00 + 0x10)
         constant NBANJO(0x000248C0 + 0x10)
+        constant NSPM(0x00025690 + 0x10)
         constant BLANK(0x0)
     }
 
@@ -4190,9 +4199,9 @@ scope CharacterSelect {
         lli     t2, Character.id.EBI
         beql    a1, t2, _draw_icon          // If EBI, then draw EBI stock icon
         addiu   a1, at, VARIANT_ICON_OFFSET.EBI // a1 = EBI footer struct
-        //lli     t2, Character.id.SP3
-        //beql    a1, t2, _draw_icon          // If SP3, then draw SP3 stock icon
-        //addiu   a1, at, VARIANT_ICON_OFFSET.SP3 // a1 = SP3 footer struct
+        lli     t2, Character.id.SP3
+        beql    a1, t2, _draw_icon          // If SP3, then draw SP3 stock icon
+        addiu   a1, at, VARIANT_ICON_OFFSET.SP3 // a1 = SP3 footer struct
         lli     t2, Character.id.GBOWSER
         beql    a1, t2, _draw_icon          // If GBOWSER, then draw GBOWSER stock icon
         addiu   a1, at, VARIANT_ICON_OFFSET.GBOWSER // a1 = GBOWSER footer struct
@@ -5584,7 +5593,8 @@ scope CharacterSelect {
     add_to_css(Character.id.EBI,    FGM.announcer.names.EBI,            1.50,         0x00010001, GOEMON,       name_texture.EBI,            portrait_offsets.EBI,            25)
     add_to_css(Character.id.DRAGONKING, FGM.announcer.names.DRAGONKING, 1.50,         0x00010002, SMASH,        name_texture.DRAGONKING,     portrait_offsets.DRAGONKING,      8)
     add_to_css(Character.id.SPM,    FGM.announcer.names.SPM,            1.50,         0x00010001, SPM,          name_texture.SPM,            portrait_offsets.SPM,            -1)
-    //add_to_css(Character.id.SP3,    FGM.announcer.names.SPM,            1.50,         0x00010001, MVC,          name_texture.SPM,            portrait_offsets.SP3,            0)
+    add_to_css(Character.id.SP3,    FGM.announcer.names.SP3,            1.50,         0x00010001, MVC,          name_texture.SPM,            portrait_offsets.SP3,            0)
+    //add_to_css(Character.id.JSPM,   FGM.announcer.names.SPM,            1.50,         0x00010001, SPM,          name_texture.JSPM,           portrait_offsets.JSPM,           0)
     // ADD NEW CHARACTERS HERE
 
     // REMIX POLYGONS
@@ -5606,6 +5616,7 @@ scope CharacterSelect {
     add_to_css(Character.id.NGOEMON, FGM.announcer.names.NGOEMON,       1.50,         0x00010001, SMASH,        name_texture.NGOEMON,        portrait_offsets.GOEMON,         25)
     add_to_css(Character.id.NCONKER, FGM.announcer.names.NCONKER,       1.50,         0x00010004, SMASH,        name_texture.NCONKER,        portrait_offsets.CONKER,         31)
     add_to_css(Character.id.NBANJO, FGM.announcer.names.NBANJO,         1.50,         0x00010001, SMASH,        name_texture.NBANJO,         portrait_offsets.BANJO,          34)
+    add_to_css(Character.id.NSPM, FGM.announcer.names.NSPM,             1.50,         0x00010001, SMASH,        name_texture.NSPM,           portrait_offsets.SPM,            0)
 }
 
 

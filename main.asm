@@ -259,16 +259,21 @@ include "src/NYoungLink/NYoungLink.asm"
 // DRAGONKING
 include "src/DragonKing/DragonKingSpecial.asm"
 include "src/DragonKing/DragonKing.asm"
-// SPM
-include "src/Spiderman/SpidermanSpecial.asm"
-include "src/Spiderman/Spiderman.asm"
 // NGOEMON
 include "src/NGoemon/NGoemon.asm"
 // NCONKER
 include "src/NConker/NConker.asm"
 // NBANJO
 include "src/NBanjo/NBanjo.asm"
-
+// SPM
+include "src/Spiderman/SpidermanSpecial.asm"
+include "src/Spiderman/Spiderman.asm"
+include "src/Spiderman3/Spiderman3.asm"
+// NSPM
+include "src/NSpiderman/NSpiderman.asm"
+// JSPM
+//include "src/JSpiderman/JSpiderman.asm"
+//include "src/JSpiderman/JSpidermanSpecial.asm"
 
 // KIRBY
 include "src/Kirby/Kirby.asm"

@@ -3102,6 +3102,8 @@ scope TwelveCharBattle {
     add_defeat_parameters(File.GOEMON_DOWN_STAND_U,     defeated_moveset_mario,     0)          // 0x46 - EBI
     add_defeat_parameters(0x617,                        defeated_moveset_captain,   0)          // 0x47 - DRAGONKING
     add_defeat_parameters(0x617,                        defeated_moveset_captain,   0)          // 0x48 - SPM
+    add_defeat_parameters(0x617,                        defeated_moveset_captain,   0)          // 0x49 - SP3
+    //add_defeat_parameters(0x617,                        defeated_moveset_captain,   0)          // 0x4A - JSPM
     // ADD NEW CHARACTERS HERE
 
     // REMIX POLYGONS
@@ -3123,6 +3125,7 @@ scope TwelveCharBattle {
     add_defeat_parameters(File.GOEMON_DOWN_STAND_U,     defeated_moveset_mario,     0)          // - NGOEMON
     add_defeat_parameters(File.CONKER_DOWNSTANDU,       defeated_moveset_fox_link,  0)          // - NCONKER
     add_defeat_parameters(File.BANJO_DOWN_STND_U,       defeated_moveset_sheik,     0)          // - NBANJO
+    add_defeat_parameters(0x617,                        defeated_moveset_captain,   0)          // - NSPM
 
     // @ Description
     // This prevents picking up the token of a CPU character with stocks remaining after a match.

@@ -321,8 +321,8 @@ scope Spiderman {
     Character.add_new_action_params(SPM, USPGAttack,         -1,             File.SPM_USP_GROUND_GRABTHROW, USP_GROUND_THROW,      0x50000000)
 
     // Add Actions                // Action Name     // Base Action  //Parameters                    // Staling ID   // Main ASM                        // Interrupt/Other ASM          // Movement/Physics ASM             // Collision ASM
-    Character.add_new_action(SPM, USPGround,         -1,             ActionParams.USPGround,         0x11,           SpidermanUSP.main_,         SpidermanUSP.change_direction_, 0x800D8BB4,                         SpidermanUSP.ground_collision_)
-    Character.add_new_action(SPM, USPAir,            -1,             ActionParams.USPAir,            0x11,           SpidermanUSP.main_,            SpidermanUSP.change_direction_, SpidermanUSP.air_physics_,          SpidermanUSP.air_collision_)
+    Character.add_new_action(SPM, USPGround,         -1,             ActionParams.USPGround,         0x11,           SpidermanUSP.main_,                SpidermanUSP.change_direction_, 0x800D8BB4,                         SpidermanUSP.ground_collision_)
+    Character.add_new_action(SPM, USPAir,            -1,             ActionParams.USPAir,            0x11,           SpidermanUSP.main_,                SpidermanUSP.change_direction_, SpidermanUSP.air_physics_,          SpidermanUSP.air_collision_)
     Character.add_new_action(SPM, USPAirPull,        -1,             ActionParams.USPAirPull,        0x11,           SpidermanUSP.air_pull_main_,       0,                              0x800D93E4,                         SpidermanUSP.shared_air_collision_)
     Character.add_new_action(SPM, USPAirWallPull,    -1,             ActionParams.USPAirPull,        0x11,           SpidermanUSP.wall_pull_main_,      0,                              0x800D93E4,                         SpidermanUSP.shared_air_collision_)
     Character.add_new_action(SPM, USPAAttack,        -1,             ActionParams.USPAAttack,        0x11,           0x8014A0C0,                        0,                              SpidermanUSP.throw_air_physics_,    SpidermanUSP.throw_air_collision_)
@@ -364,15 +364,15 @@ scope Spiderman {
     dw      Character.rapid_jab.DISABLED        // disable rapid jab
     OS.patch_end()
 
-    //Character.table_patch_start(variants, Character.id.SPM, 0x4)
-    //db      Character.id.NONE   // D-Pad Up Slot
-    //db      Character.id.NONE   // D-Pad Down Slot
-    //db      Character.id.NONE   // D-Pad Left Slot
-    //db      Character.id.SPM3   // D-Pad Right Slot
-    //OS.patch_end()
+    Character.table_patch_start(variants, Character.id.SPM, 0x4)
+    db      Character.id.NONE   // D-Pad Up Slot
+    db      Character.id.NSPM   // D-Pad Down Slot
+    db      Character.id.NONE   // D-Pad Left Slot
+    db      Character.id.SP3    // D-Pad Right Slot
+    OS.patch_end()
 
     // Set crowd chant FGM to none
-    Character.table_patch_start(crowd_chant_fgm, Character.id.DRAGONKING, 0x2)
+    Character.table_patch_start(crowd_chant_fgm, Character.id.SPM, 0x2)
     dh  0x02B7
     OS.patch_end()
 
@@ -397,7 +397,7 @@ scope Spiderman {
     Character.set_costume_shield_colors(SPM, RED, CYAN, GREEN, BLACK, BLUE, BLUE, YELLOW, WHITE)
 
     // Set Kirby star damage
-    Character.table_patch_start(kirby_inhale_struct, 0x8, Character.id.DRAGONKING, 0xC)
+    Character.table_patch_start(kirby_inhale_struct, 0x8, Character.id.SPM, 0xC)
     dw Character.kirby_inhale_struct.star_damage.FALCON
     OS.patch_end()
 }

@@ -2866,6 +2866,11 @@
 1373 Spider-Man USP_Ground_GrabPull
 1374 Spider-Man USP_Ground_GrabThrow
 1375 Spider-Man Shield Pose
+1376 UMvC3 Spider-Man Main
+1377 Polygon Spider-Man Main
+1378 Polygon Spider-Man Character
+1379 JSpider Main
+137A JSpider Chara
 
 0611 CAPTAIN DeadU
 0611 CAPTAIN ScreenKO

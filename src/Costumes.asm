@@ -990,6 +990,8 @@ scope Costumes {
         db 0x06                             // Ebisumaru
         db 0x05                             // Dragon King
         db 0x07                             // Spiderman
+        db 0x07                             // Spiderman UMvC3
+        //db 0x05                             // J Spiderman
         // Polygons
         db 0x05                             // Polygon Wario
         db 0x05                             // Polygon Lucas
@@ -1009,6 +1011,7 @@ scope Costumes {
         db 0x05                             // Polygon Goemon
         db 0x05                             // Polygon Conker
         db 0x05                             // Polygon Banjo
+        db 0x05                             // Polygon Spiderman
         OS.align(4)
 
         functions:
@@ -1632,6 +1635,7 @@ scope Costumes {
     include "costumes/NConker.asm"
     include "costumes/NGoemon.asm"
     include "costumes/NBanjo.asm"
+    include "costumes/NSpiderman.asm"
 
     // @ Description
     // Revises attribute location within main file to adjust for Polygon Characters and Metal Mario's new costumes
